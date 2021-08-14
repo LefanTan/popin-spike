@@ -7,7 +7,7 @@ import {
 
 const App = () => {
   return (
-    <View style={ctw`bg-dark-green`}>
+    <View style={ctw`bg-off-white`}>
       <Text style={{fontSize: 20}}>Hey!</Text>
     </View>
   );
