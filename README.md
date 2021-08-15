@@ -7,9 +7,10 @@ Currently using Typescript for the project.
     - Note: tailwind css is not natively compatible with react-native, but it's good to have to quickly built components
 
 2. [Native Base](https://nativebase.io/): Also a utility framework, but it's built for react native and web. 
+    - Styled components
 
 ### Other libraries:
 1. React Navigation: for navigating between tabs
     - comes with react-native-reanimated as dependencies
 
-2. [React Native](https://oblador.github.io/react-native-vector-icons/) Vector Icons : free and nice icons
+2. [React Vector Icons](https://oblador.github.io/react-native-vector-icons/) Vector Icons : free and nice icons

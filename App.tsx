@@ -13,6 +13,7 @@ const App = () => {
   return (
     // For adding new dependencies, themes etc
     // <NativeBaseProvider>
+
     <View style={tw`bg-white flex justify-center items-center flex-1`}>
       <View style={tw`flex flex-row items-center`}>
         <TouchableHighlight onPress={() => setCount(count + 1)} underlayColor="#ff6993" activeOpacity={1} style={tw`bg-red-200 p-1 rounded-md`}>
