@@ -4527,6 +4527,9 @@
   "w-max": {
     "width": "max-content"
   },
+  "w-fit": {
+    "width": "fit-content"
+  },
   "min-w-0": {
     "minWidth": 0
   },
