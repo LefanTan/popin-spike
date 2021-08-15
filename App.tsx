@@ -6,13 +6,14 @@ import {
   Text, Touchable, TouchableHighlight, TouchableOpacity, View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { NativeBaseProvider } from 'native-base';
 
 const App = () => {
   const [count, setCount] = useState(0)
 
   return (
     // For adding new dependencies, themes etc
-    // <NativeBaseProvider>
+     <NativeBaseProvider>
 
     <View style={tw`bg-white flex justify-center items-center flex-1`}>
       <View style={tw`flex flex-row items-center`}>
@@ -28,7 +29,7 @@ const App = () => {
       </View>
       <Text style={tw`text-4xl`}>Cool beans: {count}</Text>
     </View>
-    // </NativeBaseProvider>
+     </NativeBaseProvider>
   );
 };
 
