@@ -7,7 +7,7 @@ Currently using Typescript for the project.
     - Note: tailwind css is not natively compatible with react-native, but it's good to have to quickly built components
 
 2. [Native Base](https://nativebase.io/): Also a utility framework, but it's built for react native and web. 
-    - Styled components
+    - [2021/08/14] npm 7 doesn't work when installing the 3.0.7 version of native base, npm 6 does.
 
 ### Other libraries:
 1. React Navigation: for navigating between tabs
