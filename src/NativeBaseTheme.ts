@@ -1,4 +1,6 @@
-/** Themes for NativeBaseProvider */
+/**
+ * Themes related objects to be used in extending NativeBase's default theme
+ */
 
 export const NBColor = {
     primary: {
@@ -33,6 +35,7 @@ export const NBFont = {
     mono: 'Quicksand'
 }
 
+/* Define default styles for components here */
 export const NBComponents = {
     Text: {
         defaultProps:{
