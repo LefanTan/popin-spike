@@ -41,11 +41,18 @@ export const NBComponents = {
         defaultProps:{
             fontFamily: 'body',
             fontWeight: '400',
-            fontSize: 60,
-            bg: '#ff4f3f'
+            fontSize: 60
         },
         // react native style prop
         baseStyle: {
+        },
+        // Custom variation for this component, set using variant prop
+        variants:{
+            custom:{
+                fontWeight: '600',
+                fontSize: 80,
+                bg: '#57cfcf'
+            }
         }
     }
 }
