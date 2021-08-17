@@ -3,9 +3,22 @@
  */
 
 export const NBColor = {
+    // 400 is the standard shade
     primary: {
-        400: '#ff4f3f',
-        500: '#ff4f3f'
+        100: '#ec929a',
+        200: '#e46772',
+        300: '#dd3c49',
+        400: '#dc3745',
+        500: '#c32230',
+        600: '#981b25',
+        700: '#6d131b'
+    },
+    secondary: {
+        200: '#dfdadb',
+        300: '#c6c2c2',
+        400: '#aea9aa',
+        500: '#959192',
+        900: '#323031'
     }
 }
 
@@ -38,20 +51,22 @@ export const NBFont = {
 /* Define default styles for components here */
 export const NBComponents = {
     Text: {
-        defaultProps:{
+        defaultProps: {
             fontFamily: 'body',
-            fontWeight: '400',
-            fontSize: 60
+            fontWeight: '500',
+            fontSize: 30,
         },
         // react native style prop
         baseStyle: {
+            color: 'secondary.900',
         },
         // Custom variation for this component, set using variant prop
-        variants:{
-            custom:{
-                fontWeight: '600',
-                fontSize: 80,
-                bg: '#57cfcf'
+        variants: {
+            primary: {
+                color: 'primary.400'
+            },
+            secondary: {
+                color: 'secondary.900'
             }
         }
     }
