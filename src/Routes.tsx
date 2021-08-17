@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react'
+import { HomeTab } from './HomeTab';
 
 interface RoutesProps {}
 
@@ -10,6 +11,7 @@ interface RoutesProps {}
 export const Routes: React.FC<RoutesProps> = ({ }) => {
     return (
         <NavigationContainer>
+            <HomeTab />
         </NavigationContainer>
     );
 }
