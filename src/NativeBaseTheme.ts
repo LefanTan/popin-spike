@@ -23,7 +23,7 @@ export const NBColor = {
 }
 
 export const NBFontConfig = {
-    Quicksand: {
+    primary: {
         300: {
             normal: 'Quicksand-Light'
         },
@@ -43,9 +43,9 @@ export const NBFontConfig = {
 }
 
 export const NBFont = {
-    heading: 'Quicksand',
-    body: 'Quicksand',
-    mono: 'Quicksand'
+    heading: 'primary',
+    body: 'primary',
+    mono: 'primary'
 }
 
 /* Define default styles for components here */
