@@ -6,6 +6,7 @@ import { ProfileScreen } from './screens/ProfileScreen'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import AntDesignIcons from 'react-native-vector-icons/AntDesign'
 import { useTheme } from 'native-base'
+import ctw from '../custom-tailwind';
 
 interface HomeTabProps { }
 
@@ -23,10 +24,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({ }) => {
                 tabBarLabelStyle: {
                     fontFamily: fontConfig['primary']['600']['normal']
                 },
-                tabBarStyle: {
-                    paddingBottom: 5,
-                    height: '8%'
-                }
+                tabBarStyle: ctw`pb-2 h-14`
             }}
         >
             <Tab.Screen
