@@ -14,6 +14,7 @@ export const NBColor = {
         700: '#6d131b'
     },
     secondary: {
+        100: '#fcfcfc',
         200: '#dfdadb',
         300: '#c6c2c2',
         400: '#aea9aa',

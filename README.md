@@ -8,7 +8,12 @@ Currently using Typescript for the project.
 
 ### Other libraries:
 1. React Navigation: for navigating between tabs
-    - comes with react-native-reanimated as dependencies
-    - 
 
 2. [React Vector Icons](https://oblador.github.io/react-native-vector-icons/) Vector Icons : free and nice icons
+
+3. [React-Native-Reanimated](https://docs.swmansion.com/react-native-reanimated/docs/): The current animation API locks up the JS thread and might cause a lot of lag in the future, this should be use to future proof
+    - Same with PanResponder, use react-native-gesture-handler instead
+
+4. [React-Native-Redash](https://wcandillon.gitbook.io/redash/animations): Helper library for Reanimated to reduce boilerplate code
+
+5. [React-Native-Gesture-Handler](https://docs.swmansion.com/react-native-gesture-handler/docs/): Gesture handler that works tightly with reanimated

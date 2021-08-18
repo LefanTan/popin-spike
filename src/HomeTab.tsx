@@ -26,8 +26,6 @@ export const HomeTab: React.FC<HomeTabProps> = ({ }) => {
                 tabBarStyle: {
                     paddingBottom: 5,
                     height: '8%',
-                    borderTopLeftRadius: 30,
-                    borderTopRightRadius: 30,
                     position: 'absolute',
                     bottom: 0,
                     right: 0
