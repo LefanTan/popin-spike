@@ -4,6 +4,7 @@ import { PanGestureHandler} from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring } from 'react-native-reanimated';
 import { clamp } from 'react-native-redash';
 import { useWindowDimensions } from 'react-native'
+import ctw from '../../custom-tailwind';
 
 interface DraggableMenuProps {
     minHeightOffset: number
@@ -60,9 +61,7 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
             }]}
         >
             <PanGestureHandler onGestureEvent={menuGestureHandler} >
-                <Animated.View
-                    display='flex' alignItems="center" justifyContent="center"
-                    height='3%' bg="transparent" padding={0}>
+                <Animated.View style={ctw`flex items-center justify-center bg-transparent p-0 h-7`}>
                     <Box height={1} width={20} rounded={20} bg="white" />
                 </Animated.View>
             </PanGestureHandler>
