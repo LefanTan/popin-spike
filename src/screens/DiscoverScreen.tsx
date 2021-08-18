@@ -22,7 +22,6 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                 region={region}
             />
             <DraggableMenu minHeight={20} maxHeight={150} snapPositionsInPercentage={[0, 0.19, 0.5, 1]}>
-                <Text>DRAGGABLe</Text>
             </DraggableMenu>
         </Center>
     );
