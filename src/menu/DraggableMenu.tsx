@@ -1,5 +1,5 @@
-import { useTheme } from 'native-base';
-import React from 'react'
+import { Box, Button, Image, useTheme } from 'native-base';
+import React, { useState } from 'react'
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring } from 'react-native-reanimated';
 import { clamp } from 'react-native-redash';
@@ -12,6 +12,7 @@ interface DraggableMenuProps {
 }
 
 export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
+    const [startDrag, setStartDrag] = useState(false)
     const { height } = useWindowDimensions()
     const { colors } = useTheme()
 
@@ -29,8 +30,10 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
             ctx.startY = yMenu.value
         },
         onActive: (evt, ctx) => {
-            let draggedVal = clamp(ctx.startY + evt.translationY, minHeight, maxHeight)
-            yMenu.value = draggedVal
+            if (startDrag) {
+                let draggedVal = clamp(ctx.startY + evt.translationY, minHeight, maxHeight)
+                yMenu.value = draggedVal
+            }
         },
         onEnd: () => {
             let closestVal = yMenuSnapPositions.reduce((a, b) => {
@@ -39,7 +42,6 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
             yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 })
         }
     })
-
     return (
         <PanGestureHandler onGestureEvent={menuGestureHandler} >
             <Animated.View
@@ -49,6 +51,10 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
                     position: 'absolute', left: 0, right: 0
                 }]}
             >
+                <Button android_disableSound={true} _pressed={{ bg: 'transparent' }} onPressIn={() => setStartDrag(true)} onPressOut={() => setStartDrag(false)}
+                 height='2.5%' display="flex" bg="transparent" padding={0}>
+                    <Box height={1} width={20} rounded={20} bg="white" />
+                </Button>
                 {props.children}
             </Animated.View>
         </PanGestureHandler>
