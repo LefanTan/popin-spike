@@ -42,6 +42,11 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
             yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 })
         }
     })
+
+    // Events for press in and out of the drag bar
+    const onBarPressIn = () => setStartDrag(true)
+    const onBarPressOut = () => setStartDrag(false)
+
     return (
         <PanGestureHandler onGestureEvent={menuGestureHandler} >
             <Animated.View
@@ -51,7 +56,8 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
                     position: 'absolute', left: 0, right: 0
                 }]}
             >
-                <Button android_disableSound={true} _pressed={{ bg: 'transparent' }} onPressIn={() => setStartDrag(true)} onPressOut={() => setStartDrag(false)}
+                {/* Drag Bar */}
+                <Button android_disableSound={true} _pressed={{ bg: 'transparent' }} onPressIn={onBarPressIn} onPressOut={onBarPressOut}
                  height='2.5%' display="flex" bg="transparent" padding={0}>
                     <Box height={1} width={20} rounded={20} bg="white" />
                 </Button>
