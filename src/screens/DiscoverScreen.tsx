@@ -22,8 +22,8 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                 region={region}
             />
             {/* Min Height is how far you can drag up and vice versa */}
-            <DraggableMenu minHeightOffset={45} maxHeightOffset={600} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
-                <VStack padding={2} alignItems="center">
+            <DraggableMenu minHeightOffset={45} maxHeightOffset={610} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
+                <VStack padding={2} paddingTop={1} height="85%" alignItems="center" justifyContent="flex-start">
                     <Text>FILTER HERE</Text>
                 </VStack>
             </DraggableMenu>
