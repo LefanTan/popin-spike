@@ -1,5 +1,6 @@
 import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps'
 import React, { useState } from 'react'
+import ctw from '../../custom-tailwind'
 import { Center, Text, useTheme, VStack } from 'native-base'
 import { DraggableMenu } from '../menu/DraggableMenu'
 
@@ -17,7 +18,7 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
         <Center flex={1}>
             <MapView
                 provider={PROVIDER_GOOGLE}
-                style={{ width: '100%', height: '100%' }}
+                style={ctw`w-full h-full`}
                 onRegionChangeComplete={setRegion}
                 region={region}
             />
