@@ -67,7 +67,7 @@ export const NBComponents = {
                 color: 'primary.400'
             },
             secondary: {
-                color: 'secondary.100'
+                color: 'secondary.900'
             }
         }
     }
