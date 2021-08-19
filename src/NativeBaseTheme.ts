@@ -59,7 +59,7 @@ export const NBComponents = {
         },
         // react native style prop
         baseStyle: {
-            color: 'secondary.900',
+            color: 'secondary.100',
         },
         // Custom variation for this component, set using variant prop
         variants: {
@@ -67,7 +67,7 @@ export const NBComponents = {
                 color: 'primary.400'
             },
             secondary: {
-                color: 'secondary.900'
+                color: 'secondary.100'
             }
         }
     }
