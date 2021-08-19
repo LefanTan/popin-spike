@@ -6,7 +6,7 @@ interface ProfileScreenProps {}
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({}) => {
         return (
             <Center flex={1}>
-                <Text>Profile</Text>
+                <Text variant="secondary">Profile</Text>
             </Center>
         );
 }

@@ -1,6 +1,6 @@
 import { Box, useTheme } from 'native-base';
 import React from 'react'
-import { PanGestureHandler} from 'react-native-gesture-handler';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring } from 'react-native-reanimated';
 import { clamp } from 'react-native-redash';
 import { useWindowDimensions } from 'react-native'
@@ -40,22 +40,34 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
         onActive: (evt, ctx) => {
             // clamp the value so it doesn't go below or over the limit
             let draggedVal = clamp(ctx.startY + evt.translationY, minHeightOffset, maxHeightOffset)
+
             // update the limit
             yMenu.value = draggedVal
 
-            var percentage = Math.abs(1  - ((draggedVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)))
+            var percentage = Math.abs(1 - ((draggedVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)))
             runOnJS(props.onMenuDragged)(percentage)
         },
-        onEnd: () => {
-            // On release, snap the View to the closest snap position
-            let closestVal = yMenuSnapPositions.reduce((a, b) => {
-                return Math.abs(a - yMenu.value) > Math.abs(b - yMenu.value) ? b : a
-            })
-            // WithSpring() adds a 'spring' effect to the drag animation 
-            yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 })
+        onEnd: (evt, _) => {
+            // On release, snap the View to the closest snap position, depending on user scroll direction
+            // let closestVal = yMenuSnapPositions.reduce((a, b) => {
+            //     return Math.abs(a - yMenu.value) > Math.abs(b - yMenu.value) ? b : a
+            // })
 
-            var percentage = Math.abs(1  - ((closestVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)))
-            runOnJS(props.onMenuDragged)(percentage)
+            // evt.translationY > 0 = pull down
+            let closestVal = (evt.translationY > 0)
+                ? yMenuSnapPositions[yMenuSnapPositions.length - 1]
+                : yMenuSnapPositions.slice().reverse().find(x => yMenu.value > x)
+
+            // console.log('y: ' + yMenu.value)
+            // console.log('snap: ' + yMenuSnapPositions)
+
+            if (closestVal !== undefined) {
+                // WithSpring() adds a 'spring' effect to the drag animation 
+                yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 })
+
+                var percentage = Math.abs(1 - ((closestVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)))
+                runOnJS(props.onMenuDragged)(percentage)
+            }
         }
     })
 
