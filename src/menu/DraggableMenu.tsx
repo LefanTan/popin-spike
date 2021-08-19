@@ -5,11 +5,13 @@ import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, 
 import { clamp } from 'react-native-redash';
 import { useWindowDimensions } from 'react-native'
 import ctw from '../../custom-tailwind';
+import { runOnJS } from 'react-native-reanimated';
 
 interface DraggableMenuProps {
     minHeightOffset: number
-    maxHeightOffset: number
+    maxHeightOffsetFromScreenHeight: number
     snapPositionsInPercentage: number[]
+    onMenuDragged: (percent: number) => void
 }
 
 export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
@@ -17,7 +19,7 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
     // useTheme retrieves the theme object from NativeBase
     const { colors } = useTheme()
 
-    const maxHeightOffset = props.maxHeightOffset
+    const maxHeightOffset = height - props.maxHeightOffsetFromScreenHeight
     const minHeightOffset = props.minHeightOffset
     const yMenu = useSharedValue(maxHeightOffset)
     const yMenuSnapPositions = props.snapPositionsInPercentage.map((percent, index) => index === 0 ? minHeightOffset : percent * maxHeightOffset)
@@ -40,6 +42,9 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
             let draggedVal = clamp(ctx.startY + evt.translationY, minHeightOffset, maxHeightOffset)
             // update the limit
             yMenu.value = draggedVal
+
+            var percentage = Math.abs(1  - ((draggedVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)))
+            runOnJS(props.onMenuDragged)(percentage)
         },
         onEnd: () => {
             // On release, snap the View to the closest snap position
@@ -48,6 +53,9 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
             })
             // WithSpring() adds a 'spring' effect to the drag animation 
             yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 })
+
+            var percentage = Math.abs(1  - ((closestVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)))
+            runOnJS(props.onMenuDragged)(percentage)
         }
     })
 
