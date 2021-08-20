@@ -48,11 +48,6 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
             runOnJS(props.onMenuDragged)(percentage)
         },
         onEnd: (evt, _) => {
-            // On release, snap the View to the closest snap position, depending on user scroll direction
-            // let closestVal = yMenuSnapPositions.reduce((a, b) => {
-            //     return Math.abs(a - yMenu.value) > Math.abs(b - yMenu.value) ? b : a
-            // })
-
             // evt.translationY > 0 = pull down
             let closestVal = (evt.translationY > 0)
                 ? yMenuSnapPositions[yMenuSnapPositions.length - 1]
