@@ -3,12 +3,13 @@ import React, { useState } from 'react'
 import ctw from '../../custom-tailwind'
 import { Center, HStack, Icon, IconButton, Input, VStack, Pressable, FlatList, Text } from 'native-base'
 import { DraggableMenu } from '../menu/DraggableMenu'
-import Animated, { runOnUI, withTiming } from 'react-native-reanimated'
+import Animated, { runOnJS, runOnUI, withTiming } from 'react-native-reanimated'
 import { useAnimatedStyle } from 'react-native-reanimated'
 import { useSharedValue } from 'react-native-reanimated'
 import FoundationIcon from 'react-native-vector-icons/Foundation'
 import { FlairButton, list } from '../buttons/FlairButton'
 import { useDerivedValue } from 'react-native-reanimated'
+import { useEffect } from 'react'
 
 interface DiscoverScreenProps { }
 
@@ -20,8 +21,11 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
         longitudeDelta: 0.0521,
     })
 
+    const [menuOpened, setMenuOpened] = useState(false)
     const dragMenuPercentage = useSharedValue(0)
+
     const headingStyle = useAnimatedStyle(() => {
+        // runOnJS(setMenuOpened)(dragMenuPercentage.value > 0)
         return {
             opacity: 1 - dragMenuPercentage.value
         }
@@ -31,8 +35,6 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
             opacity: dragMenuPercentage.value
         }
     })
-
-    const [menuOpened, setMenuOpened] = useState(false) 
 
     return (
         <Center flex={1}>
@@ -46,11 +48,9 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
             {/* Min Height is how far you can drag up and vice versa */}
             {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
             <DraggableMenu onMenuDragged={(percent) => {
-                dragMenuPercentage.value = withTiming((percent * 2), { duration: 100 })
-                runOnUI(() => {
-                    if(percent > 0) setMenuOpened(true)
-                    else setMenuOpened(false)
-                }) 
+                dragMenuPercentage.value = withTiming((percent * 2), { duration: 50 })
+                // console.log('percent' + percent)
+                setMenuOpened(percent > 0)
             }}
                 minHeightOffset={45} maxHeightOffsetFromScreenHeight={120} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
                 <VStack padding={2} paddingTop={1} height="85%" alignItems="center" justifyContent="flex-start">
@@ -75,7 +75,7 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                                 />
                                 <Pressable
                                     width="10%"
-                                    height="100%"   
+                                    height="100%"
                                     _pressed={{
                                         bg: 'transparent'
                                     }}
@@ -90,7 +90,7 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
                                 data={list}
-                                renderItem={({item}) => <FlairButton onClick={(type) => setMenuOpened(!menuOpened)} name={item.name} iconSource={item.iconSource}></FlairButton>}
+                                renderItem={({ item }) => <FlairButton onClick={(type) => console.log(type)} name={item.name} iconSource={item.iconSource}></FlairButton>}
                                 keyExtractor={(item) => item.name}
                             />
                         </VStack>

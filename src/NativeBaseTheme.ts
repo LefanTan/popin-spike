@@ -70,5 +70,23 @@ export const NBComponents = {
                 color: 'secondary.900'
             }
         }
+    },
+    Button: {
+        defaultProps: {
+        },
+        baseStyle: {
+            // For some reason these doesn't work?
+            // color: 'secondary.400',
+            // backgroundColor: 'secondary.200'
+        },
+        variants: {
+            default:{
+                bg: 'secondary.200',
+                paddingX: 1.5,
+                paddingY: 1,
+                _text: {color: 'primary.400'},
+                _pressed: {bg : 'secondary.300'}
+            }
+        }
     }
 }
