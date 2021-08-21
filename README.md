@@ -20,3 +20,5 @@ Currently using Typescript for the project.
 4. [React-Native-Redash](https://wcandillon.gitbook.io/redash/animations): Helper library for Reanimated to reduce boilerplate code
 
 5. [React-Native-Gesture-Handler](https://docs.swmansion.com/react-native-gesture-handler/docs/): Gesture handler that works tightly with reanimated
+
+6. [React Native Firebase](https://rnfirebase.io/firestore/usage) : NoSQL database solution. Uses Google's firestore
