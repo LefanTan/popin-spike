@@ -14,7 +14,6 @@ interface ProfileScreenProps { }
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     const authContext = useContext(AuthContext)
-    const { height } = useWindowDimensions()
     const { colors } = useTheme()
     const alertRef = useRef()
     const [showEvents, setShowEvents] = useState(false)
@@ -36,7 +35,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     })
 
     useEffect(() => {
-        animatedHeightOffset.value =  withSpring(showEvents ? 93 : 20, { damping: 17, velocity: 2 })
+        animatedHeightOffset.value =  withSpring(showEvents ? 94 : 20, { damping: 17, velocity: 2 })
         animatedArrowRotation.value = withSpring(showEvents ? 180 : 0, { damping: 17, velocity: 2 })
     }, [showEvents])
 
