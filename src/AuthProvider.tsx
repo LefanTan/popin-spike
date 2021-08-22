@@ -70,6 +70,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     auth().signInWithEmailAndPassword(email, password).then(
                         (_) => {
                             console.log('success sign in')
+                            setLoading(false)
                         },
                         (error) => {
                             if (error.code === 'auth/invalid-email')

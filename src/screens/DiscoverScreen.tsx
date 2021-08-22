@@ -8,8 +8,6 @@ import { useAnimatedStyle } from 'react-native-reanimated'
 import { useSharedValue } from 'react-native-reanimated'
 import FoundationIcon from 'react-native-vector-icons/Foundation'
 import { FlairButton, list } from '../buttons/FlairButton'
-import { useDerivedValue } from 'react-native-reanimated'
-import { useEffect } from 'react'
 
 interface DiscoverScreenProps { }
 
@@ -48,13 +46,13 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
             {/* Min Height is how far you can drag up and vice versa */}
             {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
             <DraggableMenu onMenuDragged={(percent) => {
-                dragMenuPercentage.value = withTiming((percent * 2), { duration: 50 })
+                dragMenuPercentage.value = withTiming((percent * 2), { duration: 400 })
                 // console.log('percent' + percent)
                 setMenuOpened(percent > 0)
             }}
                 minHeightOffset={45} maxHeightOffsetFromScreenHeight={120} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
                 <VStack padding={2} paddingTop={1} height="85%" alignItems="center" justifyContent="flex-start">
-                    <Animated.Text style={[headingStyle, ctw`absolute top-0 w-full text-center text-4xl text-secondary-100 font-primary_400`]}>View event list</Animated.Text>
+                    <Animated.Text style={[headingStyle, ctw`absolute top-0 w-full text-center text-4xl text-secondary-200 font-primary_400`]}>View event list</Animated.Text>
                     <Animated.View pointerEvents={menuOpened ? 'auto' : 'none'} style={[mainViewStyle, ctw`w-full h-full`]}>
                         <VStack>
                             <HStack height={10} justifyContent="center">
@@ -73,7 +71,7 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                                     padding={1}
                                 >
                                     {({ isPressed }) =>
-                                        <Icon size={8} textAlign="center" as={FoundationIcon} name="filter" color={isPressed ? 'secondary.300' : 'secondary.200'} />}
+                                        <Icon size={8} textAlign="center" as={FoundationIcon} name="filter" color={isPressed ? 'secondary.400' : 'secondary.200'} />}
                                 </Pressable>
                             </HStack>
                             <FlatList

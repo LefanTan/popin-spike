@@ -1,5 +1,5 @@
 import { Box, useTheme } from 'native-base';
-import React from 'react'
+import React, { memo } from 'react'
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring } from 'react-native-reanimated';
 import { clamp } from 'react-native-redash';
@@ -14,7 +14,7 @@ interface DraggableMenuProps {
     onMenuDragged: (percent: number) => void
 }
 
-export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
+export const DraggableMenu: React.FC<DraggableMenuProps> = memo((props) => {
     const { height } = useWindowDimensions()
     // useTheme retrieves the theme object from NativeBase
     const { colors } = useTheme()
@@ -76,11 +76,11 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = (props) => {
             }]}
         >
             <PanGestureHandler onGestureEvent={menuGestureHandler} >
-                <Animated.View style={ctw`flex items-center justify-center bg-transparent p-0 h-7`}>
-                    <Box height={1} width={20} rounded={20} bg="white" />
+                <Animated.View style={ctw`flex items-center justify-center bg-transparent p-0 h-9`}>
+                    <Box height={1} width={20} rounded={20} bg="secondary.200" />
                 </Animated.View>
             </PanGestureHandler>
             {props.children}
         </Animated.View>
     );
-}
+})
