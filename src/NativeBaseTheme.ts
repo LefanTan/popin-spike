@@ -71,6 +71,40 @@ export const NBComponents = {
             }
         }
     },
+    Input:{
+        defaultProps:{
+            fontWeight: 500,
+            bg: 'secondary.200',
+            variant: "filled"
+        },
+        baseStyle:{
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 3,
+            borderRadius: 10,
+            placeholderTextColor: "primary.100",
+            color: 'primary.400',
+        },
+        variants:{
+            input:{
+                bg: 'transparent',
+                border: 'transparent',
+                color: 'secondary.200',
+                borderBottomColor:"secondary.200",
+                borderBottomWidth: 0.2,
+                paddingLeft: 0,
+                borderRadius: 0
+            }
+        }
+    },
+    Heading: {
+        variants: {
+            title: {
+                color: 'secondary.200',
+                fontWeight: 400
+            }
+        }
+    },
     Button: {
         defaultProps: {
         },

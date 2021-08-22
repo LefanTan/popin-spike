@@ -1,0 +1,102 @@
+import { Button, Heading, HStack, Icon, Input, Text, VStack, Pressable } from 'native-base';
+import React, { useRef } from 'react'
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useContext } from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { AuthContext } from '../AuthProvider';
+
+interface LoginScreenProps { }
+
+export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
+    const inputRef = useRef(null)
+    const authContext = useContext(AuthContext)
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [hidePass, setHidePass] = useState(true)
+
+    return (
+        <VStack height="100%">
+            <VStack
+                padding={3}
+                bg="primary.400"
+                width="100%" height="65%"
+                borderBottomLeftRadius={25} borderBottomRightRadius={25}
+            >
+                <Heading variant='title' fontSize={40}>Sign in here!</Heading>
+                <VStack
+                    marginTop={10}
+                    paddingLeft={1}
+                >
+                    <Text fontSize={20} fontWeight={600}>Email</Text>
+                    <Input
+                        placeholder="enter email here..."
+                        variant="input"
+                        autoCompleteType="email"
+                        height={10}
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
+                    />
+                </VStack>
+                <VStack
+                    marginTop={5}
+                    paddingLeft={1}
+                >
+                    <Text fontSize={20} fontWeight={600}>Password</Text>
+                    <HStack>
+                        <Input
+                            width="90%"
+                            placeholder="enter password here..."
+                            variant="input"
+                            secureTextEntry={hidePass}
+                            // Fixes a bug caused by secureTextEntry that causes it to change fontFamily. 
+                            ref={ref => ref && ref.setNativeProps({ style: { fontFamily: 'Quicksand-Medium' } })}
+                            height={10}
+                            value={password}
+                            onChangeText={(text) => setPassword(text)}
+                        />
+                        <Pressable
+                            height={10}
+                            borderBottomWidth={0.2}
+                            borderBottomColor='secondary.200'
+                            onPress={() => setHidePass(!hidePass)}
+                            display="flex" justifyContent="center"
+                        >
+                            {({ isPressed }) =>
+                                <Icon
+                                    as={Ionicons} textAlign="center" size={5}
+                                    name={hidePass ? 'eye-off' : 'eye'}
+                                    color={isPressed ? 'secondary.300' : 'secondary.200'}
+                                />
+                            }
+                        </Pressable>
+                    </HStack>
+                </VStack>
+                <Text
+                    marginTop={3}
+                    marginLeft={1}
+                    color="secondary.300"
+                    fontWeight={600} fontSize={15}
+                >
+                    {authContext.errorMsg}
+                </Text>
+                <Button
+                    marginTop="auto"
+                    marginBottom={10}
+                    variant='default'
+                    height={42}
+                    width="100%"
+                    _text={{
+                        fontSize: 20
+                    }}
+                    onPress={() => { 
+                        authContext.login(email, password) 
+                        setPassword('')
+                    }}
+                >
+                    LOGIN
+                </Button>
+            </VStack>
+        </VStack>
+    );
+}

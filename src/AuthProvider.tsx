@@ -12,29 +12,39 @@ type User = null | {
 
 export const AuthContext = React.createContext<{
     user: User
-    initializing: boolean
-    login: () => void
+    loading: boolean,
+    errorMsg: string,
+    login: (email: string, password: string) => void
     logout: () => void
 }>({
     user: null,
-    initializing: true,
+    loading: true,
+    errorMsg: "",
     login: () => { },
     logout: () => { }
 })
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User>(null)
-    const [init, setInit] = useState<boolean>(true)
+    const [init, setInit] = useState(true)
+    const [errorMsg, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const onAuthStateChangeHandler = (userData: FirebaseAuthTypes.User | null) => {
+        if (init) setInit(false)
+
+        // Already initialized
+        if (!init) {
+            setLoading(false)
+        }
+
         if (userData) {
+            // React Native Firebase automatically persist user login state
             let displayName = userData.displayName ?? ''
             setUser({ userName: displayName, firebaseAuthData: userData })
         }
         else
             setUser(null)
-
-        if (init) setInit(false)
     }
 
     useEffect(() => {
@@ -46,22 +56,43 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         <AuthContext.Provider
             value={{
                 user,
-                initializing: init,
-                // Login API called here, to persist user, save this in an async storage so user info will persist
-                login: async () => {
-                    auth().signInWithEmailAndPassword('lefan@test.com', 'test123').then(
+                loading: loading,
+                errorMsg: errorMsg,
+                // Login API called here
+                login: async (email, password) => {
+                    setLoading(true)
+
+                    if (email === '' || password === '') {
+                        setError("Email or password can't be empty")
+                        return
+                    }
+
+                    auth().signInWithEmailAndPassword(email, password).then(
                         (_) => {
                             console.log('success sign in')
                         },
                         (error) => {
-                            console.log('sign in failed.')
-                            console.error(error)
+                            if (error.code === 'auth/invalid-email')
+                                setError('Invalid email address')
+
+                            if (error.code === 'auth/user-not-found')
+                                setError("Account doesn't exist")
+                            
+                            console.error(error.code)
                         }
                     )
                 },
                 // Logout API called here
                 logout: () => {
-                    auth().signOut()
+                    auth().signOut().then(
+                        (_) => {
+                            console.log('success sign out')
+                        },
+                        (error) => {
+                            console.log('sign out failed.')
+                            console.error(error)
+                        }
+                    )
                 }
             }}
         >

@@ -17,7 +17,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({ }) => {
 
     return (
         <Tab.Navigator
-            initialRouteName="Discover"
+            initialRouteName="Profile"
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: colors['primary']['400'],
