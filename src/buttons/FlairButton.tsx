@@ -1,6 +1,7 @@
 import { Button, HStack, Icon, Image, Text } from 'native-base';
 import { isContext } from 'node:vm';
 import React from 'react'
+import { memo } from 'react';
 
 export const list =
     [
@@ -36,20 +37,20 @@ interface FlairButtonProps {
     onClick: (flairType: string) => void
 }
 
-export const FlairButton: React.FC<FlairButtonProps> = (props) => {
+export const FlairButton: React.FC<FlairButtonProps> = memo((props) => {
     return (
         <Button
             bg="secondary.200"
             _pressed={{
-                bg: 'secondary.300'
+                bg: 'secondary.400'
             }}
             borderRadius={20} paddingX={2} paddingY={1} marginRight={1}
             onPress={() => props.onClick(props.name)}
         >
             <HStack alignItems="center">
                 <Image alt='icon' size={6} source={props.iconSource} marginRight={0.5} />
-                <Text color="primary.400" fontWeight={500} paddingBottom={1} fontSize="lg">{props.name}</Text>
+                <Text color="secondary.600" fontWeight={500} paddingBottom={1} fontSize="lg">{props.name}</Text>
             </HStack>
         </Button>
     );
-}
+})
