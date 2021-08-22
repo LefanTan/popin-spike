@@ -64,13 +64,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
                     if (email === '' || password === '') {
                         setError("Email or password can't be empty")
+                        setLoading(false)
                         return
                     }
 
                     auth().signInWithEmailAndPassword(email, password).then(
                         (_) => {
                             console.log('success sign in')
-                            setLoading(false)
+                            setError('')
                         },
                         (error) => {
                             if (error.code === 'auth/invalid-email')
@@ -81,7 +82,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                             
                             console.error(error.code)
                         }
-                    )
+                    ).then(() => setLoading(false))
                 },
                 // Logout API called here
                 logout: () => {
