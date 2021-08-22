@@ -61,16 +61,7 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                                 <Input
                                     width="90%"
                                     height="100%"
-                                    paddingTop={0}
-                                    paddingBottom={0}
-                                    paddingLeft={3}
-                                    variant="filled"
-                                    borderRadius={10}
-                                    bg="secondary.200"
-                                    color="primary.400"
                                     fontSize={16}
-                                    fontWeight={500}
-                                    placeholderTextColor="primary.200"
                                     placeholder="Search event name..."
                                 />
                                 <Pressable
