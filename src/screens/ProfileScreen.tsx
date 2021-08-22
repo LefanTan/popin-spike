@@ -8,11 +8,13 @@ import { AuthContext } from '../AuthProvider';
 import { LoginScreen } from './LoginScreen';
 import { useRef } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useWindowDimensions } from 'react-native';
 
 interface ProfileScreenProps { }
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     const authContext = useContext(AuthContext)
+    const { height } = useWindowDimensions()
     const { colors } = useTheme()
     const alertRef = useRef()
     const [showEvents, setShowEvents] = useState(false)
@@ -20,11 +22,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     const closeConfirm = () => setSignOutConfirm(false)
 
     /* Animation & Style */
-    const animatedHeight = useSharedValue(20)
+    const animatedHeightOffset = useSharedValue(20)
     const animatedArrowRotation = useSharedValue(0)
     const collapsibleView = useAnimatedStyle(() => {
         return {
-            height: `${animatedHeight.value}%`
+            height: `${animatedHeightOffset.value}%`
         }
     })
     const arrowRotation = useAnimatedStyle(() => {
@@ -34,7 +36,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     })
 
     useEffect(() => {
-        animatedHeight.value = withSpring(showEvents ? 94 : 20, { damping: 17, velocity: 2 })
+        animatedHeightOffset.value =  withSpring(showEvents ? 93 : 20, { damping: 17, velocity: 2 })
         animatedArrowRotation.value = withSpring(showEvents ? 180 : 0, { damping: 17, velocity: 2 })
     }, [showEvents])
 
@@ -50,16 +52,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
             <Animated.View
                 style={[collapsibleView, ctw.style(`rounded-3xl p-3 flex flex-col`, { backgroundColor: colors['secondary']['200'] })]}
             >
-                <HStack display='flex' alignItems='center' height={20}>
-                    <Image
-                        bg="primary.400" height="100%" width={20} borderRadius={20} marginRight={5}
+                <HStack display='flex' alignItems='center' height={65}>
+                    <Image  
+                        bg="primary.400" height="100%" width="20%" borderRadius={20}
                         alt='ppic' source={require('../../assets/imgs/profile_pic.png')}
                     />
                     <Heading
-                        width={260} fontSize={25} numberOfLines={2}
+                        width="80%" fontSize={25} numberOfLines={2} paddingLeft={3}
                         fontWeight={600} color="secondary.600"
                     >
-                        Malaysian's Students Association
+                        Malaysian's Studentss Association
                     </Heading>
                 </HStack>
                 <Pressable
@@ -104,17 +106,22 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                         }}>
                         Logout
                     </AlertDialog.Header>
-                    <AlertDialog.Body
+                    <Text
+                        color="secondary.600"
+                        fontSize={17}
                         paddingLeft={3}
                     >
                         Are you sure you want to sign out of your account?
-                    </AlertDialog.Body>
+                    </Text>
                     <AlertDialog.Footer>
                         <Pressable onPress={closeConfirm}>
-                            {({ isPressed }) => <Icon as={MaterialCommunityIcons} size={9} name="cancel" color={isPressed ? 'primary.700' : "primary.400"}/>}
+                            {({ isPressed }) => <Icon as={MaterialCommunityIcons} size={8} name="cancel" color={isPressed ? 'primary.700' : "primary.400"} />}
                         </Pressable>
-                        <Pressable marginLeft={4} onPress={() => {closeConfirm(); authContext.logout()}}>
-                            {({ isPressed }) => <Icon as={MaterialCommunityIcons} size={9} name="check" color={isPressed ? 'primary.700' : "primary.400"}/>}
+                        <Pressable marginLeft={4} onPress={() => {
+                            closeConfirm()
+                            authContext.logout()
+                        }}>
+                            {({ isPressed }) => <Icon as={MaterialCommunityIcons} size={9} name="check" color={isPressed ? 'primary.700' : "primary.400"} />}
                         </Pressable>
                     </AlertDialog.Footer>
                 </AlertDialog.Content>

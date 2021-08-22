@@ -1,6 +1,7 @@
 import { Button, Heading, HStack, Icon, Input, Text, VStack, Pressable, Center, useTheme } from 'native-base';
 import React from 'react'
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { useContext } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -96,13 +97,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                     marginBottom={10}
                     variant='default'
                     height={42}
-                    borderRadius={15}
+                    borderRadius={10}
                     width="100%"
                     _text={{
                         fontSize: 20
                     }}
                     onPress={() => {
-                        authContext.login('lefan@test.com', 'test123')
+                        authContext.login(email, password)
                         setPassword('')
                     }}
                 >
