@@ -7,13 +7,14 @@ import Animated, { withTiming } from 'react-native-reanimated'
 import { useAnimatedStyle } from 'react-native-reanimated'
 import { useSharedValue } from 'react-native-reanimated'
 import FoundationIcon from 'react-native-vector-icons/Foundation'
-import { FlairButton, list } from '../buttons/FlairButton'
+import { FlairButton } from '../buttons/FlairButton'
 import firestore from '@react-native-firebase/firestore'
 import { useEffect } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { FirestoreEvent } from '../types/FirestoreClasses'
 import { MinimizedEvent } from '../buttons/MinimizedEvent'
 import { DiscoverStackNavProps } from '../types/ParamList'
+import { flairsList } from '../datastructure/flairsList'
 
 export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">) => {
     const { colors } = useTheme()
@@ -108,7 +109,7 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
                                 paddingTop={2}
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
-                                data={list}
+                                data={flairsList}
                                 renderItem={({ item }) => <FlairButton onClick={(type) => console.log(type)} name={item.name} iconSource={item.iconSource}></FlairButton>}
                                 keyExtractor={(item) => item.name}
                             />

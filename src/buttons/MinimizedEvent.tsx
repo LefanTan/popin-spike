@@ -3,7 +3,7 @@ import React from 'react'
 import { FirestoreEvent } from '../types/FirestoreClasses';
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import {  heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { list } from './FlairButton';
+import { flairsList } from '../datastructure/flairsList'
 
 interface MinimizedEventProps {
     event: FirestoreEvent,
@@ -58,8 +58,8 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                             </Text>
                             <HStack paddingLeft={1}>
                                 {props.event.flairs.map((flairType, index) => {
-                                    let defaultIcon = list[0]['iconSource']
-                                    let iconType = list.find(item => item['name'] === flairType)
+                                    let defaultIcon = flairsList[0].iconSource
+                                    let iconType = flairsList.find(item => item.name === flairType)
                                     return (
                                         <Image key={index} alt='flair' size={hp(2)} source={iconType === undefined ? defaultIcon : iconType['iconSource']} />
                                     )
