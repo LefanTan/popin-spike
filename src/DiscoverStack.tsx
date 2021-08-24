@@ -11,20 +11,13 @@ const Stack = createNativeStackNavigator<DiscoverStackParamList>();
 
 export const DiscoverStack: React.FC<DiscoverStackProps> = ({ }) => {
     return (
-        <Stack.Navigator initialRouteName="Discover">
+        <Stack.Navigator initialRouteName="Discover"
+            screenOptions={{ headerShown: false }}>
             <Stack.Screen
                 name="Discover" component={DiscoverScreen}
-                options={{
-                    headerShown: false
-                }}
             />
             <Stack.Screen
                 name="Event" component={EventScreen}
-                options={({ route }) => ({
-                    headerTitle: '',
-                    headerStyle: ctw`bg-secondary-200`,
-                    headerShadowVisible: false,
-                })} 
             />
         </Stack.Navigator>
     );

@@ -28,3 +28,5 @@ Currently using Typescript for the project.
 7. [React Native Geolocation](https://github.com/react-native-geolocation/react-native-geolocation) : Library for using google's geolocation api
 
 8. [Responsive screen](https://github.com/marudy/react-native-responsive-screen) : Library with tools to help with creating responsive layout
+
+9. [Image Viewer](https://github.com/ascoders/react-native-image-viewer): Library to pan and scroll through images
