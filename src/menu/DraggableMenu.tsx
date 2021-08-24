@@ -4,7 +4,7 @@ import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring } from 'react-native-reanimated';
 import { clamp } from 'react-native-redash';
 import { useWindowDimensions } from 'react-native'
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import ctw from '../../custom-tailwind';
 import { runOnJS } from 'react-native-reanimated';
 
@@ -20,8 +20,8 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo((props) => {
     // useTheme retrieves the theme object from NativeBase
     const { colors } = useTheme()
 
-    const maxHeightOffset = height - wp(props.maxHeightOffsetFromScreenHeight)
-    const minHeightOffset = wp(props.minHeightOffset)
+    const maxHeightOffset = height - hp(props.maxHeightOffsetFromScreenHeight)
+    const minHeightOffset = hp(props.minHeightOffset)
     const yMenu = useSharedValue(maxHeightOffset)
     const yMenuSnapPositions = props.snapPositionsInPercentage.map((percent, index) => index === 0 ? minHeightOffset : percent * maxHeightOffset)
 

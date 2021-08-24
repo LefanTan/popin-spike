@@ -1,7 +1,7 @@
 import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps'
 import React, { useState } from 'react'
 import ctw from '../../custom-tailwind'
-import { Center, HStack, Icon, IconButton, Input, VStack, Pressable, FlatList, Text } from 'native-base'
+import { Center, HStack, Input, VStack, Pressable, FlatList, useTheme } from 'native-base'
 import { DraggableMenu } from '../menu/DraggableMenu'
 import Animated, { withTiming } from 'react-native-reanimated'
 import { useAnimatedStyle } from 'react-native-reanimated'
@@ -13,11 +13,10 @@ import { useEffect } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { FirestoreEvent } from '../types/FirestoreClasses'
 import { MinimizedEvent } from '../buttons/MinimizedEvent'
-import { useWindowDimensions } from 'react-native'
 import { DiscoverStackNavProps } from '../types/ParamList'
 
 export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">) => {
-    const { height } = useWindowDimensions()
+    const { colors } = useTheme()
 
     const [region, setRegion] = useState<Region>({
         latitude: 37.78825,
@@ -78,19 +77,20 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
                 // console.log('percent' + percent)
                 setMenuOpened(percent > 0)
             }}
-                minHeightOffset={12} maxHeightOffsetFromScreenHeight={28} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
+                minHeightOffset={6} maxHeightOffsetFromScreenHeight={17.5} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
                 <VStack padding={2} paddingTop={1} height={hp(85)} alignItems="center" justifyContent="flex-start">
                     <Animated.Text style={[headingStyle, ctw`absolute top-0 w-full text-center text-4xl text-secondary-200 font-primary_400`]}>View event list</Animated.Text>
                     <Animated.View pointerEvents={menuOpened ? 'auto' : 'none'} style={[mainViewStyle, ctw`w-full h-full`]}>
                         <VStack>
                             <HStack height={hp(5)} justifyContent="flex-start">
                                 <Input
-                                    width={wp(87.5)}
+                                    flex={15}
                                     height={hp(5)}
                                     fontSize={hp(2)}
                                     placeholder="Search event name..."
                                 />
                                 <Pressable
+                                    flex={1}
                                     height={hp(5)}
                                     _pressed={{
                                         bg: 'transparent'
@@ -98,7 +98,10 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
                                     padding={1}
                                 >
                                     {({ isPressed }) =>
-                                        <Icon size={Math.round(height * 0.01)} textAlign="center" as={FoundationIcon} name="filter" color={isPressed ? 'secondary.400' : 'secondary.200'} />}
+                                        <FoundationIcon
+                                            size={hp(4)} name="filter"
+                                            style={ctw.style(`text-center`, { color: isPressed ? colors['secondary']['400'] : colors['secondary']['200'] })}
+                                        />}
                                 </Pressable>
                             </HStack>
                             <FlatList
