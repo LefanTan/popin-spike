@@ -10,15 +10,14 @@ import FoundationIcon from 'react-native-vector-icons/Foundation'
 import { FlairButton, list } from '../buttons/FlairButton'
 import firestore from '@react-native-firebase/firestore'
 import { useEffect } from 'react'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { FirestoreEvent } from '../types/FirestoreClasses'
 import { MinimizedEvent } from '../buttons/MinimizedEvent'
 import { useWindowDimensions } from 'react-native'
+import { DiscoverStackNavProps } from '../types/ParamList'
 
-interface DiscoverScreenProps { }
-
-export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
-    const {height} = useWindowDimensions()
+export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">) => {
+    const { height } = useWindowDimensions()
 
     const [region, setRegion] = useState<Region>({
         latitude: 37.78825,
@@ -79,7 +78,7 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                 // console.log('percent' + percent)
                 setMenuOpened(percent > 0)
             }}
-                minHeightOffset={12} maxHeightOffsetFromScreenHeight={33} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
+                minHeightOffset={12} maxHeightOffsetFromScreenHeight={28} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
                 <VStack padding={2} paddingTop={1} height={hp(85)} alignItems="center" justifyContent="flex-start">
                     <Animated.Text style={[headingStyle, ctw`absolute top-0 w-full text-center text-4xl text-secondary-200 font-primary_400`]}>View event list</Animated.Text>
                     <Animated.View pointerEvents={menuOpened ? 'auto' : 'none'} style={[mainViewStyle, ctw`w-full h-full`]}>
@@ -116,7 +115,11 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                                 refreshing={events.length === 0}
                                 data={events}
                                 keyExtractor={(event: FirestoreEvent) => event.id}
-                                renderItem={({ item }) => <MinimizedEvent event={item} />}
+                                renderItem={({ item }) =>
+                                    <MinimizedEvent
+                                        onMapPinClick={() => null}
+                                        onEventClick={() => navigation.navigate('Event', item)} event={item}
+                                    />}
                             />
                         </VStack>
                     </Animated.View>
