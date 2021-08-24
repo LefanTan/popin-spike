@@ -21,7 +21,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     const closeConfirm = () => setSignOutConfirm(false)
 
     /* Animation & Style */
-    const animatedHeightOffset = useSharedValue(hp(0))
+    const animatedHeightOffset = useSharedValue(hp(15))
     const animatedArrowRotation = useSharedValue(0)
     const collapsibleView = useAnimatedStyle(() => {
         return {

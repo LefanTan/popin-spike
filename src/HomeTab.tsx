@@ -7,6 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import AntDesignIcons from 'react-native-vector-icons/AntDesign'
 import { useTheme } from 'native-base'
 import ctw from '../custom-tailwind';
+import { DiscoverStack } from './DiscoverStack';
 
 interface HomeTabProps { }
 
@@ -17,7 +18,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({ }) => {
 
     return (
         <Tab.Navigator
-            initialRouteName="Profile"
+            initialRouteName="DiscoverStack"
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: colors['primary']['400'],
@@ -28,10 +29,11 @@ export const HomeTab: React.FC<HomeTabProps> = ({ }) => {
             }}
         >
             <Tab.Screen
-                name="Discover"
-                component={DiscoverScreen}
+                name="DiscoverStack"
+                component={DiscoverStack}
                 options={{
-                    tabBarIcon: ({ color, size }) => <AntDesignIcons name="search1" size={size} color={color} />
+                    tabBarIcon: ({ color, size }) => <AntDesignIcons name="search1" size={size} color={color} />,
+                    tabBarLabel: 'Discover'
                 }}
             />
             <Tab.Screen
