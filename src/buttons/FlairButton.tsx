@@ -1,5 +1,5 @@
 import { Button, HStack, Icon, Image, Text } from 'native-base';
-import { isContext } from 'node:vm';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import React from 'react'
 import { memo } from 'react';
 
@@ -49,7 +49,7 @@ export const FlairButton: React.FC<FlairButtonProps> = memo((props) => {
         >
             <HStack alignItems="center">
                 <Image alt='icon' size={6} source={props.iconSource} marginRight={0.5} />
-                <Text color="secondary.600" fontWeight={500} paddingBottom={1} fontSize="lg">{props.name}</Text>
+                <Text color="secondary.600" fontWeight={500} paddingBottom={1} fontSize={hp(2)}>{props.name}</Text>
             </HStack>
         </Button>
     );

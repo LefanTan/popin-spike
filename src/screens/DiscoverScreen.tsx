@@ -3,15 +3,23 @@ import React, { useState } from 'react'
 import ctw from '../../custom-tailwind'
 import { Center, HStack, Icon, IconButton, Input, VStack, Pressable, FlatList, Text } from 'native-base'
 import { DraggableMenu } from '../menu/DraggableMenu'
-import Animated, { runOnJS, runOnUI, withTiming } from 'react-native-reanimated'
+import Animated, { withTiming } from 'react-native-reanimated'
 import { useAnimatedStyle } from 'react-native-reanimated'
 import { useSharedValue } from 'react-native-reanimated'
 import FoundationIcon from 'react-native-vector-icons/Foundation'
 import { FlairButton, list } from '../buttons/FlairButton'
+import firestore from '@react-native-firebase/firestore'
+import { useEffect } from 'react'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import { FirestoreEvent } from '../types/FirestoreClasses'
+import { MinimizedEvent } from '../buttons/MinimizedEvent'
+import { useWindowDimensions } from 'react-native'
 
 interface DiscoverScreenProps { }
 
 export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
+    const {height} = useWindowDimensions()
+
     const [region, setRegion] = useState<Region>({
         latitude: 37.78825,
         longitude: -122.4324,
@@ -20,8 +28,9 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
     })
 
     const [menuOpened, setMenuOpened] = useState(false)
-    const dragMenuPercentage = useSharedValue(0)
+    const [events, setEventsList] = useState<FirestoreEvent[]>([])
 
+    const dragMenuPercentage = useSharedValue(0)
     const headingStyle = useAnimatedStyle(() => {
         // runOnJS(setMenuOpened)(dragMenuPercentage.value > 0)
         return {
@@ -34,6 +43,26 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
         }
     })
 
+
+    // When menu open, load data
+    useEffect(() => {
+        if (menuOpened && events.length === 0) {
+            let eventsList: FirestoreEvent[] = []
+            firestore()
+                .collection('events')
+                .get()
+                .then(querySnapshot => {
+                    querySnapshot.forEach(documentSnapshot => {
+                        let event: FirestoreEvent = documentSnapshot.data() as FirestoreEvent
+                        event.id = documentSnapshot.id
+                        eventsList.push(event)
+                    })
+                }).finally(() => {
+                    setEventsList(eventsList)
+                })
+        }
+    }, [menuOpened, events])
+
     return (
         <Center flex={1}>
             {/* <MapView
@@ -43,35 +72,34 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                 region={region}
             /> */}
 
-            {/* Min Height is how far you can drag up and vice versa */}
             {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
+            {/* Min Height is how far you can drag up and vice versa */}
             <DraggableMenu onMenuDragged={(percent) => {
                 dragMenuPercentage.value = withTiming((percent * 2), { duration: 400 })
                 // console.log('percent' + percent)
                 setMenuOpened(percent > 0)
             }}
-                minHeightOffset={45} maxHeightOffsetFromScreenHeight={120} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
-                <VStack padding={2} paddingTop={1} height="85%" alignItems="center" justifyContent="flex-start">
+                minHeightOffset={12} maxHeightOffsetFromScreenHeight={33} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
+                <VStack padding={2} paddingTop={1} height={hp(85)} alignItems="center" justifyContent="flex-start">
                     <Animated.Text style={[headingStyle, ctw`absolute top-0 w-full text-center text-4xl text-secondary-200 font-primary_400`]}>View event list</Animated.Text>
                     <Animated.View pointerEvents={menuOpened ? 'auto' : 'none'} style={[mainViewStyle, ctw`w-full h-full`]}>
                         <VStack>
-                            <HStack height={10} justifyContent="center">
+                            <HStack height={hp(5)} justifyContent="flex-start">
                                 <Input
-                                    width="90%"
-                                    height="100%"
-                                    fontSize={16}
+                                    width={wp(87.5)}
+                                    height={hp(5)}
+                                    fontSize={hp(2)}
                                     placeholder="Search event name..."
                                 />
                                 <Pressable
-                                    width="10%"
-                                    height="100%"
+                                    height={hp(5)}
                                     _pressed={{
                                         bg: 'transparent'
                                     }}
                                     padding={1}
                                 >
                                     {({ isPressed }) =>
-                                        <Icon size={8} textAlign="center" as={FoundationIcon} name="filter" color={isPressed ? 'secondary.400' : 'secondary.200'} />}
+                                        <Icon size={Math.round(height * 0.01)} textAlign="center" as={FoundationIcon} name="filter" color={isPressed ? 'secondary.400' : 'secondary.200'} />}
                                 </Pressable>
                             </HStack>
                             <FlatList
@@ -81,6 +109,14 @@ export const DiscoverScreen: React.FC<DiscoverScreenProps> = ({ }) => {
                                 data={list}
                                 renderItem={({ item }) => <FlairButton onClick={(type) => console.log(type)} name={item.name} iconSource={item.iconSource}></FlairButton>}
                                 keyExtractor={(item) => item.name}
+                            />
+                            <FlatList
+                                paddingTop={5}
+                                onRefresh={() => setEventsList([])}
+                                refreshing={events.length === 0}
+                                data={events}
+                                keyExtractor={(event: FirestoreEvent) => event.id}
+                                renderItem={({ item }) => <MinimizedEvent event={item} />}
                             />
                         </VStack>
                     </Animated.View>
