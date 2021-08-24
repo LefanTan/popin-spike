@@ -7,8 +7,8 @@ import ctw from '../../custom-tailwind';
 import { AuthContext } from '../AuthProvider';
 import { LoginScreen } from './LoginScreen';
 import { useRef } from 'react';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useWindowDimensions } from 'react-native';
 
 interface ProfileScreenProps { }
 
@@ -21,11 +21,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     const closeConfirm = () => setSignOutConfirm(false)
 
     /* Animation & Style */
-    const animatedHeightOffset = useSharedValue(20)
+    const animatedHeightOffset = useSharedValue(hp(0))
     const animatedArrowRotation = useSharedValue(0)
     const collapsibleView = useAnimatedStyle(() => {
         return {
-            height: `${animatedHeightOffset.value}%`
+            height: animatedHeightOffset.value
         }
     })
     const arrowRotation = useAnimatedStyle(() => {
@@ -34,8 +34,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
         }
     })
 
+    /* When show events change, update the animation values */
     useEffect(() => {
-        animatedHeightOffset.value =  withSpring(showEvents ? 94 : 20, { damping: 17, velocity: 2 })
+        animatedHeightOffset.value =  withSpring(showEvents ? hp(85) : hp(15), { damping: 17, velocity: 2 })
         animatedArrowRotation.value = withSpring(showEvents ? 180 : 0, { damping: 17, velocity: 2 })
     }, [showEvents])
 
@@ -47,24 +48,24 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     }
 
     return (
-        <VStack bg="primary.400" flex={1} padding={3}>
+        <VStack bg="primary.400" flex={1} padding={2}>
             <Animated.View
-                style={[collapsibleView, ctw.style(`rounded-3xl p-3 flex flex-col`, { backgroundColor: colors['secondary']['200'] })]}
+                style={[collapsibleView, ctw.style(`rounded-3xl p-2 flex flex-col`, { backgroundColor: colors['secondary']['200'] })]}
             >
-                <HStack display='flex' alignItems='center' height={65}>
+                <HStack display='flex' alignItems='center' height={hp(8)}>
                     <Image  
-                        bg="primary.400" height="100%" width="20%" borderRadius={20}
+                        bg="primary.400" borderRadius={20} size={hp(8)}
                         alt='ppic' source={require('../../assets/imgs/profile_pic.png')}
                     />
                     <Heading
-                        width="80%" fontSize={25} numberOfLines={2} paddingLeft={3}
-                        fontWeight={600} color="secondary.600"
+                        width={wp(72.5)} adjustsFontSizeToFit numberOfLines={2} paddingLeft={3}
+                        fontWeight={600} color="secondary.600" textAlign="center"
                     >
-                        Malaysian's Studentss Association
+                         Black Students' Association
                     </Heading>
                 </HStack>
                 <Pressable
-                    marginTop='2' bg="transparent" width="100%"
+                    marginTop={wp(2)} bg="transparent" width="100%"
                     style={ctw`flex flex-row justify-center items-center`}
                     onPress={() => setShowEvents(!showEvents)}
                 >
@@ -78,10 +79,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                     }
                 </Pressable>
             </Animated.View>
-
             <Button
                 marginTop='auto' marginLeft='auto'
-                borderRadius={12} width={95}
+                borderRadius={12} width={wp(20)}
                 variant='default'
                 _text={{
                     fontWeight: 700
@@ -95,19 +95,19 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                 onClose={closeConfirm}
                 isOpen={signOutConfirm}
             >
-                <AlertDialog.Content height={175} width={350} padding={2}>
+                <AlertDialog.Content height={hp(22.5)} width={wp(85)} padding={2}>
                     <AlertDialog.Header
                         paddingLeft={3}
                         _text={{
                             color: colors['secondary']['600'],
                             fontWeight: 500,
-                            fontSize: 30
+                            fontSize: hp(4)
                         }}>
                         Logout
                     </AlertDialog.Header>
                     <Text
                         color="secondary.600"
-                        fontSize={17}
+                        fontSize={hp(2.25)}
                         paddingLeft={3}
                     >
                         Are you sure you want to sign out of your account?

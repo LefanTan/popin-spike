@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeTabParamList } from './ParamList';
+import { HomeTabParamList } from './types/ParamList';
 import { DiscoverScreen } from './screens/DiscoverScreen'
 import { ProfileScreen } from './screens/ProfileScreen'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'

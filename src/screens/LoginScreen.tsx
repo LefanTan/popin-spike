@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import ctw from '../../custom-tailwind';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { AuthContext } from '../AuthProvider';
 
 interface LoginScreenProps { }
@@ -19,15 +20,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
     const [hidePass, setHidePass] = useState(true)
 
     return (
-        <VStack height="100%">
+        <VStack height={hp(100)}>
             <VStack
                 padding={5}
                 bg="primary.400"
-                width="100%" height="65%"
+                width={wp(100)} height={hp(59)}
                 borderBottomLeftRadius={25} borderBottomRightRadius={25}
             >
-                <HStack width="100%">
-                    <Heading variant='title' fontSize={40}>Sign in here!</Heading>
+                <HStack width={wp(100)}>
+                    <Heading variant='title' fontWeight={300} fontSize={hp(6)}>Sign in here!</Heading>
                     {authContext.loading &&
                         <ActivityIndicator style={ctw`ml-auto mt-2`} size="large"  color={colors['secondary']['200']}/>}
                 </HStack>
@@ -35,15 +36,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                     marginTop={8}
                     paddingLeft={1}
                 >
-                    <Text fontSize={20} fontWeight={600}>Email</Text>
+                    <Text fontSize={hp(3)} fontWeight={600}>Email</Text>
                     <Input
                         placeholder="enter email here..."
                         variant="input"
                         autoCompleteType="email"
                         autoCapitalize="none"
                         keyboardType="email-address"
-                        fontSize={20}
-                        height={10}
+                        fontSize={hp(3)}
+                        height={hp(6)}
                         value={email}
                         onChangeText={(text) => setEmail(text)}
                     />
@@ -52,23 +53,23 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                     marginTop={5}
                     paddingLeft={1}
                 >
-                    <Text fontSize={20} fontWeight={600}>Password</Text>
+                    <Text fontSize={hp(3)} fontWeight={600}>Password</Text>
                     <HStack>
                         <Input
-                            width="90%"
+                            width='90%'
+                            height={hp(6)}
                             placeholder="enter password here..."
                             variant="input"
                             secureTextEntry={hidePass}
-                            fontSize={20}
+                            fontSize={hp(3)}
                             // Fixes a bug caused by secureTextEntry that causes it to change fontFamily. 
                             ref={ref => ref && ref.setNativeProps({ style: { fontFamily: fontConfig['primary']['400']} }) }
-                            height={10}
                             value={password}
                             onChangeText={(text) => setPassword(text)}
                         />
                         <Pressable
-                            height={10}
-                            width="10%"
+                            height={hp(6)}
+                            width='10%'
                             borderBottomWidth={0.2}
                             borderBottomColor='secondary.200'
                             onPress={() => setHidePass(!hidePass)}
@@ -88,19 +89,19 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                     marginTop={3}
                     marginLeft={1}
                     color="secondary.300"
-                    fontWeight={600} fontSize={15}
+                    fontWeight={600} fontSize={hp(2)}
                 >
                     {authContext.errorMsg}
                 </Text>
                 <Button
                     marginTop="auto"
-                    marginBottom={10}
+                    marginBottom={5}
                     variant='default'
-                    height={42}
+                    height={hp(5)}
                     borderRadius={10}
-                    width="100%"
+                    width='100%'
                     _text={{
-                        fontSize: 20
+                        fontSize: hp(2.5)
                     }}
                     onPress={() => {
                         authContext.login(email, password)
