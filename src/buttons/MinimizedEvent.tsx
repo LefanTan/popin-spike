@@ -1,10 +1,8 @@
-import { Center, HStack, Image, Text, VStack, Pressable, Icon, Heading } from 'native-base';
+import { HStack, Image, Text, VStack, Pressable, Heading, useTheme } from 'native-base';
 import React from 'react'
 import { FirestoreEvent } from '../types/FirestoreClasses';
 import Ionicon from 'react-native-vector-icons/Ionicons'
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { useWindowDimensions } from 'react-native';
-import ctw from '../../custom-tailwind';
+import {  heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { list } from './FlairButton';
 
 interface MinimizedEventProps {
@@ -16,12 +14,12 @@ interface MinimizedEventProps {
 const weekday = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
-    const { height } = useWindowDimensions()
+    const { colors } = useTheme()
 
     return (
         <Pressable
             height={hp(13.5)} alignItems="center" bg="transparent"
-            onPress={props.onEventClick}    
+            onPress={props.onEventClick}
         >
             {({ isPressed }) =>
                 <HStack
@@ -35,13 +33,13 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                         width="25%" height="100%" borderRadius={15}
                     />
                     <VStack
-                        flex={4} height="100%" paddingLeft={wp(2)}
+                        flex={4} height="100%" paddingLeft={2}
                     >
                         <Heading
                             fontWeight={500} color="secondary.600"
-                            numberOfLines={2} fontSize={hp(2.5)}
+                            numberOfLines={2} fontSize={hp(2.5)} style={{ lineHeight: hp(2.5) }} marginTop={1.5}
                         >
-                            {props.event.eventName}
+                            Welcome New Egyptian Students: A newcomers support event
                         </Heading>
                         <Text
                             color="secondary.600" marginTop={-1}
@@ -50,7 +48,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                             By: {props.event.hostName}
                         </Text>
                         <HStack marginTop={1} alignItems="center">
-                            <Icon as={Ionicon} name="calendar" size={Math.round(0.006 * height)} color="primary.500"/>
+                            <Ionicon name="calendar" size={hp(2.5)} style={{ color: colors['primary']['400'] }} />
                             <Text
                                 marginTop={-1} marginLeft={1}
                                 fontSize={hp(2)} color="primary.500"
@@ -58,6 +56,15 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                                 {/* If it's today, show 'Today: time' instead */}
                                 {`${weekday[props.event.date.toDate().getDay()]}, ${props.event.date.toDate().toLocaleDateString("en-CA")}`}
                             </Text>
+                            <HStack paddingLeft={1}>
+                                {props.event.flairs.map((flairType, index) => {
+                                    let defaultIcon = list[0]['iconSource']
+                                    let iconType = list.find(item => item['name'] === flairType)
+                                    return (
+                                        <Image key={index} alt='flair' size={hp(2)} source={iconType === undefined ? defaultIcon : iconType['iconSource']} />
+                                    )
+                                })}
+                            </HStack>
                         </HStack>
                     </VStack>
                     <Pressable
@@ -66,18 +73,9 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                         onPress={props.onMapPinClick}
                     >
                         {({ isPressed }) =>
-                            <Icon as={Ionicon} name="location-sharp" size={Math.round(0.01 * height)} color={isPressed ? "primary.600" : "primary.400"} />
+                            <Ionicon name="location-sharp" size={hp(5)} style={{ color: isPressed ? colors['primary']['600'] : colors['primary']['400'] }} />
                         }
                     </Pressable>
-                    <HStack style={ctw`absolute right-2 top-1`}>
-                        {props.event.flairs.map((flairType, index) => {
-                            let defaultIcon = list[0]['iconSource']
-                            let iconType = list.find(item => item['name'] === flairType)
-                            return(
-                                <Image key={index} alt='flair' size={Math.round(height * 0.006)} source={iconType === undefined ? defaultIcon : iconType['iconSource']}/>
-                            )
-                        })}
-                    </HStack>
                 </HStack>
             }
         </Pressable>

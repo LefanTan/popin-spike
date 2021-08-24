@@ -21,11 +21,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     const closeConfirm = () => setSignOutConfirm(false)
 
     /* Animation & Style */
-    const animatedHeightOffset = useSharedValue(hp(15))
+    const animatedHeightOffset = useSharedValue(17)
     const animatedArrowRotation = useSharedValue(0)
     const collapsibleView = useAnimatedStyle(() => {
         return {
-            height: animatedHeightOffset.value
+            height: `${animatedHeightOffset.value}%`
         }
     })
     const arrowRotation = useAnimatedStyle(() => {
@@ -36,7 +36,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
 
     /* When show events change, update the animation values */
     useEffect(() => {
-        animatedHeightOffset.value =  withSpring(showEvents ? hp(85) : hp(15), { damping: 17, velocity: 2 })
+        animatedHeightOffset.value =  withSpring(showEvents ? 93.5 : 17, { damping: 17, velocity: 2 })
         animatedArrowRotation.value = withSpring(showEvents ? 180 : 0, { damping: 17, velocity: 2 })
     }, [showEvents])
 
@@ -65,7 +65,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                     </Heading>
                 </HStack>
                 <Pressable
-                    marginTop={wp(2)} bg="transparent" width="100%"
+                    marginTop={1} bg="transparent" width="100%"
                     style={ctw`flex flex-row justify-center items-center`}
                     onPress={() => setShowEvents(!showEvents)}
                 >
@@ -81,10 +81,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
             </Animated.View>
             <Button
                 marginTop='auto' marginLeft='auto'
-                borderRadius={12} width={wp(20)}
+                borderRadius={12} width={wp(20)} height="5%"
                 variant='default'
                 _text={{
-                    fontWeight: 700
+                    fontWeight: 700,
+                    fontSize: hp(2)
                 }}
                 onPress={() => setSignOutConfirm(true)}
             >
