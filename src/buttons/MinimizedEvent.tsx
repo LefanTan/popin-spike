@@ -36,7 +36,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                         flex={4} height="100%" paddingLeft={2}
                     >
                         <Heading
-                            fontWeight={500} color="secondary.600"
+                            fontWeight={500} fontFamily="heading" color="secondary.600"
                             numberOfLines={2} fontSize={hp(2.5)} style={{ lineHeight: hp(2.5) }} marginTop={1.5}
                         >
                             Welcome New Egyptian Students: A newcomers support event
@@ -45,12 +45,12 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                             color="secondary.600" marginTop={-1}
                             fontSize={hp(2)} numberOfLines={1}
                         >
-                            By: {props.event.hostName}
+                            By: University of Alberta Black Students' association
                         </Text>
                         <HStack marginTop={1} alignItems="center">
                             <Ionicon name="calendar" size={hp(2.5)} style={{ color: colors['primary']['400'] }} />
                             <Text
-                                marginTop={-1} marginLeft={1}
+                                marginTop={-0.5} marginLeft={1}
                                 fontSize={hp(2)} color="primary.500"
                             >
                                 {/* If it's today, show 'Today: time' instead */}
@@ -61,7 +61,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                                     let defaultIcon = flairsList[0].iconSource
                                     let iconType = flairsList.find(item => item.name === flairType)
                                     return (
-                                        <Image key={index} alt='flair' size={hp(2)} source={iconType === undefined ? defaultIcon : iconType['iconSource']} />
+                                        <Image key={index} alt='flair' size={6} source={iconType === undefined ? defaultIcon : iconType['iconSource']} />
                                     )
                                 })}
                             </HStack>
