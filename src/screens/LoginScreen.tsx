@@ -27,7 +27,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                 width={wp(100)} height={hp(59)}
                 borderBottomLeftRadius={25} borderBottomRightRadius={25}
             >
-                <HStack width={wp(100)}>
+                <HStack width={wp(92.5)}>
                     <Heading variant='title' fontWeight={300} fontSize={hp(6)}>Sign in here!</Heading>
                     {authContext.loading &&
                         <ActivityIndicator style={ctw`ml-auto mt-2`} size="large"  color={colors['secondary']['200']}/>}
@@ -36,14 +36,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                     marginTop={8}
                     paddingLeft={1}
                 >
-                    <Text fontSize={hp(3)} fontWeight={600}>Email</Text>
+                    <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500}>Email</Text>
                     <Input
                         placeholder="enter email here..."
                         variant="input"
                         autoCompleteType="email"
                         autoCapitalize="none"
                         keyboardType="email-address"
-                        fontSize={hp(3)}
+                        fontSize={hp(2.5)}
                         height={hp(6)}
                         value={email}
                         onChangeText={(text) => setEmail(text)}
@@ -53,7 +53,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                     marginTop={5}
                     paddingLeft={1}
                 >
-                    <Text fontSize={hp(3)} fontWeight={600}>Password</Text>
+                    <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500}>Password</Text>
                     <HStack>
                         <Input
                             width='90%'
@@ -61,7 +61,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                             placeholder="enter password here..."
                             variant="input"
                             secureTextEntry={hidePass}
-                            fontSize={hp(3)}
+                            fontSize={hp(2.5)}
                             // Fixes a bug caused by secureTextEntry that causes it to change fontFamily. 
                             ref={ref => ref && ref.setNativeProps({ style: { fontFamily: fontConfig['primary']['400']} }) }
                             value={password}

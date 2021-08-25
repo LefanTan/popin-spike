@@ -58,10 +58,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                         alt='ppic' source={require('../../assets/imgs/profile_pic.png')}
                     />
                     <Heading
-                        width={wp(72.5)} adjustsFontSizeToFit numberOfLines={2} paddingLeft={3}
-                        fontWeight={600} color="secondary.600" textAlign="center"
+                        width={wp(72.5)}numberOfLines={2} paddingLeft={3} fontSize={22.5}
+                        fontWeight={600} color="secondary.700" textAlign="center"
                     >
-                         Black Students' Association
+                        {/* Maximum 55 characters */}
+                         Future of the world
                     </Heading>
                 </HStack>
                 <Pressable

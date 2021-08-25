@@ -5,13 +5,13 @@
 export const NBColor = {
     // 400 is the standard shade
     primary: {
-        100: '#e16772',
-        200: '#dd515d',
-        300: '#d83c49',
-        400: '#d42635',
-        500: '#bf2230',
-        600: '#aa1e2a',
-        700: '#941b25'
+        100: '#d2646e',
+        200: '#cc4e59',
+        300: '#c53845',
+        400: '#b01725',
+        500: '#ac1f2b',
+        600: '#991b26',
+        700: '#861822'
     },
     secondary: {
         100: '#fcfcfc',
@@ -23,6 +23,9 @@ export const NBColor = {
         700: '#4b4949',
         800: '#2d2b2c',
         900: '#323031'
+    },
+    shade: {
+        100: '#ebe4e5'
     }
 }
 
@@ -33,11 +36,19 @@ export const NBFontConfig = {
         500: 'Quicksand-Medium',
         600: 'Quicksand-SemiBold',
         700: 'Quicksand-Bold',
-    }
+    },
+    secondary: {
+        200: 'Urbanist-Thin',
+        300: 'Urbanist-Light',
+        400: 'Urbanist-Regular',
+        500: 'Urbanist-Medium',
+        600: 'Urbanist-SemiBold',
+        700: 'Urbanist-Bold',
+    },
 }
 
 export const NBFont = {
-    heading: 'primary',
+    heading: 'secondary',
     body: 'primary',
     mono: 'primary'
 }
@@ -47,12 +58,12 @@ export const NBComponents = {
     Text: {
         defaultProps: {
             fontFamily: 'body',
-            fontWeight: '500',
             fontSize: 20,
         },
         // react native style prop
         baseStyle: {
             color: 'secondary.100',
+            fontWeight: 400
         },
         // Custom variation for this component, set using variant prop
         variants: {
@@ -66,7 +77,6 @@ export const NBComponents = {
     },
     Input:{
         defaultProps:{
-            fontWeight: 400,
             bg: 'secondary.200',
             variant: "filled"
         },
@@ -77,6 +87,7 @@ export const NBComponents = {
             borderRadius: 10,
             placeholderTextColor: "secondary.500",
             color: 'primary.400',
+            fontWeight: 500,
         },
         variants:{
             input:{
@@ -95,7 +106,8 @@ export const NBComponents = {
         variants: {
             title: {
                 color: 'secondary.200',
-                fontWeight: 400
+                fontWeight: 500,
+                fontFamily: 'heading'
             }
         }
     },
