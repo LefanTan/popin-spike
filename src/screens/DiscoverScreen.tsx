@@ -14,7 +14,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { FirestoreEvent } from '../types/FirestoreClasses'
 import { MinimizedEvent } from '../buttons/MinimizedEvent'
 import { DiscoverStackNavProps } from '../types/ParamList'
-import { flairsList } from '../datastructure/flairsList'
+import { flairsList } from '../data/flairsList'
 
 export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">) => {
     const { colors } = useTheme()

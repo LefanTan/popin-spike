@@ -30,3 +30,7 @@ Currently using Typescript for the project.
 8. [Responsive screen](https://github.com/marudy/react-native-responsive-screen) : Library with tools to help with creating responsive layout
 
 9. [Image Viewer](https://github.com/ascoders/react-native-image-viewer): Library to pan and scroll through images
+
+10. [DateTime Picker](https://github.com/mmazzarolo/react-native-modal-datetime-picker) : Library for showing a modal for selecting date and time
+
+11. [Material Ripple](https://www.npmjs.com/package/react-native-material-ripple): For ripple effect when clicking buttons
