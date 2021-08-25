@@ -58,11 +58,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                         alt='ppic' source={require('../../assets/imgs/profile_pic.png')}
                     />
                     <Heading
-                        width={wp(72.5)}numberOfLines={2} paddingLeft={3} fontSize={22.5}
+                        width={wp(72.5)} adjustsFontSizeToFit numberOfLines={2} paddingLeft={3}
                         fontWeight={600} color="secondary.700" textAlign="center"
                     >
-                        {/* Maximum 55 characters */}
-                         Future of the world
+                        {/* Maximum 50 characters */}
+                         The only person that has been rekt consecutively many times
                     </Heading>
                 </HStack>
                 <Pressable

@@ -1,11 +1,13 @@
-import { Box, Center, FlatList, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, useTheme, VStack } from 'native-base';
+import { Box, Button, Center, FlatList, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, useTheme, VStack } from 'native-base';
 import React from 'react'
-import { mockPhotos } from '../datastructure/mockPhotos';
+import { mockPhotos } from '../data/mockPhotos';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { DiscoverStackNavProps } from '../types/ParamList';
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Ionicon from 'react-native-vector-icons/Ionicons'
+import FoundationIcon from 'react-native-vector-icons/Foundation'
 import ctw from '../../custom-tailwind';
+import Ripple from 'react-native-material-ripple';
 
 export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event">) => {
     const { colors } = useTheme()
@@ -41,9 +43,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                         </Heading>
                         <HStack paddingY={3}>
                             <Heading
-                                width="10%"
-                                numberOfLines={1} fontSize={20}
-                                fontWeight={500}
+                                numberOfLines={1} fontSize={20} fontWeight={500} marginRight={2}
                             >
                                 By:
                             </Heading>
@@ -54,8 +54,29 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                                 University Of Alberta Black Students' Association
                             </Heading>
                         </HStack>
-                        <VStack bg="shade.100" borderRadius={20} height={300}>
-
+                        <Ripple
+                            style={ctw`rounded-xl py-1 flex justify-center items-center bg-primary-400`}
+                        >
+                            <Text fontWeight={600} marginBottom={1}>Pop In here!</Text>
+                        </Ripple>
+                        <VStack bg="shade.100" borderRadius={20} height={500} marginTop={3} paddingX={5} paddingY={3}>
+                            <Heading fontWeight={400} fontSize={30}>Details</Heading>
+                            <HStack marginTop={3} alignItems='center'>
+                                <Ionicon name="location-sharp" size={hp(4)} style={ctw`text-primary-400 absolute -ml-1 mr-1`} />
+                                <Text width="90%" numberOfLines={2} color="secondary.700" marginLeft={9}>10945 88 ave NW, Edmonton, Alberta</Text>
+                            </HStack>
+                            <HStack marginTop={1} alignItems='center'>
+                                <Ionicon name="people-circle-sharp" size={hp(4)} style={ctw`text-primary-400 absolute -ml-1 mr-1`} />
+                                <Text numberOfLines={2} color="secondary.700" marginLeft={9}>200 people popped in</Text>
+                            </HStack>
+                            <HStack marginTop={1} alignItems='center'>
+                                <Ionicon name="calendar" size={hp(3)} style={ctw`text-primary-400 absolute mr-3`} />
+                                <Text flex={2} numberOfLines={2} color="secondary.700" marginLeft={9}>Monday, August 15, 1PM - 12:30AM</Text>
+                            </HStack>
+                            <HStack marginTop={1} alignItems='center'>
+                                <FoundationIcon name="dollar" size={hp(5)} style={ctw`text-primary-400 absolute ml-1 mr-4`} />
+                                <Text numberOfLines={2} color="secondary.700" marginLeft={9}>CAD 5</Text>
+                            </HStack>
                         </VStack>
                     </VStack>
                 </VStack>
@@ -65,15 +86,12 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                 bg="transparent" display="flex" alignItems="center"
                 position="absolute" width="100%" height="9%"
             >
-                <Pressable
-                    width={hp(6)} height={hp(6)} borderRadius={50} marginLeft={2} bg="primary.400"
-                    display="flex" justifyContent="center" alignItems="center"
-                    onPress={() => navigation.goBack()} _pressed={{ bg: colors['primary']['500'] }}
+                <Ripple
+                    style={ctw.style(`ml-2 bg-primary-400 flex justify-center items-center`, {width: hp(6), height: hp(6), borderRadius: 50})}
+                    onPress={() => navigation.goBack()}
                 >
-                    {({ isPressed }) =>
-                        <AntDesign name="arrowleft" size={hp(4.5)} style={{ color: isPressed ? colors['secondary']['300'] : colors['secondary']['200'] }} />
-                    }
-                </Pressable>
+                    <AntDesign name="arrowleft" size={hp(4.5)} style={ctw`text-secondary-200`} />
+                </Ripple>
             </HStack>
         </Flex>
     );
