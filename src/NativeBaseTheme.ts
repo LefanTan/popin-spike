@@ -77,7 +77,7 @@ export const NBComponents = {
     },
     Input:{
         defaultProps:{
-            bg: 'primary.100',
+            bg: 'primary.200',
             variant: "filled"
         },
         baseStyle:{
@@ -121,11 +121,11 @@ export const NBComponents = {
         },
         variants: {
             default:{
-                bg: 'secondary.200',
+                bg: 'secondary.400',
                 paddingX: 1.5,
                 paddingY: 1,
-                _text: {color: 'primary.400'},
-                _pressed: {bg : 'secondary.300'}
+                _text: {color: 'primary.200'},
+                _pressed: {bg : 'secondary.500'}
             }
         }
     }

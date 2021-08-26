@@ -71,9 +71,13 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo((props) => {
         // Make the Animated.View draggble
         <Animated.View
             style={[draggableMenuStyle, {
-                backgroundColor: colors['primary']['200'], height: height,
+                backgroundColor: colors['primary']['100'], height: height,
                 borderTopLeftRadius: 20, borderTopRightRadius: 20,
                 position: 'absolute', left: 0, right: 0,
+                shadowOffset: { width: 0, height: 12 },
+                shadowColor: 'black',
+                shadowOpacity: 1,
+                elevation: 17
             }]}
         >
             <PanGestureHandler onGestureEvent={menuGestureHandler} >

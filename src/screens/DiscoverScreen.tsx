@@ -63,7 +63,7 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
     }, [menuOpened, events])
 
     return (
-        <Center bg="primary.100" flex={1}>
+        <Center bg="primary.300" flex={1}>
             {/* <MapView
                 provider={PROVIDER_GOOGLE}
                 style={ctw`w-full h-full`}
