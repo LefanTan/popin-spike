@@ -8,18 +8,26 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
 import FoundationIcon from 'react-native-vector-icons/Foundation'
 import ctw from '../../custom-tailwind';
 import Ripple from 'react-native-material-ripple';
+import moment from 'moment';
+import { FlairButton } from '../buttons/FlairButton';
+import { Flair } from './Flair';
+import { flairsList } from '../data/flairsList';
 
 export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event">) => {
     const { colors } = useTheme()
+    const startDate = moment(route.params.startDate.toDate())
+    const endDate = moment(route.params.endDate.toDate())
+    const sameDay = startDate.format('DD MMM') === endDate.format('DD MMM')
 
+    console.log(sameDay)
     return (
         <Flex height="100%">
             <ScrollView bg="secondary.200">
                 <VStack>
-                    <VStack
+                    <HStack
                         bg="primary.400"
                         borderBottomRightRadius={15} borderBottomLeftRadius={15} paddingBottom={3}
-                        height={hp(30)} display="flex" alignItems="center" justifyContent="flex-end"
+                        height={hp(30)} display="flex" justifyContent="center" alignItems="flex-end"
                     >
                         <FlatList
                             data={mockPhotos}
@@ -30,16 +38,16 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                                     borderRadius={15} source={item.props.source}
                                 />}
                             horizontal showsHorizontalScrollIndicator={false}
-                            width="95%" maxHeight={hp(20)} contentContainerStyle={ctw`flex items-end`}
+                            marginLeft={2} marginRight={2} maxHeight={hp(20)} contentContainerStyle={ctw`flex items-end`}
                         />
-                    </VStack>
+                    </HStack>
                     <VStack paddingX={5} paddingY={5}>
                         <Heading
                             fontSize={35} fontFamily="heading" fontWeight={600}
                             numberOfLines={4} color="secondary.700"
                         >
                             {/* Maximum 70 characters */}
-                            Welcome New Egyptian
+                            {route.params.eventName}
                         </Heading>
                         <HStack paddingY={3}>
                             <Heading
@@ -51,32 +59,45 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                                 fontSize={20} fontWeight={400}
                                 numberOfLines={2} color="secondary.700"
                             >
-                                University Of Alberta Black Students' Association
+                                {route.params.hostName}
                             </Heading>
+                        </HStack>  
+                        <HStack>
+                            {route.params.flairs.map(flairsType =>{
+                                let iconSource = flairsList.find(item => item.name === flairsType) ?? flairsList[0]
+                                return(
+                                <Flair 
+                                    name={flairsType}  iconSource={iconSource['iconSource']} 
+                                    style={{ backgroundColor: colors['shade']['100'], borderRadius: 15, padding: 5, marginRight: 3}}
+                                />)
+                            })}
                         </HStack>
                         <Ripple
-                            style={ctw`rounded-xl py-1 flex justify-center items-center bg-primary-400`}
+                            style={ctw`rounded-xl mt-2 py-1 flex justify-center items-center bg-primary-400`}
                         >
-                            <Text fontWeight={600} marginBottom={1}>Pop In here!</Text>
+                            <Text fontWeight={600} fontSize={25} marginBottom={1}>Pop In here!</Text>
                         </Ripple>
-                        <VStack bg="shade.100" borderRadius={20} height={500} marginTop={3} paddingX={5} paddingY={3}>
+                        <VStack bg="shade.100" borderRadius={20} marginTop={3} paddingX={5} paddingY={4}>
                             <Heading fontWeight={400} fontSize={30}>Details</Heading>
                             <HStack marginTop={3} alignItems='center'>
                                 <Ionicon name="location-sharp" size={hp(4)} style={ctw`text-primary-400 absolute -ml-1 mr-1`} />
-                                <Text width="90%" numberOfLines={2} color="secondary.700" marginLeft={9}>10945 88 ave NW, Edmonton, Alberta</Text>
+                                <Text underline width="90%" numberOfLines={2} color="secondary.700" marginLeft={9}>{route.params.address}</Text>
                             </HStack>
                             <HStack marginTop={1} alignItems='center'>
                                 <Ionicon name="people-circle-sharp" size={hp(4)} style={ctw`text-primary-400 absolute -ml-1 mr-1`} />
-                                <Text numberOfLines={2} color="secondary.700" marginLeft={9}>200 people popped in</Text>
+                                <Text numberOfLines={2} color="secondary.700" marginLeft={9}>{route.params.poppedInAmount} people popped in</Text>
                             </HStack>
                             <HStack marginTop={1} alignItems='center'>
                                 <Ionicon name="calendar" size={hp(3)} style={ctw`text-primary-400 absolute mr-3`} />
-                                <Text flex={2} numberOfLines={2} color="secondary.700" marginLeft={9}>Monday, August 15, 1PM - 12:30AM</Text>
+                                <Text flex={2} numberOfLines={2} color="secondary.700" marginLeft={9}>
+                                    {`${startDate.format('dddd MMM DD : h:MMa')} - ${sameDay ? '' : endDate.format(`dddd MMM DD :`)} ${endDate.format(`h:MMa`)}`}
+                                </Text>
                             </HStack>
-                            <HStack marginTop={1} alignItems='center'>
+                            {route.params.price && <HStack marginTop={1} alignItems='center'>
                                 <FoundationIcon name="dollar" size={hp(5)} style={ctw`text-primary-400 absolute ml-1 mr-4`} />
-                                <Text numberOfLines={2} color="secondary.700" marginLeft={9}>CAD 5</Text>
-                            </HStack>
+                                <Text numberOfLines={2} color="secondary.700" marginLeft={9}>CAD {route.params.price}</Text>
+                            </HStack>}
+                            <Text color="secondary.700" marginTop={2}>{route.params.description}</Text>
                         </VStack>
                     </VStack>
                 </VStack>
@@ -86,12 +107,14 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                 bg="transparent" display="flex" alignItems="center"
                 position="absolute" width="100%" height="9%"
             >
-                <Ripple
-                    style={ctw.style(`ml-2 bg-primary-400 flex justify-center items-center`, {width: hp(6), height: hp(6), borderRadius: 50})}
-                    onPress={() => navigation.goBack()}
+                <Pressable
+                    style={ctw.style(`ml-2 bg-primary-400 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 })}
+                    onPress={() => navigation.goBack()} _pressed={{ bg: colors['primary']['600'] }}
                 >
-                    <AntDesign name="arrowleft" size={hp(4.5)} style={ctw`text-secondary-200`} />
-                </Ripple>
+                    {({ isPressed }) =>
+                        <AntDesign name="arrowleft" size={hp(4.5)} style={{ color: isPressed ? colors['secondary']['400'] : colors['secondary']['200'] }} />
+                    }
+                </Pressable>
             </HStack>
         </Flex>
     );

@@ -6,7 +6,7 @@ export type FirestoreEvent = {
     address : string
     poppedInAmount: number
     startDate: FirebaseFirestoreTypes.Timestamp
-    endDate?: FirebaseFirestoreTypes.Timestamp
+    endDate: FirebaseFirestoreTypes.Timestamp
     description: string
     eventName: string
     hostName: string

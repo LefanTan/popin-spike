@@ -21,7 +21,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({ }) => {
             initialRouteName="DiscoverStack"
             screenOptions={{
                 headerShown: false,
-                tabBarActiveTintColor: colors['primary']['400'],
+                tabBarActiveTintColor: colors['secondary']['400'],
                 tabBarLabelStyle: {
                     fontFamily: fontConfig['primary']['600']['normal']
                 },
