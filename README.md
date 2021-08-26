@@ -34,3 +34,5 @@ Currently using Typescript for the project.
 10. [DateTime Picker](https://github.com/mmazzarolo/react-native-modal-datetime-picker) : Library for showing a modal for selecting date and time
 
 11. [Material Ripple](https://www.npmjs.com/package/react-native-material-ripple): For ripple effect when clicking buttons
+
+12. [Image Carousel](https://github.com/meliorence/react-native-snap-carousel)
