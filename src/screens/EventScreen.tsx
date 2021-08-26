@@ -19,13 +19,12 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
     const endDate = moment(route.params.endDate.toDate())
     const sameDay = startDate.format('DD MMM') === endDate.format('DD MMM')
 
-    console.log(sameDay)
     return (
         <Flex height="100%">
-            <ScrollView bg="secondary.200">
+            <ScrollView bg="primary.200">
                 <VStack>
                     <HStack
-                        bg="primary.400"
+                        bg="secondary.400"
                         borderBottomRightRadius={15} borderBottomLeftRadius={15} paddingBottom={3}
                         height={hp(30)} display="flex" justifyContent="center" alignItems="flex-end"
                     >
@@ -44,60 +43,53 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                     <VStack paddingX={5} paddingY={5}>
                         <Heading
                             fontSize={35} fontFamily="heading" fontWeight={600}
-                            numberOfLines={4} color="secondary.700"
+                            numberOfLines={4} color="primary.700"
                         >
                             {/* Maximum 70 characters */}
                             {route.params.eventName}
                         </Heading>
-                        <HStack paddingY={3}>
-                            <Heading
-                                numberOfLines={1} fontSize={20} fontWeight={500} marginRight={2}
-                            >
-                                By:
-                            </Heading>
-                            <Heading width="90%"
-                                fontSize={20} fontWeight={400}
-                                numberOfLines={2} color="secondary.700"
-                            >
-                                {route.params.hostName}
-                            </Heading>
-                        </HStack>  
+                        <Heading width="90%"
+                            fontSize={20} fontWeight={400} paddingY={3}
+                            numberOfLines={2} color="primary.700"
+                        >
+                            {route.params.hostName}
+                        </Heading>
                         <HStack>
-                            {route.params.flairs.map(flairsType =>{
+                            {route.params.flairs.map(flairsType => {
                                 let iconSource = flairsList.find(item => item.name === flairsType) ?? flairsList[0]
-                                return(
-                                <Flair 
-                                    name={flairsType}  iconSource={iconSource['iconSource']} 
-                                    style={{ backgroundColor: colors['shade']['100'], borderRadius: 15, padding: 5, marginRight: 3}}
-                                />)
+                                return (
+                                    <Flair 
+                                        name={flairsType} iconSource={iconSource['iconSource']} textColor="primary.700"
+                                        style={{ backgroundColor: colors['shade']['100'], borderRadius: 15, padding: 5, marginRight: 3 }}
+                                    />)
                             })}
                         </HStack>
                         <Ripple
-                            style={ctw`rounded-xl mt-2 py-1 flex justify-center items-center bg-primary-400`}
+                            style={ctw`rounded-xl mt-2 py-1 flex justify-center items-center bg-secondary-400`}
                         >
-                            <Text fontWeight={600} fontSize={25} marginBottom={1}>Pop In here!</Text>
+                            <Text fontWeight={600} fontSize={25} marginBottom={1} color="primary.200">Pop In here!</Text>
                         </Ripple>
                         <VStack bg="shade.100" borderRadius={20} marginTop={3} paddingX={5} paddingY={4}>
                             <Heading fontWeight={400} fontSize={30}>Details</Heading>
                             <HStack marginTop={3} alignItems='center'>
-                                <Ionicon name="location-sharp" size={hp(4)} style={ctw`text-primary-400 absolute -ml-1 mr-1`} />
-                                <Text underline width="90%" numberOfLines={2} color="secondary.700" marginLeft={9}>{route.params.address}</Text>
+                                <Ionicon name="location-sharp" size={hp(4)} style={ctw`text-secondary-400 absolute -ml-1 mr-1`} />
+                                <Text underline width="90%" numberOfLines={2} color="primary.700" marginLeft={9}>{route.params.address}</Text>
                             </HStack>
                             <HStack marginTop={1} alignItems='center'>
-                                <Ionicon name="people-circle-sharp" size={hp(4)} style={ctw`text-primary-400 absolute -ml-1 mr-1`} />
-                                <Text numberOfLines={2} color="secondary.700" marginLeft={9}>{route.params.poppedInAmount} people popped in</Text>
+                                <Ionicon name="people-circle-sharp" size={hp(4)} style={ctw`text-secondary-400 absolute -ml-1 mr-1`} />
+                                <Text numberOfLines={2} color="primary.700" marginLeft={9}>{route.params.poppedInAmount} people popped in</Text>
                             </HStack>
                             <HStack marginTop={1} alignItems='center'>
-                                <Ionicon name="calendar" size={hp(3)} style={ctw`text-primary-400 absolute mr-3`} />
-                                <Text flex={2} numberOfLines={2} color="secondary.700" marginLeft={9}>
+                                <Ionicon name="calendar" size={hp(3)} style={ctw`text-secondary-400 absolute mr-3`} />
+                                <Text flex={2} numberOfLines={2} color="primary.700" marginLeft={9}>
                                     {`${startDate.format('dddd MMM DD : h:MMa')} - ${sameDay ? '' : endDate.format(`dddd MMM DD :`)} ${endDate.format(`h:MMa`)}`}
                                 </Text>
                             </HStack>
                             {route.params.price && <HStack marginTop={1} alignItems='center'>
-                                <FoundationIcon name="dollar" size={hp(5)} style={ctw`text-primary-400 absolute ml-1 mr-4`} />
-                                <Text numberOfLines={2} color="secondary.700" marginLeft={9}>CAD {route.params.price}</Text>
+                                <FoundationIcon name="dollar" size={hp(5)} style={ctw`text-secondary-400 absolute ml-1 mr-4`} />
+                                <Text numberOfLines={2} color="primary.700" marginLeft={9}>CAD {route.params.price}</Text>
                             </HStack>}
-                            <Text color="secondary.700" marginTop={2}>{route.params.description}</Text>
+                            <Text color="primary.700" marginTop={2}>{route.params.description}</Text>
                         </VStack>
                     </VStack>
                 </VStack>

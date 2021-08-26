@@ -63,7 +63,7 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
     }, [menuOpened, events])
 
     return (
-        <Center flex={1}>
+        <Center bg="primary.100" flex={1}>
             {/* <MapView
                 provider={PROVIDER_GOOGLE}
                 style={ctw`w-full h-full`}
@@ -101,7 +101,7 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
                                     {({ isPressed }) =>
                                         <FoundationIcon
                                             size={hp(4)} name="filter"
-                                            style={ctw.style(`text-center`, { color: isPressed ? colors['secondary']['400'] : colors['secondary']['200'] })}
+                                            style={ctw.style(`text-center`, { color: isPressed ? colors['secondary']['500'] : colors['secondary']['400'] })}
                                         />}
                                 </Pressable>
                             </HStack>

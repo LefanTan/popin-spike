@@ -12,14 +12,14 @@ interface FlairButtonProps {
 export const FlairButton: React.FC<FlairButtonProps> = memo((props) => {
     return (
         <Button
-            bg="secondary.200"
+            bg="secondary.400"
             _pressed={{
-                bg: 'secondary.400'
+                bg: 'secondary.500'
             }}
             borderRadius={20} paddingX={2} paddingY={1} marginRight={1}
             onPress={() => props.onClick(props.name)}
         >
-            <Flair style={{backgroundColor: 'transparent'}} name={props.name} iconSource={props.iconSource}/>
+            <Flair textColor="primary.200" style={{backgroundColor: 'transparent'}} name={props.name} iconSource={props.iconSource}/>
         </Button>
     );
 })
