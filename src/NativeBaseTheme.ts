@@ -4,7 +4,7 @@
 
 export const NBColor = {
     // 400 is the standard shade
-    primary: {
+    secondary: {
         100: '#d2646e',
         200: '#cc4e59',
         300: '#c53845',
@@ -13,7 +13,7 @@ export const NBColor = {
         600: '#991b26',
         700: '#861822'
     },
-    secondary: {
+    primary: {
         100: '#fcfcfc',
         200: '#f2eded',
         300: '#d4cfcf',
@@ -77,7 +77,7 @@ export const NBComponents = {
     },
     Input:{
         defaultProps:{
-            bg: 'secondary.200',
+            bg: 'primary.200',
             variant: "filled"
         },
         baseStyle:{
@@ -121,11 +121,11 @@ export const NBComponents = {
         },
         variants: {
             default:{
-                bg: 'secondary.200',
+                bg: 'secondary.400',
                 paddingX: 1.5,
                 paddingY: 1,
-                _text: {color: 'primary.400'},
-                _pressed: {bg : 'secondary.300'}
+                _text: {color: 'primary.200'},
+                _pressed: {bg : 'secondary.500'}
             }
         }
     }

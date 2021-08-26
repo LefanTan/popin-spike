@@ -21,7 +21,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     const closeConfirm = () => setSignOutConfirm(false)
 
     /* Animation & Style */
-    const animatedHeightOffset = useSharedValue(17)
+    const animatedHeightOffset = useSharedValue(20)
     const animatedArrowRotation = useSharedValue(0)
     const collapsibleView = useAnimatedStyle(() => {
         return {
@@ -36,7 +36,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
 
     /* When show events change, update the animation values */
     useEffect(() => {
-        animatedHeightOffset.value =  withSpring(showEvents ? 93.5 : 17, { damping: 17, velocity: 2 })
+        animatedHeightOffset.value =  withSpring(showEvents ? 93.5 : 20, { damping: 17, velocity: 2 })
         animatedArrowRotation.value = withSpring(showEvents ? 180 : 0, { damping: 17, velocity: 2 })
     }, [showEvents])
 
@@ -48,21 +48,21 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
     }
 
     return (
-        <VStack bg="primary.400" flex={1} padding={2}>
+        <VStack bg="primary.100" flex={1} padding={2}>
             <Animated.View
-                style={[collapsibleView, ctw.style(`rounded-3xl p-2 flex flex-col`, { backgroundColor: colors['secondary']['200'] })]}
+                style={[collapsibleView, ctw.style(`rounded-3xl p-2 flex flex-col`, { backgroundColor: colors['primary']['200'] })]}
             >
-                <HStack display='flex' alignItems='center' height={hp(8)}>
+                <HStack display='flex' alignItems='center' height={hp(10)}>
                     <Image  
-                        bg="primary.400" borderRadius={20} size={hp(8)}
+                        bg="secondary.400" borderRadius={20} size={hp(10)}
                         alt='ppic' source={require('../../assets/imgs/profile_pic.png')}
                     />
                     <Heading
                         width={wp(72.5)} adjustsFontSizeToFit numberOfLines={2} paddingLeft={3}
-                        fontWeight={600} color="secondary.700" textAlign="center"
+                        fontWeight={600} color="primary.700" textAlign="center"
                     >
                         {/* Maximum 50 characters */}
-                         The only person that has been rekt consecutively many times
+                         University of Alberta Black Students' Association
                     </Heading>
                 </HStack>
                 <Pressable
@@ -72,9 +72,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                 >
                     {({ isPressed }) =>
                         <>
-                            <Text color={isPressed ? "primary.700" : "primary.500"} fontWeight={500} marginBottom={1} marginRight={1}>Manage Your Events</Text>
+                            <Text color={isPressed ? "secondary.500" : "secondary.400"} fontWeight={500} marginBottom={1} marginRight={1}>Manage Your Events</Text>
                             <Animated.View style={arrowRotation}>
-                                <Icon as={AntIcons} name="caretdown" rotation={200} marginBottom='1' size={6} color={isPressed ? "primary.700" : "primary.500"} />
+                                <Icon as={AntIcons} name="caretdown" rotation={200} marginBottom='1' size={6} color={isPressed ? "secondary.500" : "secondary.400"} />
                             </Animated.View>
                         </>
                     }
@@ -101,14 +101,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                     <AlertDialog.Header
                         paddingLeft={3}
                         _text={{
-                            color: colors['secondary']['600'],
+                            color: colors['primary']['700'],
                             fontWeight: 500,
                             fontSize: hp(4)
                         }}>
                         Logout
                     </AlertDialog.Header>
                     <Text
-                        color="secondary.600"
+                        color="primary.700"
                         fontSize={hp(2.25)}
                         paddingLeft={3}
                     >
@@ -116,13 +116,13 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                     </Text>
                     <AlertDialog.Footer>
                         <Pressable onPress={closeConfirm}>
-                            {({ isPressed }) => <Icon as={MaterialCommunityIcons} size={8} name="cancel" color={isPressed ? 'primary.700' : "primary.400"} />}
+                            {({ isPressed }) => <Icon as={MaterialCommunityIcons} size={8} name="cancel" color={isPressed ? 'secondary.500' : "secondary.400"} />}
                         </Pressable>
                         <Pressable marginLeft={4} onPress={() => {
                             closeConfirm()
                             authContext.logout()
                         }}>
-                            {({ isPressed }) => <Icon as={MaterialCommunityIcons} size={9} name="check" color={isPressed ? 'primary.700' : "primary.400"} />}
+                            {({ isPressed }) => <Icon as={MaterialCommunityIcons} size={9} name="check" color={isPressed ? 'secondary.500' : "secondary.400"} />}
                         </Pressable>
                     </AlertDialog.Footer>
                 </AlertDialog.Content>
