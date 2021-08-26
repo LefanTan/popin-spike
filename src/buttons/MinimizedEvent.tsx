@@ -6,6 +6,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { flairsList } from '../data/flairsList'
 import Ripple from 'react-native-material-ripple'
 import ctw from '../../custom-tailwind';
+import moment from 'moment';
 
 interface MinimizedEventProps {
     event: FirestoreEvent,
@@ -14,9 +15,11 @@ interface MinimizedEventProps {
 }
 
 const weekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
 export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
     const { colors } = useTheme()
+    const startDate = moment(props.event.startDate.toDate())
 
     return (
         <HStack
@@ -40,30 +43,29 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                     >
                         <Heading
                             fontWeight={500} fontFamily="heading" color="secondary.600"
-                            numberOfLines={2} fontSize={hp(2.5)} style={{ lineHeight: hp(2.5) }} marginTop={1.5}
+                            numberOfLines={2} fontSize={hp(3)} style={{ lineHeight: hp(3) }} marginTop={1.5}
                         >
-                            Welcome New Egyptian Students: A newcomers support event
+                            {props.event.eventName}
                         </Heading>
                         <Text
-                            color="secondary.600" fontSize={hp(2)} numberOfLines={1}
+                            color="secondary.600" fontSize={hp(2)} numberOfLines={1} marginTop={-1}
                         >
-                            By: University of Alberta Black Students' association
+                            By: {props.event.hostName}
                         </Text>
-                        <HStack marginTop={1} alignItems="center">
+                        <HStack alignItems="center">
                             <Ionicon name="calendar" size={hp(2.5)} style={{ color: colors['primary']['400'] }} />
                             <Text
                                 marginTop={-0.5} marginLeft={1}
                                 fontSize={hp(2)} color="primary.500"
                             >
-                                {/* If it's today, show 'Today: time' instead */}
-                                {`${weekday[props.event.startDate.toDate().getDay()]}, ${props.event.startDate.toDate().toLocaleDateString("en-CA")}`}
+                                {`${startDate.format('ddd DD MMM - h:mm a')}`}
                             </Text>
                             <HStack paddingLeft={1}>
                                 {props.event.flairs.map((flairType, index) => {
                                     let defaultIcon = flairsList[0].iconSource
                                     let iconType = flairsList.find(item => item.name === flairType)
                                     return (
-                                        <Image key={index} alt='flair' size={wp(3)} source={iconType === undefined ? defaultIcon : iconType['iconSource']} />
+                                        <Image key={index} alt='flair' size={wp(3.5)} source={iconType === undefined ? defaultIcon : iconType['iconSource']} />
                                     )
                                 })}
                             </HStack>
