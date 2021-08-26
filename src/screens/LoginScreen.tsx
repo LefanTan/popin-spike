@@ -20,17 +20,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
     const [hidePass, setHidePass] = useState(true)
 
     return (
-        <VStack height={hp(100)}>
+        <VStack bg="primary.100" height={hp(100)}>
             <VStack
                 padding={5}
-                bg="primary.400"
+                bg="primary.200"
                 width={wp(100)} height={hp(59)}
                 borderBottomLeftRadius={25} borderBottomRightRadius={25}
             >
                 <HStack width={wp(92.5)}>
                     <Heading variant='title' fontWeight={300} fontSize={hp(6)}>Sign in here!</Heading>
                     {authContext.loading &&
-                        <ActivityIndicator style={ctw`ml-auto mt-2`} size="large"  color={colors['secondary']['200']}/>}
+                        <ActivityIndicator style={ctw`ml-auto mt-2`} size="large"  color={colors['secondary']['400']}/>}
                 </HStack>
                 <VStack
                     marginTop={8}
@@ -71,7 +71,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                             height={hp(6)}
                             width='10%'
                             borderBottomWidth={0.2}
-                            borderBottomColor='secondary.200'
+                            borderBottomColor='secondary.400'
                             onPress={() => setHidePass(!hidePass)}
                             display="flex" justifyContent="center"
                         >
@@ -79,7 +79,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ }) => {
                                 <Icon
                                     as={Ionicons} textAlign="center" size={5}
                                     name={hidePass ? 'eye-off' : 'eye'}
-                                    color={isPressed ? 'secondary.300' : 'secondary.200'}
+                                    color={isPressed ? 'secondary.500' : 'secondary.400'}
                                 />
                             }
                         </Pressable>

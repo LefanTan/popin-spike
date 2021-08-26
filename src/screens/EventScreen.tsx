@@ -25,8 +25,8 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                 <VStack>
                     <HStack
                         bg="secondary.400"
-                        borderBottomRightRadius={15} borderBottomLeftRadius={15} paddingBottom={3}
-                        height={hp(30)} display="flex" justifyContent="center" alignItems="flex-end"
+                        borderRadius={15} paddingY={3} marginTop={20}
+                        height={hp(23)} display="flex" justifyContent="center" alignItems="center"
                     >
                         <FlatList
                             data={mockPhotos}
@@ -59,7 +59,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                                 let iconSource = flairsList.find(item => item.name === flairsType) ?? flairsList[0]
                                 return (
                                     <Flair 
-                                        name={flairsType} iconSource={iconSource['iconSource']} textColor="primary.700"
+                                        name={flairsType} iconSource={iconSource['iconSource']} textColor="primary.700" key={flairsType}
                                         style={{ backgroundColor: colors['shade']['100'], borderRadius: 15, padding: 5, marginRight: 3 }}
                                     />)
                             })}
@@ -100,11 +100,11 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                 position="absolute" width="100%" height="9%"
             >
                 <Pressable
-                    style={ctw.style(`ml-2 bg-primary-400 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 })}
-                    onPress={() => navigation.goBack()} _pressed={{ bg: colors['primary']['600'] }}
+                    style={ctw.style(`ml-2 bg-secondary-400 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 })}
+                    onPress={() => navigation.goBack()} _pressed={{ bg: colors['secondary']['500'] }}
                 >
                     {({ isPressed }) =>
-                        <AntDesign name="arrowleft" size={hp(4.5)} style={{ color: isPressed ? colors['secondary']['400'] : colors['secondary']['200'] }} />
+                        <AntDesign name="arrowleft" size={hp(4.5)} style={{ color: isPressed ? colors['primary']['200'] : colors['primary']['300'] }} />
                     }
                 </Pressable>
             </HStack>

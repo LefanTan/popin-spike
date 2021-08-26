@@ -27,7 +27,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
         >
             <HStack
                 height="100%" width="100%" padding={1}
-                bg={'secondary.400'} borderRadius={15}
+                bg={'primary.200'} borderRadius={15}
             >
                 <Ripple
                     onPress={props.onEventClick}
@@ -42,21 +42,21 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                         style={ctw.style(`h-full pl-2 ml-1 justify-center`, { flex: 5 })}
                     >
                         <Heading
-                            fontWeight={500} fontFamily="heading" color="primary.200"
+                            fontWeight={500} fontFamily="heading" color="primary.700"
                             numberOfLines={2} fontSize={hp(3)} style={{ lineHeight: hp(3) }} marginTop={1.5}
                         >
                             {props.event.eventName}
                         </Heading>
                         <Text
-                            color="primary.200" fontSize={hp(2)} numberOfLines={1} marginTop={-1}
+                            color="secondary.400" fontSize={hp(2)} numberOfLines={1} marginTop={-1}
                         >
                             By: {props.event.hostName}
                         </Text>
                         <HStack alignItems="center">
-                            <Ionicon name="calendar" size={hp(2.5)} style={{ color: colors['primary']['200'] }} />
+                            <Ionicon name="calendar" size={hp(2.5)} style={{ color: colors['secondary']['400'] }} />
                             <Text
                                 marginTop={-0.5} marginLeft={1}
-                                fontSize={hp(2)} color="primary.200"
+                                fontSize={hp(2)} color="secondary.400"
                             >
                                 {`${startDate.format('ddd DD MMM - h:mm a')}`}
                             </Text>
@@ -77,7 +77,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
                     rippleSize={100}
                     onPress={props.onMapPinClick}
                 >
-                    <Ionicon name="location-sharp" size={hp(5)} style={{ color: colors['primary']['200'] }} />
+                    <Ionicon name="location-sharp" size={hp(5)} style={{ color: colors['secondary']['400'] }} />
                 </Ripple>
             </HStack>
         </HStack>
