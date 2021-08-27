@@ -1,5 +1,8 @@
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 
+/**
+ * Map to the Event document on firestore 
+ */
 export type FirestoreEvent = {
     id: string
 
@@ -14,4 +17,5 @@ export type FirestoreEvent = {
     latlong: FirebaseFirestoreTypes.GeoPoint
     mainPhotoUrl?: string
     price?: number
+    website?: string
 }

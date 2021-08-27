@@ -89,6 +89,7 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
                                     height={hp(5)}
                                     fontSize={hp(2)}
                                     placeholder="Search event name..."
+                                    borderWidth={0}
                                 />
                                 <Pressable
                                     flex={1}
@@ -101,7 +102,7 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
                                     {({ isPressed }) =>
                                         <FoundationIcon
                                             size={hp(4)} name="filter"
-                                            style={ctw.style(`text-center`, { color: isPressed ? colors['secondary']['500'] : colors['secondary']['400'] })}
+                                            style={ctw.style(`text-center`, { color: isPressed ? colors['secondary']['700'] : colors['secondary']['400'] })}
                                         />}
                                 </Pressable>
                             </HStack>
@@ -122,7 +123,9 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
                                 renderItem={({ item }) =>
                                     <MinimizedEvent
                                         onMapPinClick={() => null}
-                                        onEventClick={() => navigation.navigate('Event', item)} event={item}
+                                        onEventClick={() => navigation.navigate('Event', {
+                                            event: item
+                                        })} event={item}
                                     />}
                             />
                         </VStack>

@@ -9,6 +9,9 @@ interface FlairButtonProps {
     onClick: (flairType: string) => void
 }
 
+/**
+ * A clickable flair button component
+ */
 export const FlairButton: React.FC<FlairButtonProps> = memo((props) => {
     return (
         <Button

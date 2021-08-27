@@ -14,9 +14,11 @@ interface MinimizedEventProps {
     onMapPinClick: () => void
 }
 
-const weekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-
+/**
+ * Minimized Events that are showned on a FlatList/Scrollview
+ * @param props 
+ * @returns 
+ */
 export const MinimizedEvent: React.FC<MinimizedEventProps> = (props) => {
     const { colors } = useTheme()
     const startDate = moment(props.event.startDate.toDate())

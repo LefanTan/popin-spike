@@ -1,4 +1,4 @@
-import { HStack, IBoxProps, Image, Text } from 'native-base';
+import { HStack, Image, Text } from 'native-base';
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native';
 import { heightPercentageToDP as hp} from 'react-native-responsive-screen'
@@ -10,6 +10,9 @@ interface FlairProps {
     textColor: string
 }
 
+/**
+ * A flair component, consist of an icon and it's name
+ */
 export const Flair: React.FC<FlairProps> = ({iconSource, name, style, textColor} : FlairProps) => {
         return (
             <HStack style={style} alignItems="center" borderRadius={20}>
