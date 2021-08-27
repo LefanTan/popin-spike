@@ -55,11 +55,11 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                             vertical={false}
                             renderItem={({ item }) =>
                                 <Image
-                                    alt='eventpic' marginRight={2} width={hp(45)} height={hp(27.5)}
+                                    alt='eventpic' marginRight={2} width={hp(48)} height={hp(28)}
                                     borderRadius={15} source={item.props.source}
                                 />}
                             sliderWidth={wp(100)}
-                            itemWidth={hp(45)}
+                            itemWidth={hp(48)}
                         />
                     </Center>
                     <VStack paddingX={5} paddingY={5}>
