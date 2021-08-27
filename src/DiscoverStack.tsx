@@ -3,12 +3,15 @@ import React from 'react'
 import ctw from '../custom-tailwind';
 import { DiscoverScreen } from './screens/DiscoverScreen';
 import { EventScreen } from './screens/EventScreen';
-import { DiscoverStackParamList } from './types/ParamList';
+import { DiscoverStackNavProps, DiscoverStackParamList } from './types/ParamList';
 
 interface DiscoverStackProps { }
 
 const Stack = createNativeStackNavigator<DiscoverStackParamList>();
 
+/**
+ * DiscoverTab
+ */
 export const DiscoverStack: React.FC<DiscoverStackProps> = ({ }) => {
     return (
         <Stack.Navigator initialRouteName="Discover"

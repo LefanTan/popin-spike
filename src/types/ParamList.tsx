@@ -2,6 +2,7 @@
 
 import { RouteProp } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+import Animated from "react-native-reanimated"
 import { FirestoreEvent } from "./FirestoreClasses"
 
 // To reinforce the types allowed for a tab
@@ -13,7 +14,9 @@ export type HomeTabParamList = {
 // Reinforce types allowed for DiscoverStack
 export type DiscoverStackParamList = {
     Discover: undefined,
-    Event: FirestoreEvent
+    Event: {
+        event: FirestoreEvent
+    }
 }
 
 // Define navigation and route prop type
