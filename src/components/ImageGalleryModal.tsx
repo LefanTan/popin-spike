@@ -22,15 +22,24 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo((props) 
 
     return (
         <Modal visible={props.showGallery} transparent={true} animationType="fade">
-            <VStack flex={1}>
-                <Box width="100%" height="100%" position="absolute" bg="primary.200" opacity={1} />
-                <HStack width="100%" height="7%" padding={2} top={0} left={0} alignItems="center" justifyContent="flex-start" bg="shade.100" opacity={1} >
+            <VStack flex={1} bg="primary.200">
+                <HStack
+                    width="100%" height="7%"
+                    padding={2} alignItems="center" justifyContent="flex-start"
+                    bg="shade.100"
+                    style={{
+                        shadowOffset: { width: 0, height: 0 },
+                        shadowColor: 'black',
+                        shadowOpacity: 1,
+                        elevation: 4
+                    }}
+                >
                     <Pressable onPress={props.onCancel}>
                         {({ isPressed }) =>
-                            <Ionicons name="close" style={{ color: isPressed ? colors['secondary']['500'] : colors['secondary']['400']}} size={hp(5)} />
+                            <Ionicons name="close" style={{ color: isPressed ? colors['secondary']['500'] : colors['secondary']['400'] }} size={hp(5)} />
                         }
                     </Pressable>
-                    <Heading marginLeft='auto'>{imageIndex + 1}/{props.photos.length}</Heading>
+                    <Heading marginLeft='auto' fontSize={hp(3.5)}>{imageIndex + 1}/{props.photos.length}</Heading>
                 </HStack>
                 <Center height="93%" width="100%">
                     <ImageViewer
