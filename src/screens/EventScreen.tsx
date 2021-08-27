@@ -1,4 +1,4 @@
-import { Center, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, useTheme, VStack } from 'native-base';
+import { Box, Center, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, useTheme, VStack } from 'native-base';
 import React, { useRef } from 'react'
 import { mockPhotos } from '../data/mockPhotos';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
@@ -15,11 +15,18 @@ import { flairsList } from '../data/flairsList';
 import Carousel from 'react-native-snap-carousel';
 import Animated, { Extrapolate, useSharedValue, withTiming } from 'react-native-reanimated';
 import { interpolate, useAnimatedStyle } from 'react-native-reanimated';
+import { ImageButton } from '../buttons/ImageButton';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import { ImageBackground, Modal } from 'react-native';
+import { useState } from 'react';
+import { ImageGalleryModal } from '../components/ImageGalleryModal';
 
 /**
  * EventScreen for viewing a full list of detail for an event
  */
 export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event">) => {
+    const [showImageGallery, setShowGallery] = useState(false)
+
     const startDate = moment(route.params.event.startDate.toDate())
     const endDate = moment(route.params.event.endDate.toDate())
     const sameDay = startDate.format('DD MMM') === endDate.format('DD MMM')
@@ -54,10 +61,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                             data={mockPhotos}
                             vertical={false}
                             renderItem={({ item }) =>
-                                <Image
-                                    alt='eventpic' marginRight={2} width={hp(48)} height={hp(28)}
-                                    borderRadius={15} source={item.props.source}
-                                />}
+                                <ImageButton onClick={() => setShowGallery(true)} style={ctw.style(`rounded-2xl`, { width: hp(48), height: hp(28) })} imgSource={item.props.source} />}
                             sliderWidth={wp(100)}
                             itemWidth={hp(48)}
                         />
@@ -120,7 +124,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                     </VStack>
                 </VStack>
             </ScrollView>
-
+            <ImageGalleryModal showGallery={showImageGallery} onCancel={() => setShowGallery(false)} photos={mockPhotos}/>
             <Animated.View
                 style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}
             >
