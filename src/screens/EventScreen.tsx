@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, useTheme, VStack } from 'native-base';
+import { Center, Flex, Heading, HStack, Pressable, ScrollView, Text, useTheme, VStack } from 'native-base';
 import React, { useRef } from 'react'
 import { mockPhotos } from '../data/mockPhotos';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
@@ -13,11 +13,8 @@ import moment from 'moment';
 import { Flair } from './Flair';
 import { flairsList } from '../data/flairsList';
 import Carousel from 'react-native-snap-carousel';
-import Animated, { Extrapolate, useSharedValue, withTiming } from 'react-native-reanimated';
-import { interpolate, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { Extrapolate, useSharedValue, withTiming, interpolate, useAnimatedStyle } from 'react-native-reanimated';
 import { ImageButton } from '../buttons/ImageButton';
-import ImageViewer from 'react-native-image-zoom-viewer';
-import { ImageBackground, Modal } from 'react-native';
 import { useState } from 'react';
 import { ImageGalleryModal } from '../components/ImageGalleryModal';
 

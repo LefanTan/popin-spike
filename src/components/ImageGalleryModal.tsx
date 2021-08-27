@@ -1,4 +1,4 @@
-import { Box, Center, Heading, HStack, VStack, Pressable, useTheme } from 'native-base';
+import { Center, Heading, HStack, VStack, Pressable, useTheme } from 'native-base';
 import React, { useState, memo } from 'react'
 import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -39,7 +39,7 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo((props) 
                             <Ionicons name="close" style={{ color: isPressed ? colors['secondary']['500'] : colors['secondary']['400'] }} size={hp(5)} />
                         }
                     </Pressable>
-                    <Heading marginLeft='auto' fontSize={hp(3.5)}>{imageIndex + 1}/{props.photos.length}</Heading>
+                    <Heading marginLeft='auto' fontSize={hp(3)}>{imageIndex + 1}/{props.photos.length}</Heading>
                 </HStack>
                 <Center height="93%" width="100%">
                     <ImageViewer
