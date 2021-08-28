@@ -17,12 +17,14 @@ import Animated, { Extrapolate, useSharedValue, withTiming, interpolate, useAnim
 import { ImageButton } from '../buttons/ImageButton';
 import { useState } from 'react';
 import { ImageGalleryModal } from '../components/ImageGalleryModal';
+import { useBackHandler } from '@react-native-community/hooks';
 
 /**
  * EventScreen for viewing a full list of detail for an event
  */
 export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event">) => {
     const [showImageGallery, setShowGallery] = useState(false)
+    const [imageIndex, setImageIndex] = useState(false);
 
     const startDate = moment(route.params.event.startDate.toDate())
     const endDate = moment(route.params.event.endDate.toDate())
@@ -41,6 +43,15 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
     })
 
     const detailIconStyle = ctw.style(`text-secondary-400 -ml-1`, { minWidth: '10%', textAlign: 'center' })
+
+    // Subscribe to back button press event
+    useBackHandler(() => {
+        if(showImageGallery)
+            setShowGallery(false)
+        else
+            navigation.goBack()
+        return true;
+    })
 
     return (
         <Flex height="100%">
@@ -61,6 +72,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                                 <ImageButton onClick={() => setShowGallery(true)} style={ctw.style(`rounded-2xl`, { width: hp(48), height: hp(28) })} imgSource={item.props.source} />}
                             sliderWidth={wp(100)}
                             itemWidth={hp(48)}
+                            onScrollIndexChanged={index => setImageIndex(index)}
                         />
                     </Center>
                     <VStack paddingX={5} paddingY={5}>
@@ -121,7 +133,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                     </VStack>
                 </VStack>
             </ScrollView>
-            <ImageGalleryModal showGallery={showImageGallery} onCancel={() => setShowGallery(false)} photos={mockPhotos}/>
+            <ImageGalleryModal index={imageIndex} showGallery={showImageGallery} onCancel={() => setShowGallery(false)} photos={mockPhotos}/>
             <Animated.View
                 style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}
             >
