@@ -36,3 +36,5 @@ Currently using Typescript for the project.
 11. [Material Ripple](https://www.npmjs.com/package/react-native-material-ripple): For ripple effect when clicking buttons
 
 12. [Image Carousel](https://github.com/meliorence/react-native-snap-carousel)
+
+13. [React Native Hooks](https://github.com/react-native-community/hooks)

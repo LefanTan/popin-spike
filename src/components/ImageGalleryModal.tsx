@@ -1,5 +1,5 @@
 import { Center, Heading, HStack, VStack, Pressable, useTheme } from 'native-base';
-import React, { useState, memo } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { IImageInfo } from 'react-native-image-zoom-viewer/built/image-viewer.type';
@@ -9,6 +9,7 @@ import ctw from '../../custom-tailwind';
 
 interface ImageGalleryModalProps {
     showGallery: boolean,
+    index: number,
     onCancel: () => void,
     photos: IImageInfo[]
 }
@@ -16,9 +17,12 @@ interface ImageGalleryModalProps {
 /**
  * Display a photo gallery in a modal
  */
-export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo((props) => {
+export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = (props) => {
     const [imageIndex, setImageIndex] = useState(0)
     const { colors } = useTheme()
+
+    // if prop index changes, update the local one too
+    useEffect(() => setImageIndex(props.index), [props.index])
 
     return (
         <Modal visible={props.showGallery} transparent={true} animationType="fade">
@@ -47,12 +51,14 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo((props) 
                         backgroundColor="transparent"
                         style={ctw`w-11/12`}
                         enableSwipeDown
+                        useNativeDriver
                         onCancel={props.onCancel}
                         renderIndicator={() => null}
+                        index={props.index}
                         onChange={index => setImageIndex(index)}
                     />
                 </Center>
             </VStack>
         </Modal>
     );
-})
+}
