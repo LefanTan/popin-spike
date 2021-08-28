@@ -1,5 +1,5 @@
 import { Center, Heading, HStack, VStack, Pressable, useTheme } from 'native-base';
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { IImageInfo } from 'react-native-image-zoom-viewer/built/image-viewer.type';
@@ -17,7 +17,7 @@ interface ImageGalleryModalProps {
 /**
  * Display a photo gallery in a modal
  */
-export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = (props) => {
+export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo((props) => {
     const [imageIndex, setImageIndex] = useState(0)
     const { colors } = useTheme()
 
@@ -61,4 +61,4 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = (props) => {
             </VStack>
         </Modal>
     );
-}
+})
