@@ -15,6 +15,7 @@ import { FirestoreEvent } from '../types/FirestoreClasses'
 import { MinimizedEvent } from '../buttons/MinimizedEvent'
 import { DiscoverStackNavProps } from '../types/ParamList'
 import { flairsList } from '../data/flairsList'
+import { BackHandler } from 'react-native'
 
 export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">) => {
     const { colors } = useTheme()
@@ -41,7 +42,6 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
             opacity: dragMenuPercentage.value
         }
     })
-
 
     // When menu open, load data
     useEffect(() => {

@@ -1,5 +1,7 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { Center, Heading, HStack, VStack, Pressable, useTheme } from 'native-base';
 import React, { memo, useEffect, useState } from 'react'
+import { BackHandler } from 'react-native';
 import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { IImageInfo } from 'react-native-image-zoom-viewer/built/image-viewer.type';
@@ -25,7 +27,7 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo((props) 
     useEffect(() => setImageIndex(props.index), [props.index])
 
     return (
-        <Modal visible={props.showGallery} transparent={true} animationType="fade">
+        <Modal visible={props.showGallery} transparent={true} onRequestClose={() => props.onCancel()} animationType="fade">
             <VStack flex={1} bg="primary.200">
                 <HStack
                     width="100%" height="7%"
