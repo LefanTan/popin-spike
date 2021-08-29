@@ -1,5 +1,5 @@
 import { Center, Flex, Heading, HStack, Pressable, ScrollView, Text, useTheme, VStack } from 'native-base';
-import React, { useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { mockPhotos } from '../data/mockPhotos';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { DiscoverStackNavProps } from '../types/ParamList';
@@ -17,7 +17,9 @@ import Animated, { Extrapolate, useSharedValue, withTiming, interpolate, useAnim
 import { ImageButton } from '../buttons/ImageButton';
 import { useState } from 'react';
 import { ImageGalleryModal } from '../components/ImageGalleryModal';
-import { useBackHandler } from '@react-native-community/hooks';
+import { BackHandler } from 'react-native';
+import { styles } from '../GeneralStyles';
+import { useFocusEffect } from '@react-navigation/native';
 
 /**
  * EventScreen for viewing a full list of detail for an event
@@ -43,12 +45,6 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
     })
 
     const detailIconStyle = ctw.style(`text-secondary-400 -ml-1`, { minWidth: '10%', textAlign: 'center' })
-
-    // Subscribe to back button press event
-    useBackHandler(() => {
-        console.log('yGI')
-        return true;
-    })
 
     return (
         <Flex height="100%">
@@ -130,12 +126,12 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                     </VStack>
                 </VStack>
             </ScrollView>
-            <ImageGalleryModal index={imageIndex} showGallery={showImageGallery} onCancel={() => setShowGallery(false)} photos={mockPhotos}/>
+            <ImageGalleryModal index={imageIndex} showGallery={showImageGallery} onCancel={() => setShowGallery(false)} photos={mockPhotos} />
             <Animated.View
                 style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}
             >
                 <Pressable
-                    style={ctw.style(`ml-2 mt-2 bg-secondary-400 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 })}
+                    style={[ctw.style(`ml-2 mt-2 bg-secondary-400 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 }), {...styles.button}]}
                     onPress={() => navigation.goBack()} _pressed={{ bg: colors['secondary']['500'] }}
                 >
                     {({ isPressed }) =>
