@@ -54,9 +54,6 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo((props) => {
                 ? yMenuSnapPositions[yMenuSnapPositions.length - 1]
                 : yMenuSnapPositions.slice().reverse().find(x => yMenu.value > x)
 
-            // console.log('y: ' + yMenu.value)
-            // console.log('snap: ' + yMenuSnapPositions)
-
             if (closestVal !== undefined) {
                 // WithSpring() adds a 'spring' effect to the drag animation 
                 yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 })
