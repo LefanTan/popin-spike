@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { useSharedValue } from 'react-native-reanimated';
 import ctw from '../../custom-tailwind';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
 interface SectionHeaderProps {
     name: string,
@@ -34,10 +35,10 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (props) => {
     return (
         <Pressable onPressIn={() => scaleVal.value = withSpring(0.85)} onPressOut={() => scaleVal.value = withSpring(1)} onPress={() => props.onClick(props.name)}>
             <Animated.View
-                style={[ctw`flex items-center mr-4`, scaleStyle]}
+                style={[ctw`flex items-center mr-3`, scaleStyle]}
             >
                 <Heading
-                    fontWeight={600} marginBottom={2} fontSize={25}
+                    fontWeight={600} marginBottom={2} fontSize={hp(3)}
                 >
                     {props.name}
                 </Heading>

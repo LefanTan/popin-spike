@@ -131,7 +131,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                 style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}
             >
                 <Pressable
-                    style={[ctw.style(`ml-2 mt-2 bg-secondary-400 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 }), {...styles.button}]}
+                    style={[ctw.style(`ml-2 mt-2 bg-secondary-400 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 }), {...styles.shadow}]}
                     onPress={() => navigation.goBack()} _pressed={{ bg: colors['secondary']['500'] }}
                 >
                     {({ isPressed }) =>

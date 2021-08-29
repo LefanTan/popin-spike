@@ -80,7 +80,7 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
             }}
                 minHeightOffset={6} maxHeightOffsetFromScreenHeight={17.5} snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
                 <VStack padding={2} paddingTop={1} height={hp(85)} alignItems="center" justifyContent="flex-start">
-                    <Animated.Text style={[headingStyle, ctw`absolute top-0 w-full text-center text-4xl text-secondary-200 font-primary_400`]}>View event list</Animated.Text>
+                    <Animated.Text style={[headingStyle, ctw`absolute top-0 w-full text-center text-4xl text-secondary-400 font-primary_400`]}>View event list</Animated.Text>
                     <Animated.View pointerEvents={menuOpened ? 'auto' : 'none'} style={[mainViewStyle, ctw`w-full h-full`]}>
                         <VStack>
                             <HStack height={hp(5)} justifyContent="flex-start">
