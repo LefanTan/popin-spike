@@ -19,3 +19,10 @@ export type FirestoreEvent = {
     price?: number
     website?: string
 }
+
+export type FirestoreUser = {
+    userName: string,
+    description: string,
+    profilePicUrl: string
+    website?: string,
+}

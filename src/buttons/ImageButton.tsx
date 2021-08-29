@@ -15,7 +15,7 @@ export const ImageButton: React.FC<ImageButtonProps> = (props) => {
             {({ isPressed }) => {
                 return (
                     <>
-                        <Image alt='pic' style={props.style} source={props.imgSource} />
+                        <Image alt='pic' style={[props.style]} source={props.imgSource} />
                         <Box bg="black" style={[props.style, { backgroundColor: '#ffffff', position: 'absolute', opacity: isPressed ? 0.3 : 0 }]} />
                     </>
                 )

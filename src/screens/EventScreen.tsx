@@ -46,10 +46,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
 
     // Subscribe to back button press event
     useBackHandler(() => {
-        if(showImageGallery)
-            setShowGallery(false)
-        else
-            navigation.goBack()
+        console.log('yGI')
         return true;
     })
 
@@ -84,7 +81,7 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                             {route.params.event.eventName}
                         </Heading>
                         <Heading width="90%"
-                            fontSize={hp(3)} fontWeight={400} paddingY={3}
+                            fontSize={hp(3)} fontWeight={400} paddingY={1} marginBottom={2}
                             numberOfLines={2} color="primary.700"
                         >
                             {route.params.event.hostName}
@@ -102,9 +99,9 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                         <Ripple
                             style={ctw`rounded-xl mt-2 py-1 flex justify-center items-center bg-secondary-400`}
                         >
-                            <Text fontWeight={600} fontSize={25} marginBottom={1} color="primary.200">Pop In here!</Text>
+                            <Text fontWeight={600} fontSize={25} marginBottom={1} color="primary.100">Pop In here!</Text>
                         </Ripple>
-                        <VStack bg="primary.200" borderRadius={20} marginTop={3} paddingX={5} paddingY={4}>
+                        <VStack bg="primary.200" borderRadius={20} marginTop={2} paddingX={5} paddingY={4}>
                             <Heading fontWeight={400} fontSize={30}>Details</Heading>
                             <HStack marginTop={3} alignItems='center'>
                                 <Ionicon name="location-sharp" size={hp(4)} style={detailIconStyle} />
