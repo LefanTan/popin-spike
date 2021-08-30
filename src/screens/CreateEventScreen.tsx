@@ -26,7 +26,7 @@ export const CreateEventScreen = ({ navigation, route }: ProfileStackNavProps<"C
                     }
                 </Pressable>
                 <Pressable marginLeft="auto" onPress={() => navigation.goBack()}>
-                    <Text fontWeight={500} color="primary.700">Cancel</Text>
+                    <Text fontSize={hp(2.5)} fontWeight={500} color="primary.700">Cancel</Text>
                 </Pressable>
             </HStack>
             <NameAndDatePage />

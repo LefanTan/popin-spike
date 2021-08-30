@@ -60,7 +60,7 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
                     variant="titleInput" placeholder="enter event name here..." fontSize={hp(4.5)} maxLength={55}
                     value={eventName} onChangeText={setEventName}
                 />
-                <Text fontSize={hp(2.5)} fontWeight={500} width="95%" textAlign="right">characters left: {maxTitleLength - eventName.length}</Text>
+                <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">characters left: {maxTitleLength - eventName.length}</Text>
                 <EditButton
                     onClick={() => setDateTimeDialog("start")} viewStyle={{ marginTop: 20 }}
                     content={startDate.calendar(null, {
@@ -77,8 +77,8 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
                 }
                 <Pressable marginTop={3} onPress={() => setHasEndDate(!hasEndDate)}>
                     <HStack alignItems="center">
-                        <AntIcons name={hasEndDate ? "minus" : "plus"} size={hp(4)} color={colors['secondary']['400']} />
-                        <Heading marginLeft={1} color="secondary.400" fontSize={hp(3)} fontWeight={500}>Add End Date and Time</Heading>
+                        <AntIcons name={hasEndDate ? "minus" : "plus"} size={hp(2.5)} color={colors['secondary']['400']} />
+                        <Heading marginLeft={1} color="secondary.400" fontSize={hp(2)} fontWeight={500}>Add End Date and Time</Heading>
                     </HStack>
                 </Pressable>
             </VStack>
@@ -116,7 +116,7 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
             <DateTimePickerModal
                 isVisible={dateTimeModal !== ""}
                 mode={dateTimeModal !== "" && dateTimeModal}
-                minimumDate={moment().toDate()}
+                minimumDate={dateTimeDialog === "end" ? startDate.toDate() : moment().toDate()}
                 date={dateTimeDialog === "start" ? tempStartDate.toDate() : (dateTimeDialog === "end" ? tempEndDate.toDate() : new Date())}
                 onConfirm={date => {
                     setDateTimeModal("")
