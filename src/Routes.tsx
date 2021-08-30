@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react'
-import { HomeTab } from './HomeTab';
+import { HomeTab } from './navigations/HomeTab';
 
 interface RoutesProps {}
 

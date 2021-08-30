@@ -1,13 +1,12 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeTabParamList } from './types/ParamList';
-import { DiscoverScreen } from './screens/DiscoverScreen'
-import { ProfileScreen } from './screens/ProfileScreen'
+import { HomeTabParamList } from '../types/ParamList';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import AntDesignIcons from 'react-native-vector-icons/AntDesign'
 import { useTheme } from 'native-base'
-import ctw from '../custom-tailwind';
+import ctw from '../../custom-tailwind';
 import { DiscoverStack } from './DiscoverStack';
+import { ProfileStack } from './ProfileStack';
 
 interface HomeTabProps { }
 
@@ -18,7 +17,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({ }) => {
 
     return (
         <Tab.Navigator
-            initialRouteName="DiscoverStack"
+            initialRouteName="ProfileStack"
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: colors['secondary']['400'],
@@ -37,9 +36,11 @@ export const HomeTab: React.FC<HomeTabProps> = ({ }) => {
                 }}
             />
             <Tab.Screen
-                name="Profile"
-                component={ProfileScreen} options={{
-                    tabBarIcon: ({ color, size }) => <MaterialIcons name="face-profile" size={size} color={color} />
+                name="ProfileStack"
+                component={ProfileStack} 
+                options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="face-profile" size={size} color={color} />,
+                    tabBarLabel: 'Profile'
                 }}
             />
         </Tab.Navigator>

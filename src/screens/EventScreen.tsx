@@ -17,9 +17,7 @@ import Animated, { Extrapolate, useSharedValue, withTiming, interpolate, useAnim
 import { ImageButton } from '../buttons/ImageButton';
 import { useState } from 'react';
 import { ImageGalleryModal } from '../components/ImageGalleryModal';
-import { BackHandler } from 'react-native';
 import { styles } from '../GeneralStyles';
-import { useFocusEffect } from '@react-navigation/native';
 
 /**
  * EventScreen for viewing a full list of detail for an event
@@ -55,16 +53,18 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
             >
                 <VStack>
                     <Center
-                        borderRadius={15} marginTop={16} width="100%"
+                        borderRadius={15} width="100%"
                     >
                         <Carousel
                             ref={carouselRef}
                             data={mockPhotos}
+                            inactiveSlideOpacity={1}
+                            inactiveSlideScale={1}
                             vertical={false}
                             renderItem={({ item }) =>
-                                <ImageButton onClick={() => setShowGallery(true)} style={ctw.style(`rounded-2xl`, { width: hp(48), height: hp(28) })} imgSource={item.props.source} />}
+                                <ImageButton onClick={() => setShowGallery(true)} style={{ width: wp(100), height: hp(35) }} imgSource={item.props.source} />}
                             sliderWidth={wp(100)}
-                            itemWidth={hp(48)}
+                            itemWidth={wp(100)}
                             onScrollIndexChanged={index => setImageIndex(index)}
                         />
                     </Center>
@@ -131,11 +131,11 @@ export const EventScreen = ({ navigation, route }: DiscoverStackNavProps<"Event"
                 style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}
             >
                 <Pressable
-                    style={[ctw.style(`ml-2 mt-2 bg-secondary-400 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 }), {...styles.shadow}]}
+                    style={[ctw.style(`ml-2 mt-2 bg-primary-200 flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 }), {...styles.shadow}]}
                     onPress={() => navigation.goBack()} _pressed={{ bg: colors['secondary']['500'] }}
                 >
                     {({ isPressed }) =>
-                        <AntDesign name="arrowleft" size={hp(4.5)} style={{ color: isPressed ? colors['primary']['300'] : colors['primary']['200'] }} />
+                        <AntDesign name="arrowleft" size={hp(4.5)} style={{ color: isPressed ? colors['secondary']['500'] : colors['secondary']['400'] }} />
                     }
                 </Pressable>
             </Animated.View>

@@ -11,10 +11,9 @@ import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
 import { useSharedValue } from 'react-native-reanimated';
 import { styles } from '../GeneralStyles';
 import { SectionHeader } from '../components/SectionHeader';
+import { ProfileStackNavProps } from '../types/ParamList';
 
-interface ProfileScreenProps { }
-
-export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
+export const ProfileScreen = ({ navigation, route } : ProfileStackNavProps<"Profile">) => {
     const authContext = useContext(AuthContext)
     const { colors } = useTheme()
 
@@ -53,7 +52,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                         bg="primary.200"
                         borderBottomRadius={25} marginTop={3}
                         padding={2} 
-                        style={{...styles.shadow}}
                     >
                         <HStack
                             position="absolute" right={2} top={2}
@@ -85,12 +83,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                         <SectionHeader trigger={section === "Contact"} onClick={setSection} name="Contact"/>
                         <SectionHeader trigger={section === "My Events"} onClick={setSection} name="My Events"/>
                     </HStack>
-                    {section === "About" && <VStack width="95%" bg="secondary.400" borderRadius={25} paddingY={3} paddingX={5} marginTop={7}>
+                    {section === "About" && <VStack width="95%" bg="secondary.400" borderRadius={25} paddingY={3} paddingX={4} marginTop={7}>
                         <Text color="primary.200" fontSize={hp(2)} fontWeight={500}>
                             The Aboriginal Student Council (ASC) is a student group on campus that unites its members for fun, friendship and learning.
 
                             The Aboriginal Student Council (ASC) represents and advocates for self-identified Indigenous students; the goal is to improve the lives and studies of Indigenous students on campus. The Aboriginal Student Council seeks to create a safe and welcoming space to re-affirm and foster balance in spiritual, mental, physical, and emotional health through promoting cultural, political, academic, athletic, and interpersonal interests.
-                            The ASC Executive is elected annually to represent Indigenous students at the U of A and to ensure that the Indigenous student voice on campus is heard. ASC works closely with First Peoples House (FPH) and in partnership with other faculties and programs for events both on campus and in the community.
                         </Text>
                     </VStack>}
                     {section === "Contact" && <VStack width="95%" bg="secondary.400" borderRadius={25} paddingY={3} paddingX={5} marginTop={7}>
@@ -110,7 +107,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ }) => {
                 position="absolute" bottom={2} right={2}
                 borderRadius={50} padding={2}
                 bg="primary.200" display="flex" alignItems="center" justifyContent="center"
-                onPress={() => null} _pressed={{ bg: colors['primary']['300'] }} style={{...styles.shadow, shadowOpacity: 1, elevation: 20}}
+                onPress={() => navigation.navigate("CreateEvent")} _pressed={{ bg: colors['primary']['300'] }} style={{...styles.shadow, shadowOpacity: 1, elevation: 20}}
             >
                 <AntIcons name="plus" size={hp(5)} color={colors['secondary']['400']} />
             </Pressable>

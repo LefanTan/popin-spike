@@ -62,7 +62,7 @@ export const NBComponents = {
         },
         // react native style prop
         baseStyle: {
-            color: 'secondary.100',
+            color: 'secondary.300',
             fontWeight: 400
         },
         // Custom variation for this component, set using variant prop
@@ -99,13 +99,30 @@ export const NBComponents = {
                 borderBottomWidth: 0.2,
                 paddingLeft: 0,
                 borderRadius: 0
+            },
+            titleInput:{
+                variant: 'unstyled',
+                bg: 'transparent',
+                border: 'transparent',
+                color: 'primary.700',
+                fontFamily: 'Urbanist-SemiBold',
+                placeholderTextColor: "primary.400",
+                padding: 0,
+                paddingBottom: 15,
+                borderRadius: 0
+            },
+            normalFill: {
+                variant: "filled",
+                color: "primary.700",
+                padding: 3,
+                borderWidth: 1
             }
         }
     },
     Heading: {
         variants: {
             title: {
-                color: 'secondary.200',
+                color: 'secondary.400',
                 fontWeight: 500,
                 fontFamily: 'heading'
             }
