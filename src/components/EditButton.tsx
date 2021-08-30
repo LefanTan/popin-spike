@@ -21,10 +21,10 @@ export const EditButton = (props: EditButtonProps) => {
         >
             <HStack alignItems="center">
                 <VStack marginRight="auto">
-                    <Heading fontSize={hp(2.5)} color="primary.500" fontWeight={600}>{props.title}</Heading>
-                    <Text color="primary.700" marginTop={-1} marginRight="auto">{props.content}</Text>
+                    <Heading fontSize={hp(2)} color="primary.500" fontWeight={600}>{props.title}</Heading>
+                    <Text fontSize={hp(2.5)} color="primary.700" marginTop={-1} marginRight="auto">{props.content}</Text>
                 </VStack>
-                <AntIcons name="edit" size={hp(4)} color={colors['secondary']['400']} />
+                <AntIcons name="edit" size={hp(3)} color={colors['secondary']['400']} />
             </HStack>
         </Pressable>
     )
