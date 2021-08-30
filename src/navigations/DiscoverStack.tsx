@@ -1,9 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
-import ctw from '../custom-tailwind';
-import { DiscoverScreen } from './screens/DiscoverScreen';
-import { EventScreen } from './screens/EventScreen';
-import { DiscoverStackNavProps, DiscoverStackParamList } from './types/ParamList';
+import { DiscoverScreen } from '../screens/DiscoverScreen';
+import { EventScreen } from '../screens/EventScreen';
+import { DiscoverStackParamList } from '../types/ParamList';
 
 interface DiscoverStackProps { }
 
