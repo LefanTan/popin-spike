@@ -9,6 +9,7 @@ import { ProgressBar } from '../components/ProgressBar';
 import Ripple from 'react-native-material-ripple';
 import { useState } from 'react';
 import moment from 'moment';
+import { FlairAndLocationPage } from './createEventPages/FlairAndLocationPage';
 
 /**
  * Using context to make sure all child components have access to edit EventCreation fields (eventName etc)
@@ -54,7 +55,8 @@ export const CreateEventScreen = ({ navigation, route }: ProfileStackNavProps<"C
                     padding={2}
                 >
                     <Pressable
-                        style={[ctw.style(`flex justify-center items-center`, { width: hp(6), height: hp(6) })]}
+                        style={[ctw.style(`flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 })]}
+                        _pressed={{bg: colors['primary']['300']}}
                         onPress={() => (page === 1) ? navigation.goBack() : setPage(Math.max(0, page - 1))}
                     >
                         {({ isPressed }) =>
@@ -66,6 +68,7 @@ export const CreateEventScreen = ({ navigation, route }: ProfileStackNavProps<"C
                     </Pressable>
                 </HStack>
                 {page === 1 && <NameAndDatePage onCompleteCallback={setPageReady} />}
+                {page === 2 && <FlairAndLocationPage />}
                 <ProgressBar totalCount={4} currentCount={page} style={{ marginTop: 'auto', width: wp(100), height: hp(3) }} />
                 <Center padding={3}>
                     <Ripple
