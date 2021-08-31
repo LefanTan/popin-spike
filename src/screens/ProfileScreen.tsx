@@ -39,22 +39,23 @@ export const ProfileScreen = ({ navigation, route }: ProfileStackNavProps<"Profi
         }
     })
 
+    
+    const handlePageScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        setSection(pages[Math.ceil(event.nativeEvent.contentOffset.x / wp(100))])
+    }
+
+    const pageScrollRef = useRef<ScrollView | null>()
+    const handleSectionClick = (type : string) => {
+        setSection(type)
+        let index = pages.indexOf(type)
+        pageScrollRef.current?.scrollTo({x: index * wp(100), y: 0})
+    }
+
     // User not signed in
     if (!authContext.user) {
         return (
             <LoginScreen />
         )
-    }
-
-    const handlePageScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        setSection(pages[Math.ceil(event.nativeEvent.contentOffset.x / wp(100))])
-    }
-
-    const pageScrollRef = useRef<ScrollView>()
-    const handleSectionClick = (type : string) => {
-        setSection(type)
-        let index = pages.indexOf(type)
-        pageScrollRef.current?.scrollTo({x: index * wp(100), y: 0})
     }
 
     return (

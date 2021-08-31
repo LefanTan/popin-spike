@@ -8,13 +8,17 @@ import ctw from '../../../custom-tailwind';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import AntIcons from 'react-native-vector-icons/AntDesign'
 import { useEffect } from 'react';
+import { useContext } from 'react';
+import { CreateEventContext } from '../CreateEventScreen';
 
-interface NameAndDatePageProps { }
+interface NameAndDatePageProps {
+    onCompleteCallback: (ready: boolean) => void,
+}
 
-export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
+export const NameAndDatePage: React.FC<NameAndDatePageProps> = (props) => {
     const { colors } = useTheme()
+    const { eventName, startDate, endDate } = useContext(CreateEventContext)
 
-    const [eventName, setEventName] = useState('')
     // Maximum length for a title
     const maxTitleLength = 50
 
@@ -23,15 +27,13 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
     // date, time or ""
     const [dateTimeModal, setDateTimeModal] = useState("")
 
-    // Track start date, tempStartDate is for the dialog
-    const [startDate, setStartDate] = useState<moment.Moment>(moment())
+    // TempStartDate is for the dialog
     const [tempStartDate, setTempStartDate] = useState<moment.Moment>(moment())
-
-    const [endDate, setEndDate] = useState<moment.Moment>(moment().add(1, 'hour'))
-    const [tempEndDate, setTempEndDate] = useState<moment.Moment>(endDate)
+    const [tempEndDate, setTempEndDate] = useState<moment.Moment>(tempStartDate)
 
     // Indicate if there is an end date
     const [hasEndDate, setHasEndDate] = useState(false)
+
 
     // Date option used to format the Date option for the dialogs
     const dateOption = {
@@ -43,12 +45,19 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
         sameElse: 'MMMM Do'
     }
 
+    // Upon completion of field, call onComplete
+    useEffect(() => {
+        if (eventName?.[0].length > 0)
+            props.onCompleteCallback(true)
+        else
+            props.onCompleteCallback(false)
+    }, [eventName])
+
     // Ensure that if the end date is lesser than start date, adjust
     useEffect(() => {
-        if (endDate.isBefore(startDate)) {
-            console.log('before, change!')
-            let newDate = startDate.clone().add(1, 'hour')
-            setEndDate(newDate)
+        if (endDate[0].isBefore(startDate[0])) {
+            let newDate = startDate[0].clone().add(1, 'second')
+            endDate[1](newDate)
             setTempEndDate(newDate)
         }
     }, [startDate])
@@ -58,19 +67,19 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
             <VStack paddingY={3} paddingX={4}>
                 <Input
                     variant="titleInput" placeholder="enter event name here..." fontSize={hp(4.5)} maxLength={55}
-                    value={eventName} onChangeText={setEventName}
+                    value={eventName?.[0]} onChangeText={eventName?.[1]}
                 />
-                <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">characters left: {maxTitleLength - eventName.length}</Text>
+                <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">characters left: {maxTitleLength - eventName?.[0]?.length}</Text>
                 <EditButton
-                    onClick={() => setDateTimeDialog("start")} viewStyle={{ marginTop: 20 }}
-                    content={startDate.calendar(null, {
+                    onClick={() => setDateTimeDialog("start")} viewStyle={{ marginTop: 35 }}
+                    content={startDate[0].calendar(null, {
                         sameElse: 'MMMM Do [at] h:mm A'
                     })}
                     title="Start Date"
                 />
                 {hasEndDate &&
                     <EditButton onClick={() => setDateTimeDialog("end")} viewStyle={{ marginTop: 10 }}
-                        content={endDate.calendar(null, {
+                        content={endDate[0].calendar(null, {
                             sameElse: 'MMMM Do [at] h:mm A'
                         })} title="End Date"
                     />
@@ -84,7 +93,7 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
             </VStack>
 
             {/* Used for both Start and End Date */}
-            <Actionsheet isOpen={dateTimeDialog !== ""} onClose={() => { setDateTimeDialog(""); setTempStartDate(startDate); setTempEndDate(endDate) }}>
+            <Actionsheet isOpen={dateTimeDialog !== ""} onClose={() => { setDateTimeDialog(""); setTempStartDate(startDate[0]); setTempEndDate(endDate[0]) }}>
                 <Actionsheet.Content>
                     <Heading marginTop={-1} fontWeight={600}>
                         {dateTimeDialog.charAt(0).toUpperCase() + dateTimeDialog.substring(1)} Time
@@ -101,9 +110,9 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
                         style={ctw`w-full bg-secondary-400 rounded-lg mt-5 py-1 flex flex-row justify-center`}
                         onPress={() => {
                             if (dateTimeDialog === "start")
-                                setStartDate(tempStartDate)
+                                startDate[1](tempStartDate)
                             else if (dateTimeDialog === "end")
-                                setEndDate(tempEndDate)
+                                endDate[1](tempEndDate)
                             setDateTimeDialog("")
                         }}
                     >
@@ -116,7 +125,7 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = ({ }) => {
             <DateTimePickerModal
                 isVisible={dateTimeModal !== ""}
                 mode={dateTimeModal !== "" && dateTimeModal}
-                minimumDate={dateTimeDialog === "end" ? startDate.toDate() : moment().toDate()}
+                minimumDate={dateTimeDialog === "end" ? startDate[0].toDate() : moment().toDate()}
                 date={dateTimeDialog === "start" ? tempStartDate.toDate() : (dateTimeDialog === "end" ? tempEndDate.toDate() : new Date())}
                 onConfirm={date => {
                     setDateTimeModal("")
