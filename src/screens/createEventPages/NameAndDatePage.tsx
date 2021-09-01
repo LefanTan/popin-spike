@@ -28,8 +28,8 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = (props) => {
     const [dateTimeModal, setDateTimeModal] = useState("")
 
     // TempStartDate is for the dialog
-    const [tempStartDate, setTempStartDate] = useState<moment.Moment>(moment())
-    const [tempEndDate, setTempEndDate] = useState<moment.Moment>(tempStartDate)
+    const [tempStartDate, setTempStartDate] = useState<moment.Moment>(startDate[0])
+    const [tempEndDate, setTempEndDate] = useState<moment.Moment>(endDate[0])
 
     // Indicate if there is an end date
     const [hasEndDate, setHasEndDate] = useState(false)
@@ -56,11 +56,16 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = (props) => {
     // Ensure that if the end date is lesser than start date, adjust
     useEffect(() => {
         if (endDate[0].isBefore(startDate[0])) {
-            let newDate = startDate[0].clone().add(1, 'second')
+            let newDate = startDate[0].clone()
             endDate[1](newDate)
             setTempEndDate(newDate)
         }
     }, [startDate])
+
+    useEffect(() => {
+        if(endDate[0].isAfter(startDate[0]))
+            setHasEndDate(true)
+    }, [])
 
     return (
         <Box>
@@ -84,7 +89,11 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = (props) => {
                         })} title="End Date"
                     />
                 }
-                <Pressable marginTop={3} onPress={() => setHasEndDate(!hasEndDate)}>
+                <Pressable marginTop={3} onPress={() => {
+                    setHasEndDate(!hasEndDate) 
+                    setTempEndDate(startDate[0])
+                    endDate[1](startDate[0])
+                }}>
                     <HStack alignItems="center">
                         <AntIcons name={hasEndDate ? "minus" : "plus"} size={hp(2.5)} color={colors['secondary']['400']} />
                         <Heading marginLeft={1} color="secondary.400" fontSize={hp(2)} fontWeight={500}>Add End Date and Time</Heading>

@@ -73,12 +73,12 @@ export const CreateEventScreen = ({ navigation, route }: ProfileStackNavProps<"C
                 <Center padding={3}>
                     <Ripple
                         style={ctw.style(`w-full rounded-2xl flex items-center justify-center p-2`,
-                            { backgroundColor: currentPageReady ? colors['secondary']['400'] : colors['primary']['300'] }
+                            { backgroundColor: currentPageReady ? colors['secondary']['400'] : colors['primary']['200'] }
                         )}
                         onPress={onNextPress}
                         disabled={!currentPageReady}
                     >
-                        <Heading fontWeight={500} fontSize={hp(3.5)} color="primary.100">Next</Heading>
+                        <Heading fontWeight={500} fontSize={hp(3.5)} color={currentPageReady ? colors['primary']['100'] : colors['secondary']['200']}>Next</Heading>
                     </Ripple>
                 </Center>
             </VStack >
