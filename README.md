@@ -25,7 +25,7 @@ Currently using Typescript for the project.
 6. [React Native Firebase](https://rnfirebase.io/firestore/usage) : NoSQL database solution. Uses Google's firestore
      - [Google sign in](https://github.com/react-native-google-signin/google-signin#project-setup-and-initialization)
 
-7. [React Native Geolocation](https://github.com/react-native-geolocation/react-native-geolocation) : Library for using google's geolocation api
+7. [React Native Geolocation Service](https://github.com/Agontuk/react-native-geolocation-service) : Library for using google's geolocation api
 
 8. [Responsive screen](https://github.com/marudy/react-native-responsive-screen) : Library with tools to help with creating responsive layout
 
@@ -38,3 +38,7 @@ Currently using Typescript for the project.
 12. [Image Carousel](https://github.com/meliorence/react-native-snap-carousel)
 
 13. [React Native Hooks](https://github.com/react-native-community/hooks)
+
+14. [Google Address Autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
+
+15. [React Native Settings](https://github.com/rmrs/react-native-settings)

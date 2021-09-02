@@ -35,8 +35,9 @@ export const CreateEventScreen = ({ navigation, route }: ProfileStackNavProps<"C
 
     /**
      * EVENT INFO
+     * Set default values here
      */
-    const eventName = useState("")
+    const eventName = useState("Test")
     const startDate = useState(moment())
     const endDate = useState(moment())
 

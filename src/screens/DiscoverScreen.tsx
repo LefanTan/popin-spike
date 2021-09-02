@@ -21,8 +21,8 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
     const { colors } = useTheme()
 
     const [region, setRegion] = useState<Region>({
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 53.540936,
+        longitude: -113.499203,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0521,
     })
@@ -32,7 +32,6 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
 
     const dragMenuPercentage = useSharedValue(0)
     const headingStyle = useAnimatedStyle(() => {
-        // runOnJS(setMenuOpened)(dragMenuPercentage.value > 0)
         return {
             opacity: 1 - dragMenuPercentage.value
         }
@@ -68,6 +67,8 @@ export const DiscoverScreen = ({ navigation }: DiscoverStackNavProps<"Discover">
                 provider={PROVIDER_GOOGLE}
                 style={ctw`w-full h-full`}
                 onRegionChangeComplete={setRegion}
+                showsUserLocation={true}
+                followsUserLocation
                 region={region}
             /> */}
 

@@ -11,7 +11,7 @@ interface AlertProps {
     body: string,
 }
 
-export const Alert: React.FC<AlertProps> = (props) => {
+export const ConfirmCancelAlert: React.FC<AlertProps> = (props) => {
     const { colors } = useTheme()
     const alertRef = useRef()
 

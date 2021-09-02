@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider';
 import { LoginScreen } from './LoginScreen';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { Alert } from '../components/Alert';
+import { ConfirmCancelAlert } from '../components/ConfirmCancelAlert';
 import ctw from '../../custom-tailwind';
 import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { useSharedValue } from 'react-native-reanimated';
@@ -132,7 +132,7 @@ export const ProfileScreen = ({ navigation, route }: ProfileStackNavProps<"Profi
             >
                 <AntIcons name="plus" size={hp(5)} color={colors['secondary']['400']} />
             </Pressable>
-            <Alert
+            <ConfirmCancelAlert
                 onClose={() => closeConfirm()}
                 onConfirm={() => authContext.logout()}
                 trigger={signOutConfirm}
