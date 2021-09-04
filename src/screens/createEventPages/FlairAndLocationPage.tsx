@@ -1,28 +1,25 @@
 import { AlertDialog, Box, Heading, Pressable, Text, useTheme, VStack } from 'native-base';
 import React, { useRef, useState } from 'react'
 import { useEffect } from 'react';
-import { Linking, PermissionsAndroid } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import RNSettings from 'react-native-settings'
+import { Linking } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
-interface FlairAndLocationPageProps {
+interface FlairAndLocationPageProps {}
 
+const getLocationPermissionAsync = async (failureCallback: () => void, successCallback: () => void) => {
+    // const permission = Pl
+
+    // if (granted === "denied" || granted === "never_ask_again") {
+    //     failureCallback()
+    // } else {
+    //     successCallback()
+    // }
 }
 
 export const FlairAndLocationPage: React.FC<FlairAndLocationPageProps> = ({ }) => {
     const { colors } = useTheme()
     const locationAlertRef = useRef()
     const [locationPermissionAlert, setLocationPermissionAlert] = useState(false)
-
-    const getLocationPermissionAsync = async (failureCallback: () => void, successCallback: () => void) => {
-        const granted = await PermissionsAndroid.request('android.permission.ACCESS_FINE_LOCATION')
-        if (granted === "denied" || granted === "never_ask_again") {
-            failureCallback()
-        } else {
-            successCallback()
-        }
-    }
 
     useEffect(() => {
         getLocationPermissionAsync(() => setLocationPermissionAlert(true), () => setLocationPermissionAlert(false))
@@ -73,7 +70,7 @@ export const FlairAndLocationPage: React.FC<FlairAndLocationPageProps> = ({ }) =
                         </Pressable>
                         <Pressable marginLeft={4} onPress={() => {
                             setLocationPermissionAlert(false)
-                            RNSettings.open
+                            Linking.openSettings()
                         }}>
                            <Text fontWeight={500} fontSize={hp(2.5)}>Go to settings</Text>
                         </Pressable>
