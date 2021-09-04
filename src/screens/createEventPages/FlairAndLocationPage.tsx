@@ -3,18 +3,10 @@ import React, { useRef, useState } from 'react'
 import { useEffect } from 'react';
 import { Linking } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { getLocationPermissionAsync } from '../../helpers/PermissionHelpers';
 
-interface FlairAndLocationPageProps {}
+interface FlairAndLocationPageProps { }
 
-const getLocationPermissionAsync = async (failureCallback: () => void, successCallback: () => void) => {
-    // const permission = Pl
-
-    // if (granted === "denied" || granted === "never_ask_again") {
-    //     failureCallback()
-    // } else {
-    //     successCallback()
-    // }
-}
 
 export const FlairAndLocationPage: React.FC<FlairAndLocationPageProps> = ({ }) => {
     const { colors } = useTheme()
@@ -72,7 +64,7 @@ export const FlairAndLocationPage: React.FC<FlairAndLocationPageProps> = ({ }) =
                             setLocationPermissionAlert(false)
                             Linking.openSettings()
                         }}>
-                           <Text fontWeight={500} fontSize={hp(2.5)}>Go to settings</Text>
+                            <Text fontWeight={500} fontSize={hp(2.5)}>Go to settings</Text>
                         </Pressable>
                     </AlertDialog.Footer>
                 </AlertDialog.Content>
