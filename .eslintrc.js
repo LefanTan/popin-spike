@@ -21,5 +21,8 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+        "react/display-name": "off",
+        "react/prop-types": "off",
+        "@typescript-eslint/no-empty-interface": "off"
     }
 };

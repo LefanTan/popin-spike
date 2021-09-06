@@ -57,7 +57,7 @@ export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"Cre
       }}>
       <VStack bg="primary.100" flex={1}>
         {/* Header */}
-        <HStack alignItems="center" padding={2}>
+        <HStack alignItems="center" height={hp(8)} padding={2}>
           <Pressable
             style={[
               ctw.style(`flex justify-center items-center`, {
