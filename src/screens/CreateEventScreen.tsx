@@ -39,7 +39,7 @@ export const CreateEventScreen = ({ navigation, route }: ProfileStackNavProps<"C
      */
     const eventName = useState("Test")
     const startDate = useState(moment())
-    const endDate = useState(moment())
+    const endDate = useState(startDate[0])
 
     return (
         <CreateEventContext.Provider
@@ -49,7 +49,7 @@ export const CreateEventScreen = ({ navigation, route }: ProfileStackNavProps<"C
                 endDate: endDate
             }}
         >
-            <VStack bg="primary.100" height="100%">
+            <VStack bg="primary.100" flex={1}>
                 {/* Header */}
                 <HStack
                     alignItems="center"
@@ -57,7 +57,7 @@ export const CreateEventScreen = ({ navigation, route }: ProfileStackNavProps<"C
                 >
                     <Pressable
                         style={[ctw.style(`flex justify-center items-center`, { width: hp(6), height: hp(6), borderRadius: 50 })]}
-                        _pressed={{bg: colors['primary']['300']}}
+                        _pressed={{ bg: colors['primary']['300'] }}
                         onPress={() => (page === 1) ? navigation.goBack() : setPage(Math.max(0, page - 1))}
                     >
                         {({ isPressed }) =>
