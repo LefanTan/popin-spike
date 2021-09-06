@@ -18,9 +18,8 @@ import {FirestoreEvent} from "../types/FirestoreClasses";
 import {MinimizedEvent} from "../buttons/MinimizedEvent";
 import {DiscoverStackNavProps} from "../types/ParamList";
 import {flairsList} from "../data/flairsList";
-import {BackHandler} from "react-native";
 
-export const DiscoverScreen = ({navigation}: DiscoverStackNavProps<"Discover">) => {
+export const DiscoverScreen: React.FC = ({navigation}: DiscoverStackNavProps<"Discover">) => {
   const {colors} = useTheme();
 
   const [region, setRegion] = useState<Region>({
