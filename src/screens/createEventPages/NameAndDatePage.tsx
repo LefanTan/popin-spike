@@ -63,7 +63,7 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = (props) => {
     }, [startDate])
 
     useEffect(() => {
-        if(endDate[0].isAfter(startDate[0]))
+        if (endDate[0].isAfter(startDate[0]))
             setHasEndDate(true)
     }, [])
 
@@ -90,7 +90,7 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = (props) => {
                     />
                 }
                 <Pressable marginTop={3} onPress={() => {
-                    setHasEndDate(!hasEndDate) 
+                    setHasEndDate(!hasEndDate)
                     setTempEndDate(startDate[0])
                     endDate[1](startDate[0])
                 }}>

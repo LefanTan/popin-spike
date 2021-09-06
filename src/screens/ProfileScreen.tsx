@@ -39,16 +39,16 @@ export const ProfileScreen = ({ navigation, route }: ProfileStackNavProps<"Profi
         }
     })
 
-    
+
     const handlePageScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         setSection(pages[Math.ceil(event.nativeEvent.contentOffset.x / wp(100))])
     }
 
     const pageScrollRef = useRef<ScrollView | null>()
-    const handleSectionClick = (type : string) => {
+    const handleSectionClick = (type: string) => {
         setSection(type)
         let index = pages.indexOf(type)
-        pageScrollRef.current?.scrollTo({x: index * wp(100), y: 0})
+        pageScrollRef.current?.scrollTo({ x: index * wp(100), y: 0 })
     }
 
     // User not signed in
@@ -91,7 +91,7 @@ export const ProfileScreen = ({ navigation, route }: ProfileStackNavProps<"Profi
                         <AntIcons name="camera" size={hp(10)} color={colors['secondary']['400']} />
                     </Pressable>
                 </Center>
-                <Heading paddingX={2} marginTop={hp(10)} fontWeight={500} fontSize={hp(3.5)} textAlign="center">University of Alberta's Malaysian Students' Association</Heading>
+                <Heading paddingX={2} marginTop={60} fontWeight={500} fontSize={hp(3.5)} textAlign="center">University of Alberta's Malaysian Students' Association</Heading>
                 <Center>
                     <HStack width="95%" marginTop={10} paddingX={2}>
                         <SectionHeader trigger={section === "About"} onClick={handleSectionClick} name="About" />
@@ -116,7 +116,7 @@ export const ProfileScreen = ({ navigation, route }: ProfileStackNavProps<"Profi
                         <VStack alignItems="center" width={wp(100)} marginTop={7}>
                             <Center width="95%" bg="secondary.400" borderRadius={25} paddingX={4} paddingY={3}>
                                 <Text color="primary.200" fontSize={hp(2)} fontWeight={500}>
-                                   Event List here!
+                                    Event List here!
                                 </Text>
                             </Center>
                         </VStack>
