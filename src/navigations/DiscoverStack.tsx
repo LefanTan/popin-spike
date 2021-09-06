@@ -1,26 +1,21 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react'
-import { DiscoverScreen } from '../screens/DiscoverScreen';
-import { EventScreen } from '../screens/EventScreen';
-import { DiscoverStackParamList } from '../types/ParamList';
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import React from "react";
+import {DiscoverScreen} from "../screens/DiscoverScreen";
+import {EventScreen} from "../screens/EventScreen";
+import {DiscoverStackParamList} from "../types/ParamList";
 
-interface DiscoverStackProps { }
+interface DiscoverStackProps {}
 
 const Stack = createNativeStackNavigator<DiscoverStackParamList>();
 
 /**
  * DiscoverTab
  */
-export const DiscoverStack: React.FC<DiscoverStackProps> = ({ }) => {
-    return (
-        <Stack.Navigator initialRouteName="Discover"
-            screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-                name="Discover" component={DiscoverScreen}
-            />
-            <Stack.Screen
-                name="Event" component={EventScreen}
-            />
-        </Stack.Navigator>
-    );
-}
+export const DiscoverStack: React.FC<DiscoverStackProps> = ({}) => {
+  return (
+    <Stack.Navigator initialRouteName="Discover" screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Discover" component={DiscoverScreen} />
+      <Stack.Screen name="Event" component={EventScreen} />
+    </Stack.Navigator>
+  );
+};

@@ -1,26 +1,25 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react'
-import { CreateEventScreen } from '../screens/CreateEventScreen';
-import { ProfileScreen } from '../screens/ProfileScreen';
-import { ProfileStackParamList } from '../types/ParamList';
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import React from "react";
+import {CreateEventScreen} from "../screens/CreateEventScreen";
+import {ProfileScreen} from "../screens/ProfileScreen";
+import {ProfileStackParamList} from "../types/ParamList";
 
-interface ProfileStackProps { }
+interface ProfileStackProps {}
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>();
 
 /**
  * ProfileTab
  */
-export const ProfileStack: React.FC<ProfileStackProps> = ({ }) => {
-    return (
-        <Stack.Navigator
-            initialRouteName="Profile"
-            screenOptions={{
-                headerShown: false
-            }}
-        >
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
-        </Stack.Navigator>
-    );
-}
+export const ProfileStack: React.FC<ProfileStackProps> = ({}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Profile"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
+    </Stack.Navigator>
+  );
+};
