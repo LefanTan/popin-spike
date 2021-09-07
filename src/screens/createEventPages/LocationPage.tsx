@@ -27,7 +27,7 @@ const GEOCODING_KEY = "AIzaSyAeoSDyBXu8qQdGGRDnCepDjkTsrEDpUQE";
 
 Geocoder.init(GEOCODING_KEY);
 
-export const FlairAndLocationPage: React.FC = () => {
+export const LocationPage: React.FC = () => {
   const autoCompleteRef = React.createRef<GooglePlacesAutocompleteRef>();
   const {colors, fontConfig} = useTheme();
   const locationAlertRef = useRef();
@@ -68,9 +68,11 @@ export const FlairAndLocationPage: React.FC = () => {
     Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
       result => {
         autoCompleteRef.current?.setAddressText(result.results[0].formatted_address);
+        setHasLocation(true);
+
+        // update context value
         address[1](result.results[0].formatted_address);
         latlong[1](new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude));
-        setHasLocation(true);
       }
     );
   }, [pinMapRegion]);

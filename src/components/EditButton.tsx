@@ -14,7 +14,7 @@ interface EditButtonProps {
   viewStyle?: StyleProp<ViewStyle>;
 }
 
-export const EditButton = (props: EditButtonProps) => {
+export const EditButton: React.FC<EditButtonProps> = props => {
   const {colors} = useTheme();
 
   return (

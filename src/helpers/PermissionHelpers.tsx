@@ -9,7 +9,7 @@ const locationPermission =
 export async function checkLocationPermissionAsync(
   successCallback: () => void = () => null,
   failureCallback: () => void = () => null
-) {
+): Promise<boolean> {
   const checkForPermission = await checkPermissionAsync(locationPermission);
   if (!checkForPermission) failureCallback();
   else successCallback();
@@ -20,22 +20,35 @@ export async function checkLocationPermissionAsync(
 export async function requestLocationPermissionAsync(
   onSuccess: () => void = () => null,
   onFailure: () => void = () => null
-) {
+): Promise<void> {
   const result = await requestPermissionAsync(locationPermission);
   if (!result) onFailure();
   else onSuccess();
 }
 
 export async function requestPermissionAsync(permission: Permission): Promise<boolean> {
-  var result = false;
+  let requestResult = false;
   await request(permission).then(result => {
-    result = result;
+    switch (result) {
+      case RESULTS.GRANTED:
+        requestResult = true;
+        break;
+      case RESULTS.DENIED:
+        requestResult = false;
+        break;
+      case RESULTS.BLOCKED:
+        requestResult = false;
+        break;
+      case RESULTS.UNAVAILABLE:
+        requestResult = false;
+        break;
+    }
   });
-  return result;
+  return requestResult;
 }
 
 export async function checkPermissionAsync(permission: Permission): Promise<boolean> {
-  var isPermissionGranted = false;
+  let isPermissionGranted = false;
   const result = await check(permission);
   switch (result) {
     case RESULTS.GRANTED:

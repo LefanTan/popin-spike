@@ -1,5 +1,5 @@
 import {Center, Heading, HStack, Pressable, Text, useTheme, VStack} from "native-base";
-import React, {useContext} from "react";
+import React from "react";
 import {ProfileStackNavProps} from "../types/ParamList";
 import {
   widthPercentageToDP as wp,
@@ -12,7 +12,7 @@ import {ProgressBar} from "../components/ProgressBar";
 import Ripple from "react-native-material-ripple";
 import {useState} from "react";
 import moment from "moment";
-import {FlairAndLocationPage} from "./createEventPages/FlairAndLocationPage";
+import {LocationPage} from "./createEventPages/LocationPage";
 import {firebase, FirebaseFirestoreTypes} from "@react-native-firebase/firestore";
 
 /**
@@ -105,7 +105,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
           </Pressable>
         </HStack>
         {page === 1 && <NameAndDatePage />}
-        {page === 2 && <FlairAndLocationPage />}
+        {page === 2 && <LocationPage />}
         <ProgressBar
           totalCount={4}
           currentCount={page}
