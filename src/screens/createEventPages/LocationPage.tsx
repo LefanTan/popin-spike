@@ -34,6 +34,7 @@ export const LocationPage: React.FC = () => {
   const {latlong, address, currentPageReady} = useContext(CreateEventContext);
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
+  // dummy value
   const [pinMapRegion, setPinMapRegion] = useState<Region>({
     latitude: 53.540936,
     longitude: -113.499203,
@@ -49,6 +50,14 @@ export const LocationPage: React.FC = () => {
       () => setHasLocationPermission(true),
       () => setHasLocationPermission(false)
     );
+
+    // Use eventcreation context's latlong to initalize, this will trigger another useEffect that will populate all UI updates
+    setPinMapRegion({
+      latitude: latlong[0].latitude,
+      longitude: latlong[0].longitude,
+      latitudeDelta: pinMapRegion.latitudeDelta,
+      longitudeDelta: pinMapRegion.longitudeDelta,
+    });
   }, []);
 
   useEffect(() => {
@@ -64,18 +73,28 @@ export const LocationPage: React.FC = () => {
     }
   }, [hasLocationPermission]);
 
+  // Called when the map is being dragged or pinMapRegion is changed
   useEffect(() => {
     Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
       result => {
+        // update search bar's text
+        // autoCompleteRef.current could be null during start up, add another useEffect to check for this
         autoCompleteRef.current?.setAddressText(result.results[0].formatted_address);
-        setHasLocation(true);
 
         // update context value
         address[1](result.results[0].formatted_address);
         latlong[1](new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude));
+
+        // indicate that an address has been set
+        setHasLocation(true);
       }
     );
   }, [pinMapRegion]);
+
+  useEffect(() => {
+    // when autoCompleteRef.current isn't null, set textinput to use context's value
+    autoCompleteRef.current?.setAddressText(address[0]);
+  }, [autoCompleteRef]);
 
   useEffect(() => {
     if (hasLocation) currentPageReady[1](true);
