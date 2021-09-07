@@ -1,7 +1,5 @@
-import {useFocusEffect} from "@react-navigation/native";
 import {Center, Heading, HStack, VStack, Pressable, useTheme} from "native-base";
 import React, {memo, useEffect, useState} from "react";
-import {BackHandler} from "react-native";
 import {Modal} from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
 import {IImageInfo} from "react-native-image-zoom-viewer/built/image-viewer.type";

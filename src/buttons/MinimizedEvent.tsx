@@ -1,4 +1,4 @@
-import {HStack, Image, Text, VStack, Pressable, Heading, useTheme} from "native-base";
+import {HStack, Image, Text, VStack, Heading, useTheme} from "native-base";
 import React from "react";
 import {FirestoreEvent} from "../types/FirestoreClasses";
 import Ionicon from "react-native-vector-icons/Ionicons";
@@ -59,8 +59,8 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
               </Text>
               <HStack paddingLeft={1}>
                 {props.event.flairs.map((flairType, index) => {
-                  let defaultIcon = flairsList[0].iconSource;
-                  let iconType = flairsList.find(item => item.name === flairType);
+                  const defaultIcon = flairsList[0].iconSource;
+                  const iconType = flairsList.find(item => item.name === flairType);
                   return (
                     <Image
                       key={index}

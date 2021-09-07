@@ -19,7 +19,7 @@ import {MinimizedEvent} from "../buttons/MinimizedEvent";
 import {DiscoverStackNavProps} from "../types/ParamList";
 import {flairsList} from "../data/flairsList";
 
-export const DiscoverScreen: React.FC = ({navigation}: DiscoverStackNavProps<"Discover">) => {
+export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({navigation}) => {
   const {colors} = useTheme();
 
   const [region, setRegion] = useState<Region>({
@@ -53,7 +53,7 @@ export const DiscoverScreen: React.FC = ({navigation}: DiscoverStackNavProps<"Di
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(documentSnapshot => {
-            let event: FirestoreEvent = documentSnapshot.data() as FirestoreEvent;
+            const event: FirestoreEvent = documentSnapshot.data() as FirestoreEvent;
             event.id = documentSnapshot.id;
             eventsList.push(event);
           });
