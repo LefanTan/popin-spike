@@ -1,4 +1,4 @@
-import {AlertDialog, Button, Heading, Pressable, Text, useTheme, VStack} from "native-base";
+import {AlertDialog, Box, Button, Heading, Pressable, Text, useTheme, VStack} from "native-base";
 import MapView, {Marker, PROVIDER_GOOGLE, Region} from "react-native-maps";
 import React, {useRef, useState} from "react";
 import {useEffect} from "react";
@@ -7,6 +7,7 @@ import {
   GooglePlacesAutocomplete,
   GooglePlacesAutocompleteRef,
 } from "react-native-google-places-autocomplete";
+import Geocoder from "react-native-geocoding";
 import AntIcons from "react-native-vector-icons/AntDesign";
 import {
   widthPercentageToDP as wp,
@@ -19,19 +20,24 @@ import {
 } from "../../helpers/PermissionHelpers";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
+const PLACES_API_KEY = "AIzaSyCsSpnG59UlSCaflM68hzRyCsBhENlLgjE";
+const GEOCODING_KEY = "AIzaSyAeoSDyBXu8qQdGGRDnCepDjkTsrEDpUQE";
+
+Geocoder.init(GEOCODING_KEY);
+
 export const FlairAndLocationPage: React.FC = () => {
   const autoCompleteRef = React.createRef<GooglePlacesAutocompleteRef>();
   const {colors, fontConfig} = useTheme();
   const locationAlertRef = useRef();
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
-  const [showPinMap, setShowPinMap] = useState(false);
   const [pinMapRegion, setPinMapRegion] = useState<Region>({
     latitude: 53.540936,
     longitude: -113.499203,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0521,
   });
+  const [pinLocation, setPinLocation] = useState("");
   const [locationPermissionAlert, setLocationPermissionAlert] = useState(false);
 
   useEffect(() => {
@@ -55,6 +61,15 @@ export const FlairAndLocationPage: React.FC = () => {
     }
   }, [hasLocationPermission]);
 
+  useEffect(() => {
+    Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
+      result => {
+        autoCompleteRef.current?.setAddressText(result.results[0].formatted_address);
+        setPinLocation(result.results[0].formatted_address);
+      }
+    );
+  }, [pinMapRegion]);
+
   return (
     <VStack paddingY={3} paddingX={4} flex={1}>
       <Heading fontSize={hp(4.5)} fontWeight={600}>
@@ -63,6 +78,7 @@ export const FlairAndLocationPage: React.FC = () => {
       <Text fontSize={hp(2.5)}>Tell us where your event is going to take place</Text>
       <GooglePlacesAutocomplete
         ref={autoCompleteRef}
+        fetchDetails={true}
         placeholder="search address..."
         styles={{
           container: {
@@ -86,7 +102,6 @@ export const FlairAndLocationPage: React.FC = () => {
           textInputContainer: {
             backgroundColor: colors["primary"]["200"],
             maxHeight: hp(6),
-            maxWidth: "88%",
             borderRadius: 10,
           },
           description: {
@@ -98,50 +113,54 @@ export const FlairAndLocationPage: React.FC = () => {
         }}
         onPress={(data, details = null) => {
           // 'details' is provided when fetchDetails = true
-          console.log(data, details);
+          setPinMapRegion({
+            // return default if geometry's location is null
+            latitude: details?.geometry.location.lat ?? pinMapRegion.latitude,
+            longitude: details?.geometry.location.lng ?? pinMapRegion.longitude,
+            latitudeDelta: pinMapRegion.latitudeDelta,
+            longitudeDelta: pinMapRegion.longitudeDelta,
+          });
         }}
         query={{
-          key: "AIzaSyCsSpnG59UlSCaflM68hzRyCsBhENlLgjE",
+          key: PLACES_API_KEY,
           language: "en",
           components: "country:ca",
         }}>
         <Button
           style={ctw.style(
-            `absolute top-0 right-14 bg-primary-300 p-1 flex items-center justify-center`,
+            `absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
             {borderRadius: 50, transform: [{translateY: hp(1.5)}]}
           )}
           onPress={() => autoCompleteRef.current?.clear()}>
           <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
         </Button>
-        <Pressable position="absolute" right={0} onPress={() => setShowPinMap(true)}>
-          <Ionicon name="location-sharp" size={hp(5)} style={{color: colors["secondary"]["400"]}} />
-        </Pressable>
       </GooglePlacesAutocomplete>
 
-      <Text>hooo</Text>
-      {showPinMap && (
-        <>
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            region={pinMapRegion}
-            onRegionChangeComplete={setPinMapRegion}
-            showsUserLocation={true}
-            style={{
-              position: "absolute",
-              top: -hp(8),
-              width: wp(100),
-              height: hp(100),
-              zIndex: 1,
-            }}
-          />
-          <Ionicon
-            name="location-sharp"
-            size={hp(5)}
-            color={colors["secondary"]["400"]}
-            style={{zIndex: 2, position: "absolute", left: "50%", top: "56%"}}
-          />
-        </>
-      )}
+      <Box
+        flex={1}
+        marginTop={5}
+        marginBottom={3}
+        borderRadius={15}
+        overflow="hidden"
+        bg="secondary.200">
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          region={pinMapRegion}
+          onRegionChangeComplete={setPinMapRegion}
+          showsUserLocation={true}
+          style={{width: "100%", height: "100%"}}>
+          {/* <Marker
+            coordinate={{latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}}
+          /> */}
+        </MapView>
+        <Ionicon
+          name="location-sharp"
+          size={hp(5)}
+          color={colors["secondary"]["400"]}
+          style={{position: "absolute", left: "45%", top: "37.5%"}}
+        />
+      </Box>
+
       <AlertDialog
         isOpen={locationPermissionAlert}
         leastDestructiveRef={locationAlertRef}
