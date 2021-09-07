@@ -1,5 +1,5 @@
 import {Center, Heading, HStack, Pressable, Text, useTheme, VStack} from "native-base";
-import React from "react";
+import React, {useContext} from "react";
 import {ProfileStackNavProps} from "../types/ParamList";
 import {
   widthPercentageToDP as wp,
@@ -13,6 +13,7 @@ import Ripple from "react-native-material-ripple";
 import {useState} from "react";
 import moment from "moment";
 import {FlairAndLocationPage} from "./createEventPages/FlairAndLocationPage";
+import {firebase, FirebaseFirestoreTypes} from "@react-native-firebase/firestore";
 
 /**
  * Using context to make sure all child components have access to edit EventCreation fields (eventName etc)
@@ -25,20 +26,32 @@ export const CreateEventContext = React.createContext<{
   endDate:
     | [moment.Moment, React.Dispatch<React.SetStateAction<moment.Moment>>]
     | [moment.Moment, () => void];
+  address: [string, React.Dispatch<React.SetStateAction<string>>] | [string, () => void];
+  latlong:
+    | [
+        FirebaseFirestoreTypes.GeoPoint,
+        React.Dispatch<React.SetStateAction<FirebaseFirestoreTypes.GeoPoint>>
+      ]
+    | [FirebaseFirestoreTypes.GeoPoint, () => void];
+  currentPageReady:
+    | [boolean, React.Dispatch<React.SetStateAction<boolean>>]
+    | [boolean, () => void];
 }>({
   eventName: ["", () => null],
   startDate: [moment(), () => null],
   endDate: [moment(), () => null],
+  address: ["", () => null],
+  latlong: [new firebase.firestore.GeoPoint(0, 0), () => null],
+  currentPageReady: [false, () => null],
 });
 
-export const CreateEventScreen: React.FC = ({navigation}: ProfileStackNavProps<"CreateEvent">) => {
+export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({navigation}) => {
   const {colors} = useTheme();
   const [page, setPage] = useState(1);
-  const [currentPageReady, setPageReady] = useState(false);
 
   const navigateToPage = (page: number) => {
     setPage(page);
-    setPageReady(false);
+    pageReady[1](false);
   };
 
   /**
@@ -48,6 +61,9 @@ export const CreateEventScreen: React.FC = ({navigation}: ProfileStackNavProps<"
   const eventName = useState("Test");
   const startDate = useState(moment());
   const endDate = useState(startDate[0]);
+  const address = useState("");
+  const latlong = useState<FirebaseFirestoreTypes.GeoPoint>(new firebase.firestore.GeoPoint(0, 0));
+  const pageReady = useState(false);
 
   return (
     <CreateEventContext.Provider
@@ -55,6 +71,9 @@ export const CreateEventScreen: React.FC = ({navigation}: ProfileStackNavProps<"
         eventName,
         startDate: startDate,
         endDate: endDate,
+        address: address,
+        latlong: latlong,
+        currentPageReady: pageReady,
       }}>
       <VStack bg="primary.100" flex={1}>
         {/* Header */}
@@ -85,7 +104,7 @@ export const CreateEventScreen: React.FC = ({navigation}: ProfileStackNavProps<"
             </Text>
           </Pressable>
         </HStack>
-        {page === 1 && <NameAndDatePage onCompleteCallback={setPageReady} />}
+        {page === 1 && <NameAndDatePage />}
         {page === 2 && <FlairAndLocationPage />}
         <ProgressBar
           totalCount={4}
@@ -95,16 +114,14 @@ export const CreateEventScreen: React.FC = ({navigation}: ProfileStackNavProps<"
         <Center padding={3}>
           <Ripple
             style={ctw.style(`w-full rounded-2xl flex items-center justify-center p-2`, {
-              backgroundColor: currentPageReady
-                ? colors["secondary"]["400"]
-                : colors["primary"]["200"],
+              backgroundColor: pageReady[0] ? colors["secondary"]["400"] : colors["primary"]["200"],
             })}
             onPress={() => navigateToPage(page + 1)}
-            disabled={!currentPageReady}>
+            disabled={!pageReady[0]}>
             <Heading
               fontWeight={500}
               fontSize={hp(3.5)}
-              color={currentPageReady ? colors["primary"]["100"] : colors["secondary"]["200"]}>
+              color={pageReady[0] ? colors["primary"]["100"] : colors["secondary"]["200"]}>
               Next
             </Heading>
           </Ripple>
