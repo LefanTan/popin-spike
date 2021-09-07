@@ -79,7 +79,7 @@ export const NameAndDatePage: React.FC = () => {
           variant="titleInput"
           placeholder="enter event name here..."
           fontSize={hp(4.5)}
-          maxLength={55}
+          maxLength={maxTitleLength}
           value={eventName?.[0]}
           onChangeText={eventName?.[1]}
         />

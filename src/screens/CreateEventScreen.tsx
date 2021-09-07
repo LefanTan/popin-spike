@@ -58,11 +58,13 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
    * EVENT INFO
    * Set default values here
    */
-  const eventName = useState("Test");
+  const eventName = useState("");
   const startDate = useState(moment());
   const endDate = useState(startDate[0]);
   const address = useState("");
-  const latlong = useState<FirebaseFirestoreTypes.GeoPoint>(new firebase.firestore.GeoPoint(0, 0));
+  const latlong = useState<FirebaseFirestoreTypes.GeoPoint>(
+    new firebase.firestore.GeoPoint(53.540936, -113.499203)
+  );
   const pageReady = useState(false);
 
   return (
