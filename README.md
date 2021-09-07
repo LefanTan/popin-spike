@@ -49,3 +49,37 @@ Currently using Typescript for the project.
 15. [React Native Settings](https://github.com/rmrs/react-native-settings): Not used.
 
 16. [React Native Geocoding](https://github.com/marlove/react-native-geocoding)
+
+
+
+### Useful Snippets 
+```
+/// Go File -> Preferences -> User Snippets -> typescriptreact.json -> paste this in
+"Typescript React Function Component": {
+    "prefix": "rh",
+    "body": [
+      "import React from 'react'",
+      "",
+      "interface ${TM_FILENAME_BASE}Props {",
+      "$1",
+      "}",
+      "",
+      "export const $TM_FILENAME_BASE: React.FC<${TM_FILENAME_BASE}Props> = ({$2}) => {",
+      "\t\treturn ($3);",
+      "}"
+    ],
+    "description": "Typescript React Function Component"
+  },
+  "React Native StyleSheet": {
+    "prefix": "rnss",
+    "body": [
+      "import {StyleSheet} from 'react-native'",
+      "const styles = StyleSheet.create({",
+      "",
+      "});"
+    ],
+    "description": "React Native StyleSheet"
+  }
+  ```
+  
+ 
