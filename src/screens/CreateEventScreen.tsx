@@ -31,13 +31,14 @@ export const CreateEventContext = React.createContext<{
   endDate: [moment(), () => null],
 });
 
-export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"CreateEvent">) => {
+export const CreateEventScreen: React.FC = ({navigation}: ProfileStackNavProps<"CreateEvent">) => {
   const {colors} = useTheme();
   const [page, setPage] = useState(1);
   const [currentPageReady, setPageReady] = useState(false);
 
-  const onNextPress = () => {
-    setPage(Math.max(0, page + 1));
+  const navigateToPage = (page: number) => {
+    setPage(page);
+    setPageReady(false);
   };
 
   /**
@@ -67,7 +68,9 @@ export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"Cre
               }),
             ]}
             _pressed={{bg: colors["primary"]["300"]}}
-            onPress={() => (page === 1 ? navigation.goBack() : setPage(Math.max(0, page - 1)))}>
+            onPress={() =>
+              page === 1 ? navigation.goBack() : navigateToPage(Math.max(0, page - 1))
+            }>
             {({isPressed}) => (
               <AntIcons
                 name="arrowleft"
@@ -96,7 +99,7 @@ export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"Cre
                 ? colors["secondary"]["400"]
                 : colors["primary"]["200"],
             })}
-            onPress={onNextPress}
+            onPress={() => navigateToPage(page + 1)}
             disabled={!currentPageReady}>
             <Heading
               fontWeight={500}
