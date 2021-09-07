@@ -1,6 +1,6 @@
 import {AlertDialog, Box, Button, Heading, Pressable, Text, useTheme, VStack} from "native-base";
 import MapView, {Marker, PROVIDER_GOOGLE, Region} from "react-native-maps";
-import React, {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {useEffect} from "react";
 import {Linking} from "react-native";
 import {
@@ -19,6 +19,8 @@ import {
   requestLocationPermissionAsync,
 } from "../../helpers/PermissionHelpers";
 import Ionicon from "react-native-vector-icons/Ionicons";
+import {CreateEventContext} from "../CreateEventScreen";
+import {firebase} from "@react-native-firebase/auth";
 
 const PLACES_API_KEY = "AIzaSyCsSpnG59UlSCaflM68hzRyCsBhENlLgjE";
 const GEOCODING_KEY = "AIzaSyAeoSDyBXu8qQdGGRDnCepDjkTsrEDpUQE";
@@ -29,6 +31,7 @@ export const FlairAndLocationPage: React.FC = () => {
   const autoCompleteRef = React.createRef<GooglePlacesAutocompleteRef>();
   const {colors, fontConfig} = useTheme();
   const locationAlertRef = useRef();
+  const {latlong, address, currentPageReady} = useContext(CreateEventContext);
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [pinMapRegion, setPinMapRegion] = useState<Region>({
@@ -37,7 +40,7 @@ export const FlairAndLocationPage: React.FC = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0521,
   });
-  const [pinLocation, setPinLocation] = useState("");
+  const [hasLocation, setHasLocation] = useState(false);
   const [locationPermissionAlert, setLocationPermissionAlert] = useState(false);
 
   useEffect(() => {
@@ -65,10 +68,17 @@ export const FlairAndLocationPage: React.FC = () => {
     Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
       result => {
         autoCompleteRef.current?.setAddressText(result.results[0].formatted_address);
-        setPinLocation(result.results[0].formatted_address);
+        address[1](result.results[0].formatted_address);
+        latlong[1](new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude));
+        setHasLocation(true);
       }
     );
   }, [pinMapRegion]);
+
+  useEffect(() => {
+    if (hasLocation) currentPageReady[1](true);
+    else currentPageReady[1](false);
+  }, [hasLocation]);
 
   return (
     <VStack paddingY={3} paddingX={4} flex={1}>
@@ -80,6 +90,7 @@ export const FlairAndLocationPage: React.FC = () => {
         ref={autoCompleteRef}
         fetchDetails={true}
         placeholder="search address..."
+        textInputProps={{placeholderTextColor: colors["primary"]["700"]}}
         styles={{
           container: {
             maxHeight: hp(6),
@@ -97,6 +108,7 @@ export const FlairAndLocationPage: React.FC = () => {
           textInput: {
             backgroundColor: "transparent",
             fontFamily: fontConfig["primary"]["500"],
+            color: colors["primary"]["700"],
             maxWidth: "90%",
           },
           textInputContainer: {
@@ -131,7 +143,10 @@ export const FlairAndLocationPage: React.FC = () => {
             `absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
             {borderRadius: 50, transform: [{translateY: hp(1.5)}]}
           )}
-          onPress={() => autoCompleteRef.current?.clear()}>
+          onPress={() => {
+            autoCompleteRef.current?.setAddressText("");
+            setHasLocation(false);
+          }}>
           <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
         </Button>
       </GooglePlacesAutocomplete>
@@ -147,6 +162,7 @@ export const FlairAndLocationPage: React.FC = () => {
           provider={PROVIDER_GOOGLE}
           region={pinMapRegion}
           onRegionChangeComplete={setPinMapRegion}
+          showsMyLocationButton={true}
           showsUserLocation={true}
           style={{width: "100%", height: "100%"}}>
           {/* <Marker

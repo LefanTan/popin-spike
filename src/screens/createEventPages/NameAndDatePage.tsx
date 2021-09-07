@@ -24,13 +24,9 @@ import {useEffect} from "react";
 import {useContext} from "react";
 import {CreateEventContext} from "../CreateEventScreen";
 
-interface NameAndDatePageProps {
-  onCompleteCallback: (ready: boolean) => void;
-}
-
-export const NameAndDatePage: React.FC<NameAndDatePageProps> = props => {
+export const NameAndDatePage: React.FC = () => {
   const {colors} = useTheme();
-  const {eventName, startDate, endDate} = useContext(CreateEventContext);
+  const {eventName, startDate, endDate, currentPageReady} = useContext(CreateEventContext);
 
   // Maximum length for a title
   const maxTitleLength = 50;
@@ -59,14 +55,14 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = props => {
 
   // Upon completion of field, call onComplete
   useEffect(() => {
-    if (eventName?.[0].length > 0) props.onCompleteCallback(true);
-    else props.onCompleteCallback(false);
+    if (eventName?.[0].length > 0) currentPageReady[1](true);
+    else currentPageReady[1](false);
   }, [eventName]);
 
   // Ensure that if the end date is lesser than start date, adjust
   useEffect(() => {
     if (endDate[0].isBefore(startDate[0])) {
-      let newDate = startDate[0].clone();
+      const newDate = startDate[0].clone();
       endDate[1](newDate);
       setTempEndDate(newDate);
     }
