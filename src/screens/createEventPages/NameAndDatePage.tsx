@@ -9,6 +9,7 @@ import {
   useTheme,
   VStack,
   Pressable,
+  FlatList,
 } from "native-base";
 import React, {useState} from "react";
 import Ripple from "react-native-material-ripple";
@@ -20,9 +21,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {useEffect} from "react";
-import {useContext} from "react";
+import {useEffect, useContext} from "react";
 import {CreateEventContext} from "../CreateEventScreen";
+import {FlairButton} from "../../buttons/FlairButton";
+import {flairsList} from "../../data/flairsList";
 
 interface NameAndDatePageProps {
   onCompleteCallback: (ready: boolean) => void;
@@ -83,13 +85,26 @@ export const NameAndDatePage: React.FC<NameAndDatePageProps> = props => {
           variant="titleInput"
           placeholder="enter event name here..."
           fontSize={hp(4.5)}
-          maxLength={55}
+          maxLength={maxTitleLength}
           value={eventName?.[0]}
           onChangeText={eventName?.[1]}
         />
         <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">
           characters left: {maxTitleLength - eventName?.[0]?.length}
         </Text>
+        <FlatList
+          marginTop={35}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          data={flairsList}
+          renderItem={({item}) => (
+            <FlairButton
+              onClick={type => console.log(type)}
+              name={item.name}
+              iconSource={item.iconSource}></FlairButton>
+          )}
+          keyExtractor={item => item.name}
+        />
         <EditButton
           onClick={() => setDateTimeDialog("start")}
           viewStyle={{marginTop: 35}}
