@@ -12,7 +12,7 @@ import {
 } from "native-base";
 import React, {useState} from "react";
 import Ripple from "react-native-material-ripple";
-import {EditButton} from "../../components/EditButton";
+import {CreateEventInputButton} from "../../buttons/CreateEventInputButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ctw from "../../../custom-tailwind";
 import {
@@ -86,7 +86,7 @@ export const NameAndDatePage: React.FC = () => {
         <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">
           characters left: {maxTitleLength - eventName?.[0]?.length}
         </Text>
-        <EditButton
+        <CreateEventInputButton
           onClick={() => setDateTimeDialog("start")}
           viewStyle={{marginTop: 35}}
           content={startDate[0].calendar(null, {
@@ -95,7 +95,7 @@ export const NameAndDatePage: React.FC = () => {
           title="Start Date"
         />
         {hasEndDate && (
-          <EditButton
+          <CreateEventInputButton
             onClick={() => setDateTimeDialog("end")}
             viewStyle={{marginTop: 10}}
             content={endDate[0].calendar(null, {
@@ -136,7 +136,7 @@ export const NameAndDatePage: React.FC = () => {
           <Heading marginTop={-1} fontWeight={600}>
             {dateTimeDialog.charAt(0).toUpperCase() + dateTimeDialog.substring(1)} Time
           </Heading>
-          <EditButton
+          <CreateEventInputButton
             onClick={() => setDateTimeModal("date")}
             viewStyle={{marginTop: 10}}
             title="Date"
@@ -146,7 +146,7 @@ export const NameAndDatePage: React.FC = () => {
                 : tempEndDate.calendar(null, dateOption)
             }
           />
-          <EditButton
+          <CreateEventInputButton
             onClick={() => setDateTimeModal("time")}
             viewStyle={{marginTop: 10}}
             title="Time"

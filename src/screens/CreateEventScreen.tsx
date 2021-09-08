@@ -14,6 +14,7 @@ import {useState} from "react";
 import moment from "moment";
 import {LocationPage} from "./createEventPages/LocationPage";
 import {firebase, FirebaseFirestoreTypes} from "@react-native-firebase/firestore";
+import {DetailsPage} from "./createEventPages/DetailsPage";
 
 /**
  * Using context to make sure all child components have access to edit EventCreation fields (eventName etc)
@@ -47,7 +48,7 @@ export const CreateEventContext = React.createContext<{
 
 export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({navigation}) => {
   const {colors} = useTheme();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(3);
 
   const navigateToPage = (page: number) => {
     setPage(page);
@@ -58,7 +59,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
    * EVENT INFO
    * Set default values here
    */
-  const eventName = useState("");
+  const eventName = useState("Test");
   const startDate = useState(moment());
   const endDate = useState(startDate[0]);
   const address = useState("");
@@ -108,6 +109,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         </HStack>
         {page === 1 && <NameAndDatePage />}
         {page === 2 && <LocationPage />}
+        {page === 3 && <DetailsPage />}
         <ProgressBar
           totalCount={4}
           currentCount={page}

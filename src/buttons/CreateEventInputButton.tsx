@@ -7,14 +7,14 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-interface EditButtonProps {
+interface CreateEventInputButtonProps {
   onClick: () => void;
   content: string;
   title: string;
   viewStyle?: StyleProp<ViewStyle>;
 }
 
-export const EditButton: React.FC<EditButtonProps> = props => {
+export const CreateEventInputButton: React.FC<CreateEventInputButtonProps> = props => {
   const {colors} = useTheme();
 
   return (

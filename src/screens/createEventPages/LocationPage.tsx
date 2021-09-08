@@ -75,20 +75,28 @@ export const LocationPage: React.FC = () => {
 
   // Called when the map is being dragged or pinMapRegion is changed
   useEffect(() => {
-    Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
-      result => {
-        // update search bar's text
-        // autoCompleteRef.current could be null during start up, add another useEffect to check for this
-        autoCompleteRef.current?.setAddressText(result.results[0].formatted_address);
+    let mounted = true;
 
-        // update context value
-        address[1](result.results[0].formatted_address);
-        latlong[1](new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude));
+    if (mounted)
+      Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
+        result => {
+          // update search bar's text
+          // autoCompleteRef.current could be null during start up, add another useEffect to check for this
+          autoCompleteRef.current?.setAddressText(result.results[0].formatted_address);
 
-        // indicate that an address has been set
-        setHasLocation(true);
-      }
-    );
+          // update context value
+          address[1](result.results[0].formatted_address);
+          latlong[1](
+            new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude)
+          );
+
+          // indicate that an address has been set
+          setHasLocation(true);
+        }
+      );
+    return () => {
+      mounted = false;
+    };
   }, [pinMapRegion]);
 
   useEffect(() => {
