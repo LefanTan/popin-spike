@@ -41,9 +41,9 @@ import {styles} from "../GeneralStyles";
 /**
  * EventScreen for viewing a full list of detail for an event
  */
-export const EventScreen = ({navigation, route}: DiscoverStackNavProps<"Event">) => {
+export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigation, route}) => {
   const [showImageGallery, setShowGallery] = useState(false);
-  const [imageIndex, setImageIndex] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
 
   const startDate = moment(route.params.event.startDate.toDate());
   const endDate = moment(route.params.event.endDate.toDate());
@@ -52,7 +52,7 @@ export const EventScreen = ({navigation, route}: DiscoverStackNavProps<"Event">)
   const {colors} = useTheme();
   const headerOpacityValue = useSharedValue(1);
   const carouselRef = useRef(null);
-  var prevScrolled = 0;
+  let prevScrolled = 0;
 
   const headerStyle = useAnimatedStyle(() => {
     return {
@@ -124,7 +124,8 @@ export const EventScreen = ({navigation, route}: DiscoverStackNavProps<"Event">)
             </Heading>
             <HStack>
               {route.params.event.flairs.map((flairsType: string) => {
-                let iconSource = flairsList.find(item => item.name === flairsType) ?? flairsList[0];
+                const iconSource =
+                  flairsList.find(item => item.name === flairsType) ?? flairsList[0];
                 return (
                   <Flair
                     name={flairsType}

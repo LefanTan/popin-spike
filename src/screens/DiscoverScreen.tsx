@@ -18,9 +18,8 @@ import {FirestoreEvent} from "../types/FirestoreClasses";
 import {MinimizedEvent} from "../buttons/MinimizedEvent";
 import {DiscoverStackNavProps} from "../types/ParamList";
 import {flairsList} from "../data/flairsList";
-import {BackHandler} from "react-native";
 
-export const DiscoverScreen = ({navigation}: DiscoverStackNavProps<"Discover">) => {
+export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({navigation}) => {
   const {colors} = useTheme();
 
   const [region, setRegion] = useState<Region>({
@@ -54,7 +53,7 @@ export const DiscoverScreen = ({navigation}: DiscoverStackNavProps<"Discover">) 
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(documentSnapshot => {
-            let event: FirestoreEvent = documentSnapshot.data() as FirestoreEvent;
+            const event: FirestoreEvent = documentSnapshot.data() as FirestoreEvent;
             event.id = documentSnapshot.id;
             eventsList.push(event);
           });

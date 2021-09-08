@@ -12,7 +12,8 @@ import {ProgressBar} from "../components/ProgressBar";
 import Ripple from "react-native-material-ripple";
 import {useState} from "react";
 import moment from "moment";
-import {FlairAndLocationPage} from "./createEventPages/FlairAndLocationPage";
+import {LocationPage} from "./createEventPages/LocationPage";
+import {firebase, FirebaseFirestoreTypes} from "@react-native-firebase/firestore";
 
 /**
  * Using context to make sure all child components have access to edit EventCreation fields (eventName etc)
@@ -25,28 +26,46 @@ export const CreateEventContext = React.createContext<{
   endDate:
     | [moment.Moment, React.Dispatch<React.SetStateAction<moment.Moment>>]
     | [moment.Moment, () => void];
+  address: [string, React.Dispatch<React.SetStateAction<string>>] | [string, () => void];
+  latlong:
+    | [
+        FirebaseFirestoreTypes.GeoPoint,
+        React.Dispatch<React.SetStateAction<FirebaseFirestoreTypes.GeoPoint>>
+      ]
+    | [FirebaseFirestoreTypes.GeoPoint, () => void];
+  currentPageReady:
+    | [boolean, React.Dispatch<React.SetStateAction<boolean>>]
+    | [boolean, () => void];
 }>({
   eventName: ["", () => null],
   startDate: [moment(), () => null],
   endDate: [moment(), () => null],
+  address: ["", () => null],
+  latlong: [new firebase.firestore.GeoPoint(0, 0), () => null],
+  currentPageReady: [false, () => null],
 });
 
-export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"CreateEvent">) => {
+export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({navigation}) => {
   const {colors} = useTheme();
   const [page, setPage] = useState(1);
-  const [currentPageReady, setPageReady] = useState(false);
 
-  const onNextPress = () => {
-    setPage(Math.max(0, page + 1));
+  const navigateToPage = (page: number) => {
+    setPage(page);
+    pageReady[1](false);
   };
 
   /**
    * EVENT INFO
    * Set default values here
    */
-  const eventName = useState("Test");
+  const eventName = useState("");
   const startDate = useState(moment());
   const endDate = useState(startDate[0]);
+  const address = useState("");
+  const latlong = useState<FirebaseFirestoreTypes.GeoPoint>(
+    new firebase.firestore.GeoPoint(53.540936, -113.499203)
+  );
+  const pageReady = useState(false);
 
   return (
     <CreateEventContext.Provider
@@ -54,10 +73,13 @@ export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"Cre
         eventName,
         startDate: startDate,
         endDate: endDate,
+        address: address,
+        latlong: latlong,
+        currentPageReady: pageReady,
       }}>
       <VStack bg="primary.100" flex={1}>
         {/* Header */}
-        <HStack alignItems="center" padding={2}>
+        <HStack alignItems="center" height={hp(8)} padding={2}>
           <Pressable
             style={[
               ctw.style(`flex justify-center items-center`, {
@@ -67,7 +89,9 @@ export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"Cre
               }),
             ]}
             _pressed={{bg: colors["primary"]["300"]}}
-            onPress={() => (page === 1 ? navigation.goBack() : setPage(Math.max(0, page - 1)))}>
+            onPress={() =>
+              page === 1 ? navigation.goBack() : navigateToPage(Math.max(0, page - 1))
+            }>
             {({isPressed}) => (
               <AntIcons
                 name="arrowleft"
@@ -82,8 +106,8 @@ export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"Cre
             </Text>
           </Pressable>
         </HStack>
-        {page === 1 && <NameAndDatePage onCompleteCallback={setPageReady} />}
-        {page === 2 && <FlairAndLocationPage />}
+        {page === 1 && <NameAndDatePage />}
+        {page === 2 && <LocationPage />}
         <ProgressBar
           totalCount={4}
           currentCount={page}
@@ -92,16 +116,14 @@ export const CreateEventScreen = ({navigation, route}: ProfileStackNavProps<"Cre
         <Center padding={3}>
           <Ripple
             style={ctw.style(`w-full rounded-2xl flex items-center justify-center p-2`, {
-              backgroundColor: currentPageReady
-                ? colors["secondary"]["400"]
-                : colors["primary"]["200"],
+              backgroundColor: pageReady[0] ? colors["secondary"]["400"] : colors["primary"]["200"],
             })}
-            onPress={onNextPress}
-            disabled={!currentPageReady}>
+            onPress={() => navigateToPage(page + 1)}
+            disabled={!pageReady[0]}>
             <Heading
               fontWeight={500}
               fontSize={hp(3.5)}
-              color={currentPageReady ? colors["primary"]["100"] : colors["secondary"]["200"]}>
+              color={pageReady[0] ? colors["primary"]["100"] : colors["secondary"]["200"]}>
               Next
             </Heading>
           </Ripple>

@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator<ProfileStackParamList>();
 /**
  * ProfileTab
  */
-export const ProfileStack: React.FC<ProfileStackProps> = ({}) => {
+export const ProfileStack: React.FC<ProfileStackProps> = () => {
   return (
     <Stack.Navigator
       initialRouteName="Profile"

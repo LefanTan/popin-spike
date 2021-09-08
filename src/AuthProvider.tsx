@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
 
     if (userData) {
       // React Native Firebase automatically persist user login state
-      let displayName = userData.displayName ?? "";
+      const displayName = userData.displayName ?? "";
       setUser({userName: displayName, firebaseAuthData: userData});
     } else setUser(null);
   };
