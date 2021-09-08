@@ -32,7 +32,7 @@ import {useRef} from "react";
 
 const pages = ["About", "My Events"];
 
-export const ProfileScreen = ({navigation, route}: ProfileStackNavProps<"Profile">) => {
+export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({navigation}) => {
   const authContext = useContext(AuthContext);
   const {colors} = useTheme();
 
@@ -61,7 +61,7 @@ export const ProfileScreen = ({navigation, route}: ProfileStackNavProps<"Profile
   const pageScrollRef = useRef<ScrollView | null>();
   const handleSectionClick = (type: string) => {
     setSection(type);
-    let index = pages.indexOf(type);
+    const index = pages.indexOf(type);
     pageScrollRef.current?.scrollTo({x: index * wp(100), y: 0});
   };
 

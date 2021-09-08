@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
     "env": {
         "browser": true,
@@ -21,5 +22,8 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+        "react/display-name": "off",
+        "react/prop-types": "off",
+        "@typescript-eslint/no-empty-interface": "off"
     }
 };
