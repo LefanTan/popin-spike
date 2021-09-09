@@ -16,8 +16,8 @@ interface FlairProps {
 export const Flair: React.FC<FlairProps> = ({iconSource, name, style, textColor}: FlairProps) => {
   return (
     <HStack style={style} alignItems="center" borderRadius={20}>
-      <Image alt="icon" size={hp(3)} source={iconSource} marginRight={0.5} />
-      <Text color={textColor} fontWeight={500} paddingBottom={1} fontSize={hp(2)}>
+      <Image alt="icon" size={hp(3)} source={iconSource} marginRight={1.5} />
+      <Text color={textColor} fontWeight={500} paddingBottom={1} fontSize={hp(2)} marginRight={1}>
         {name}
       </Text>
     </HStack>
