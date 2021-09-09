@@ -112,7 +112,7 @@ export const NameAndDatePage: React.FC = () => {
                 console.log(selectedTags[0]);
               }}
               isSelected={selectedTags[0].includes(flair.name)}
-              customStyle={{marginVertical: 8, marginRight: 10}}
+              customStyle={{marginVertical: 5, marginRight: 10}}
               name={flair.name}
               iconSource={flair.iconSource}
             />
@@ -124,7 +124,7 @@ export const NameAndDatePage: React.FC = () => {
           width="100%"
           textAlign="left"
           color="black"
-          marginTop={5}>
+          marginTop={3}>
           Time
         </Text>
         <EditButton
