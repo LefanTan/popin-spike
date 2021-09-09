@@ -21,6 +21,7 @@ import {DetailsPage} from "./createEventPages/DetailsPage";
  */
 export const CreateEventContext = React.createContext<{
   eventName: [string, React.Dispatch<React.SetStateAction<string>>] | [string, () => void];
+  selectedTags: [string[], React.Dispatch<React.SetStateAction<string[]>>] | [string[], () => void];
   startDate:
     | [moment.Moment, React.Dispatch<React.SetStateAction<moment.Moment>>]
     | [moment.Moment, () => void];
@@ -41,9 +42,10 @@ export const CreateEventContext = React.createContext<{
   eventName: ["", () => null],
   startDate: [moment(), () => null],
   endDate: [moment(), () => null],
-  address: ["", () => null],
+  address: ["", () => useState],
   latlong: [new firebase.firestore.GeoPoint(0, 0), () => null],
   currentPageReady: [false, () => null],
+  selectedTags: [[], () => null],
 });
 
 export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({navigation}) => {
@@ -60,6 +62,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
    * Set default values here
    */
   const eventName = useState("Test");
+  const selectedTags = useState<string[]>([]);
   const startDate = useState(moment());
   const endDate = useState(startDate[0]);
   const address = useState("");
@@ -77,6 +80,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         address: address,
         latlong: latlong,
         currentPageReady: pageReady,
+        selectedTags: selectedTags,
       }}>
       <VStack bg="primary.100" flex={1}>
         {/* Header */}

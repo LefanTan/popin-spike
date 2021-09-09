@@ -9,6 +9,8 @@ import {
   useTheme,
   VStack,
   Pressable,
+  FlatList,
+  Center,
 } from "native-base";
 import React, {useState} from "react";
 import Ripple from "react-native-material-ripple";
@@ -20,13 +22,16 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {useEffect} from "react";
-import {useContext} from "react";
+import {useEffect, useContext} from "react";
 import {CreateEventContext} from "../CreateEventScreen";
+import {FlairButton} from "../../buttons/FlairButton";
+import {flairsList} from "../../data/flairsList";
+import {margin} from "styled-system";
 
 export const NameAndDatePage: React.FC = () => {
   const {colors} = useTheme();
-  const {eventName, startDate, endDate, currentPageReady} = useContext(CreateEventContext);
+  const {eventName, startDate, endDate, currentPageReady, selectedTags} =
+    useContext(CreateEventContext);
 
   // Maximum length for a title
   const maxTitleLength = 50;
@@ -88,7 +93,7 @@ export const NameAndDatePage: React.FC = () => {
         </Text>
         <CreateEventInputButton
           onClick={() => setDateTimeDialog("start")}
-          viewStyle={{marginTop: 35}}
+          viewStyle={{marginTop: hp(2)}}
           content={startDate[0].calendar(null, {
             sameElse: "MMMM Do [at] h:mm A",
           })}
