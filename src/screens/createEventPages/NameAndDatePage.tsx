@@ -10,6 +10,7 @@ import {
   VStack,
   Pressable,
   FlatList,
+  Center,
 } from "native-base";
 import React, {useState} from "react";
 import Ripple from "react-native-material-ripple";
@@ -25,10 +26,12 @@ import {useEffect, useContext} from "react";
 import {CreateEventContext} from "../CreateEventScreen";
 import {FlairButton} from "../../buttons/FlairButton";
 import {flairsList} from "../../data/flairsList";
+import {margin} from "styled-system";
 
 export const NameAndDatePage: React.FC = () => {
   const {colors} = useTheme();
-  const {eventName, startDate, endDate, currentPageReady} = useContext(CreateEventContext);
+  const {eventName, startDate, endDate, currentPageReady, selectedTags} =
+    useContext(CreateEventContext);
 
   // Maximum length for a title
   const maxTitleLength = 50;
@@ -88,22 +91,45 @@ export const NameAndDatePage: React.FC = () => {
         <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">
           characters left: {maxTitleLength - eventName?.[0]?.length}
         </Text>
-        <FlatList
-          marginTop={35}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          data={flairsList}
-          renderItem={({item}) => (
+        <Text
+          fontSize={hp(4)}
+          fontWeight={600}
+          width="100%"
+          textAlign="left"
+          color="black"
+          marginTop={3}>
+          Tags
+        </Text>
+        <HStack marginTop={hp(2)} width="100%" flexWrap="wrap">
+          {flairsList.map((flair, index) => (
             <FlairButton
-              onClick={type => console.log(type)}
-              name={item.name}
-              iconSource={item.iconSource}></FlairButton>
-          )}
-          keyExtractor={item => item.name}
-        />
+              key={index}
+              onClick={type => {
+                if (selectedTags[0].includes(type)) {
+                  selectedTags[1](selectedTags[0].filter(x => x !== type));
+                } else selectedTags[1]([...selectedTags[0], type]);
+
+                console.log(selectedTags[0]);
+              }}
+              isSelected={selectedTags[0].includes(flair.name)}
+              customStyle={{marginVertical: 8, marginRight: 10}}
+              name={flair.name}
+              iconSource={flair.iconSource}
+            />
+          ))}
+        </HStack>
+        <Text
+          fontSize={hp(4)}
+          fontWeight={600}
+          width="100%"
+          textAlign="left"
+          color="black"
+          marginTop={5}>
+          Time
+        </Text>
         <EditButton
           onClick={() => setDateTimeDialog("start")}
-          viewStyle={{marginTop: 35}}
+          viewStyle={{marginTop: hp(2)}}
           content={startDate[0].calendar(null, {
             sameElse: "MMMM Do [at] h:mm A",
           })}
