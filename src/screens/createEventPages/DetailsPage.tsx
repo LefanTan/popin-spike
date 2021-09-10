@@ -15,8 +15,8 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
   const [description, setDescription] = useState<string>("");
 
   return (
-    <VStack paddingY={3} paddingX={4} flex={1}>
-      <ScrollView>
+    <VStack paddingY={3} flex={1}>
+      <ScrollView paddingX={4}>
         <Heading fontSize={hp(4.5)} fontWeight={600} marginBottom={3}>
           Details
         </Heading>

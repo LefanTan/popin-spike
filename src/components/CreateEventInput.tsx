@@ -56,7 +56,7 @@ export const CreateEventInput: React.FC<CreateEventInputProps> = props => {
               </Text>
             )}
             <Input
-              fontSize={hp(2.5)}
+              fontSize={props.multiline ? hp(2) : hp(2.5)}
               fontWeight={400}
               color="primary.700"
               width="100%"
