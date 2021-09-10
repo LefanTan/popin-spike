@@ -189,7 +189,7 @@ export const LocationPage: React.FC = () => {
         bg="secondary.200">
         <MapView
           provider={PROVIDER_GOOGLE}
-          region={pinMapRegion}
+          initialRegion={pinMapRegion}
           onRegionChangeComplete={setPinMapRegion}
           showsMyLocationButton={true}
           showsUserLocation={true}

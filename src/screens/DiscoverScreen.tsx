@@ -72,7 +72,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
                 onRegionChangeComplete={setRegion}
                 showsUserLocation={true}
                 followsUserLocation
-                region={region}
+                initialRegion={region}
             /> */}
 
       {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
