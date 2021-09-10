@@ -1,8 +1,8 @@
-import {Button} from "native-base";
-import React from "react";
-import {memo, useEffect, useContext, useState} from "react";
-import {ButtonProps, StyleProp, ViewStyle} from "react-native";
-import {CreateEventContext} from "../screens/CreateEventScreen";
+import {Pressable} from "native-base";
+import React, {memo} from "react";
+import {StyleProp, ViewStyle} from "react-native";
+import {ClassInput} from "tailwind-react-native-classnames";
+import ctw from "../../custom-tailwind";
 import {Flair} from "../screens/Flair";
 
 interface FlairButtonProps {
@@ -18,16 +18,12 @@ interface FlairButtonProps {
  */
 export const FlairButton: React.FC<FlairButtonProps> = memo(props => {
   return (
-    <Button
-      style={props.customStyle}
-      bg={props.isSelected ? "secondary.300" : "primary.200"}
+    <Pressable
+      style={[ctw`px-3 py-1 mr-1 rounded-2xl`, props.customStyle]}
+      bg={props.isSelected ? "secondary.400" : "primary.200"}
       _pressed={{
         bg: "primary.300",
       }}
-      borderRadius={20}
-      paddingX={3}
-      paddingY={1}
-      marginRight={1}
       onPress={() => props.onClick(props.name)}>
       <Flair
         textColor={props.isSelected ? "white" : "secondary.400"}
@@ -35,6 +31,6 @@ export const FlairButton: React.FC<FlairButtonProps> = memo(props => {
         name={props.name}
         iconSource={props.iconSource}
       />
-    </Button>
+    </Pressable>
   );
 });

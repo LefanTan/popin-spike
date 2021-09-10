@@ -2,10 +2,7 @@ import {Heading, HStack, Pressable, Text, useTheme, VStack} from "native-base";
 import React from "react";
 import {StyleProp, ViewStyle} from "react-native";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 interface CreateEventInputButtonProps {
   onClick: () => void;

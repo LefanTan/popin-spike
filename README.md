@@ -40,19 +40,18 @@ Currently using Typescript for the project.
 
 11. [Material Ripple](https://www.npmjs.com/package/react-native-material-ripple): For ripple effect when clicking buttons
 
-12. [Image Carousel](https://github.com/meliorence/react-native-snap-carousel)
+12. [Image Carousel](https://github.com/meliorence/react-native-snap-carousel) : for swiping through images
 
-13. [React Native Hooks](https://github.com/react-native-community/hooks)
+13. [Google Address Autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete) : Search bar for google places
 
-14. [Google Address Autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
+14. [React Native Settings](https://github.com/rmrs/react-native-settings): Not used.
 
-15. [React Native Settings](https://github.com/rmrs/react-native-settings): Not used.
+15. [React Native Geocoding](https://github.com/marlove/react-native-geocoding) : allow access to Google's Geocoding feature
 
-16. [React Native Geocoding](https://github.com/marlove/react-native-geocoding)
+16. [React Native Image Picker](https://github.com/react-native-image-picker/react-native-image-picker) : allow for uploading of images from gallery or camera.
 
+### Useful Snippets
 
-
-### Useful Snippets 
 ```
 /// Go File -> Preferences -> User Snippets -> typescriptreact.json -> paste this in
 "Typescript React Function Component": {
@@ -80,6 +79,4 @@ Currently using Typescript for the project.
     ],
     "description": "React Native StyleSheet"
   }
-  ```
-  
- 
+```
