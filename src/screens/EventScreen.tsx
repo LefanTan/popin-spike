@@ -135,7 +135,8 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
                     style={{
                       backgroundColor: colors["primary"]["200"],
                       borderRadius: 15,
-                      padding: 5,
+                      padding: 4,
+                      paddingHorizontal: 10,
                       marginRight: 3,
                     }}
                   />

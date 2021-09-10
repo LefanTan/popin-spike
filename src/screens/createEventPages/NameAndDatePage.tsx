@@ -30,7 +30,7 @@ import {margin} from "styled-system";
 
 export const NameAndDatePage: React.FC = () => {
   const {colors} = useTheme();
-  const {eventName, startDate, endDate, currentPageReady, selectedTags} =
+  const {eventName, startDate, endDate, currentPageReady, selectedFlairs} =
     useContext(CreateEventContext);
 
   // Maximum length for a title
@@ -60,9 +60,9 @@ export const NameAndDatePage: React.FC = () => {
 
   // Upon completion of field, call onComplete
   useEffect(() => {
-    if (eventName?.[0].length > 0) currentPageReady[1](true);
+    if (eventName?.[0].length > 0 && selectedFlairs[0].length > 0) currentPageReady[1](true);
     else currentPageReady[1](false);
-  }, [eventName]);
+  }, [eventName, selectedFlairs]);
 
   // Ensure that if the end date is lesser than start date, adjust
   useEffect(() => {
@@ -91,9 +91,43 @@ export const NameAndDatePage: React.FC = () => {
         <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">
           characters left: {maxTitleLength - eventName?.[0]?.length}
         </Text>
+        <Heading
+          fontSize={hp(3.5)}
+          fontWeight={600}
+          width="100%"
+          textAlign="left"
+          color="black"
+          marginTop={3}>
+          Flairs
+        </Heading>
+        <HStack marginTop={2} width="100%" flexWrap="wrap">
+          {flairsList.map((flair, index) => (
+            <FlairButton
+              key={index}
+              onClick={type => {
+                if (selectedFlairs[0].includes(type))
+                  selectedFlairs[1](selectedFlairs[0].filter(x => x !== type));
+                else selectedFlairs[1]([...selectedFlairs[0], type]);
+              }}
+              isSelected={selectedFlairs[0].includes(flair.name)}
+              customStyle={{marginVertical: 2.5, marginRight: 5}}
+              name={flair.name}
+              iconSource={flair.iconSource}
+            />
+          ))}
+        </HStack>
+        <Heading
+          fontSize={hp(3.5)}
+          fontWeight={600}
+          width="100%"
+          textAlign="left"
+          color="black"
+          marginTop={3}>
+          Time
+        </Heading>
         <CreateEventInputButton
           onClick={() => setDateTimeDialog("start")}
-          viewStyle={{marginTop: hp(2)}}
+          viewStyle={{marginTop: 10}}
           content={startDate[0].calendar(null, {
             sameElse: "MMMM Do [at] h:mm A",
           })}

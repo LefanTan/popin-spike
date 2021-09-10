@@ -21,7 +21,9 @@ import {DetailsPage} from "./createEventPages/DetailsPage";
  */
 export const CreateEventContext = React.createContext<{
   eventName: [string, React.Dispatch<React.SetStateAction<string>>] | [string, () => void];
-  selectedTags: [string[], React.Dispatch<React.SetStateAction<string[]>>] | [string[], () => void];
+  selectedFlairs:
+    | [string[], React.Dispatch<React.SetStateAction<string[]>>]
+    | [string[], () => void];
   startDate:
     | [moment.Moment, React.Dispatch<React.SetStateAction<moment.Moment>>]
     | [moment.Moment, () => void];
@@ -45,12 +47,12 @@ export const CreateEventContext = React.createContext<{
   address: ["", () => useState],
   latlong: [new firebase.firestore.GeoPoint(0, 0), () => null],
   currentPageReady: [false, () => null],
-  selectedTags: [[], () => null],
+  selectedFlairs: [[], () => null],
 });
 
 export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({navigation}) => {
   const {colors} = useTheme();
-  const [page, setPage] = useState(3);
+  const [page, setPage] = useState(1);
 
   const navigateToPage = (page: number) => {
     setPage(page);
@@ -62,7 +64,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
    * Set default values here
    */
   const eventName = useState("Test");
-  const selectedTags = useState<string[]>([]);
+  const selectedFlairs = useState<string[]>([]);
   const startDate = useState(moment());
   const endDate = useState(startDate[0]);
   const address = useState("");
@@ -80,7 +82,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         address: address,
         latlong: latlong,
         currentPageReady: pageReady,
-        selectedTags: selectedTags,
+        selectedFlairs: selectedFlairs,
       }}>
       <VStack bg="primary.100" flex={1}>
         {/* Header */}

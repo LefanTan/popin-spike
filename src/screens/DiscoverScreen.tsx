@@ -136,9 +136,12 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
                 data={flairsList}
                 renderItem={({item}) => (
                   <FlairButton
+                    isSelected={false}
                     onClick={type => console.log(type)}
                     name={item.name}
-                    iconSource={item.iconSource}></FlairButton>
+                    iconSource={item.iconSource}
+                    customStyle={{paddingLeft: 8, paddingRight: 8}}
+                  />
                 )}
                 keyExtractor={item => item.name}
               />
