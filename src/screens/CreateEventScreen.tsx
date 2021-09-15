@@ -52,7 +52,7 @@ export const CreateEventContext = React.createContext<{
 
 export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({navigation}) => {
   const {colors} = useTheme();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(3);
 
   const navigateToPage = (page: number) => {
     setPage(page);
