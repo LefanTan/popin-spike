@@ -15,8 +15,9 @@ import {
 } from "react-native-responsive-screen";
 import ctw from "../../../custom-tailwind";
 import {
-  checkLocationPermissionAsync,
-  requestLocationPermissionAsync,
+  checkPermissionAsync,
+  LOCATION_PERMISSION,
+  requestPermissionAsync,
 } from "../../helpers/PermissionHelpers";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import {CreateEventContext} from "../CreateEventScreen";
@@ -46,7 +47,8 @@ export const LocationPage: React.FC = () => {
 
   useEffect(() => {
     // Check if app already has location permission
-    checkLocationPermissionAsync(
+    checkPermissionAsync(
+      LOCATION_PERMISSION,
       () => setHasLocationPermission(true),
       () => setHasLocationPermission(false)
     );
@@ -62,10 +64,12 @@ export const LocationPage: React.FC = () => {
 
   useEffect(() => {
     if (!hasLocationPermission) {
-      requestLocationPermissionAsync(
+      requestPermissionAsync(
+        LOCATION_PERMISSION,
         () => setHasLocationPermission(true),
         () =>
-          checkLocationPermissionAsync(
+          checkPermissionAsync(
+            LOCATION_PERMISSION,
             () => setHasLocationPermission(true),
             () => setLocationPermissionAlert(true)
           )
@@ -167,7 +171,7 @@ export const LocationPage: React.FC = () => {
           language: "en",
           components: "country:ca",
         }}>
-        <Button
+        <Pressable
           style={ctw.style(
             `absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
             {borderRadius: 50, transform: [{translateY: hp(1.5)}]}
@@ -177,7 +181,7 @@ export const LocationPage: React.FC = () => {
             setHasLocation(false);
           }}>
           <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
-        </Button>
+        </Pressable>
       </GooglePlacesAutocomplete>
 
       <Box
