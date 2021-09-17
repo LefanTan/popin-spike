@@ -1,32 +1,21 @@
 import {Platform} from "react-native";
 import {check, Permission, PERMISSIONS, request, RESULTS} from "react-native-permissions";
 
-const locationPermission =
+export const LOCATION_PERMISSION =
   Platform.OS === "android"
     ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
     : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
 
-export async function checkLocationPermissionAsync(
-  successCallback: () => void = () => null,
-  failureCallback: () => void = () => null
-): Promise<boolean> {
-  const checkForPermission = await checkPermissionAsync(locationPermission);
-  if (!checkForPermission) failureCallback();
-  else successCallback();
+export const READ_STORAGE_PERMISSION =
+  Platform.OS === "android"
+    ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+    : PERMISSIONS.IOS.PHOTO_LIBRARY;
 
-  return checkForPermission;
-}
-
-export async function requestLocationPermissionAsync(
+export async function requestPermissionAsync(
+  permission: Permission,
   onSuccess: () => void = () => null,
   onFailure: () => void = () => null
-): Promise<void> {
-  const result = await requestPermissionAsync(locationPermission);
-  if (!result) onFailure();
-  else onSuccess();
-}
-
-export async function requestPermissionAsync(permission: Permission): Promise<boolean> {
+): Promise<boolean> {
   let requestResult = false;
   await request(permission).then(result => {
     switch (result) {
@@ -44,10 +33,16 @@ export async function requestPermissionAsync(permission: Permission): Promise<bo
         break;
     }
   });
+  if (!requestResult) onFailure();
+  else onSuccess();
   return requestResult;
 }
 
-export async function checkPermissionAsync(permission: Permission): Promise<boolean> {
+export async function checkPermissionAsync(
+  permission: Permission,
+  onSuccess: () => void = () => null,
+  onFailure: () => void = () => null
+): Promise<boolean> {
   let isPermissionGranted = false;
   const result = await check(permission);
   switch (result) {
@@ -64,5 +59,7 @@ export async function checkPermissionAsync(permission: Permission): Promise<bool
       isPermissionGranted = false;
       break;
   }
+  if (!isPermissionGranted) onFailure();
+  else onSuccess();
   return isPermissionGranted;
 }

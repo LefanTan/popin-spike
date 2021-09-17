@@ -15,6 +15,7 @@ import moment from "moment";
 import {LocationPage} from "./createEventPages/LocationPage";
 import {firebase, FirebaseFirestoreTypes} from "@react-native-firebase/firestore";
 import {DetailsPage} from "./createEventPages/DetailsPage";
+import {Asset} from "react-native-image-picker";
 
 /**
  * Using context to make sure all child components have access to edit EventCreation fields (eventName etc)
@@ -40,6 +41,14 @@ export const CreateEventContext = React.createContext<{
   currentPageReady:
     | [boolean, React.Dispatch<React.SetStateAction<boolean>>]
     | [boolean, () => void];
+  description: [string, React.Dispatch<React.SetStateAction<string>>] | [string, () => void];
+  photos: [Asset[], React.Dispatch<React.SetStateAction<Asset[]>>] | [Asset[], () => void];
+  price:
+    | [number | undefined, React.Dispatch<React.SetStateAction<number | undefined>>]
+    | [number | undefined, () => void];
+  website:
+    | [string | undefined, React.Dispatch<React.SetStateAction<string | undefined>>]
+    | [string | undefined, () => void];
 }>({
   eventName: ["", () => null],
   startDate: [moment(), () => null],
@@ -48,13 +57,27 @@ export const CreateEventContext = React.createContext<{
   latlong: [new firebase.firestore.GeoPoint(0, 0), () => null],
   currentPageReady: [false, () => null],
   selectedFlairs: [[], () => null],
+  description: ["", () => null],
+  photos: [[], () => null],
+  price: [undefined, () => null],
+  website: [undefined, () => null],
 });
 
 export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({navigation}) => {
   const {colors} = useTheme();
+  const maxPage = 3;
   const [page, setPage] = useState(3);
 
+  const submit = () => {
+    return;
+  };
+
   const navigateToPage = (page: number) => {
+    if (page === maxPage) {
+      submit();
+      return;
+    }
+
     setPage(page);
     pageReady[1](false);
   };
@@ -72,6 +95,10 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
     new firebase.firestore.GeoPoint(53.540936, -113.499203)
   );
   const pageReady = useState(false);
+  const description = useState("");
+  const photos = useState<Asset[]>([]);
+  const website = useState<string | undefined>();
+  const price = useState<number | undefined>();
 
   return (
     <CreateEventContext.Provider
@@ -83,6 +110,10 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         latlong: latlong,
         currentPageReady: pageReady,
         selectedFlairs: selectedFlairs,
+        description: description,
+        photos: photos,
+        website: website,
+        price: price,
       }}>
       <VStack bg="primary.100" flex={1}>
         {/* Header */}
@@ -117,7 +148,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         {page === 2 && <LocationPage />}
         {page === 3 && <DetailsPage />}
         <ProgressBar
-          totalCount={4}
+          totalCount={maxPage}
           currentCount={page}
           style={{marginTop: "auto", width: wp(100), height: hp(3)}}
         />
@@ -132,7 +163,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
               fontWeight={500}
               fontSize={hp(3.5)}
               color={pageReady[0] ? colors["primary"]["100"] : colors["secondary"]["200"]}>
-              Next
+              {page === maxPage ? "Done" : "Next"}
             </Heading>
           </Ripple>
         </Center>
