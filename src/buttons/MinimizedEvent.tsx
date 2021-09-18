@@ -27,7 +27,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
   const startDate = moment(props.event.startDate.toDate());
 
   return (
-    <HStack style={ctw.style(`bg-transparent z-10`, {height: hp(13.5)})}>
+    <HStack style={ctw.style(`bg-transparent z-10 mb-4`, {height: hp(13.5)})}>
       <HStack height="100%" width="100%" padding={1} bg={"primary.200"} borderRadius={15}>
         <Ripple onPress={props.onEventClick} style={ctw.style(`flex flex-row`, {width: "85%"})}>
           {/* TODO: Update this to use main photo url */}

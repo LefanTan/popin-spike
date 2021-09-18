@@ -20,7 +20,7 @@ import {FirestoreEvent} from "../types/FirestoreClasses";
 // needs to be imported before uuid
 import "react-native-get-random-values";
 import {v4 as uuidv4} from "uuid";
-import {EVENTS_PHOTOS_PATH, UploadPhotos} from "../helpers/FirestoreApiHelpers";
+import {EVENTS_PHOTOS_PATH, SetEventAsync, UploadPhotos} from "../helpers/FirestoreApiHelpers";
 import {UploadingPage} from "./createEventPages/UploadingPage";
 import {BackHandler} from "react-native";
 
@@ -80,7 +80,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
 
   // Submit the Events to Firestore
   const submit = async () => {
-    const form: FirestoreEvent = {
+    const eventForm: FirestoreEvent = {
       id: uuidv4(),
       address: address[0],
       startDate: firebase.firestore.Timestamp.fromDate(startDate[0].toDate()),
@@ -90,12 +90,19 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
       hostName: "Test Lefan",
       flairs: selectedFlairs[0],
       latlong: latlong[0],
-      price: price[0],
-      website: website[0],
     };
 
+    // Add them if they're not undefined or empty
+    if (price[0]) eventForm.price = price[0];
+    if (website[0]) eventForm.website = website[0];
+    if (photos[0].length > 0)
+      eventForm.mainPhotoUrl = `${EVENTS_PHOTOS_PATH}/${eventForm.id}/${photos[0][0].fileName}`;
+
     setIsUploading(true);
-    photos.length > 0 && (await UploadPhotos(photos[0], EVENTS_PHOTOS_PATH + "/" + form.id));
+
+    photos.length > 0 && (await UploadPhotos(photos[0], EVENTS_PHOTOS_PATH + "/" + eventForm.id));
+    await SetEventAsync(eventForm);
+
     setIsUploading(false);
     return;
   };
