@@ -15,6 +15,7 @@ import {FirestoreEvent} from "../types/FirestoreClasses";
 import {MinimizedEvent} from "../buttons/MinimizedEvent";
 import {DiscoverStackNavProps} from "../types/ParamList";
 import {flairsList} from "../data/flairsList";
+import {GetEventsListAsync} from "../helpers/FirestoreApiHelpers";
 
 export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({navigation}) => {
   const {colors} = useTheme();
@@ -43,22 +44,13 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
 
   // When menu open, load data
   useEffect(() => {
-    if (menuOpened && events.length === 0) {
-      const eventsList: FirestoreEvent[] = [];
-      firestore()
-        .collection("events")
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            const event: FirestoreEvent = documentSnapshot.data() as FirestoreEvent;
-            event.id = documentSnapshot.id;
-            eventsList.push(event);
-          });
-        })
-        .finally(() => {
-          setEventsList(eventsList);
-        });
+    async function getEvents() {
+      if (menuOpened && events.length === 0) {
+        const eventsList: FirestoreEvent[] = await GetEventsListAsync();
+        setEventsList(eventsList);
+      }
     }
+    getEvents();
   }, [menuOpened, events]);
 
   return (
