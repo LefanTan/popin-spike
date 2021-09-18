@@ -12,7 +12,7 @@ import {
 } from "native-base";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
 import {CreateEventInput} from "../../components/CreateEventInput";
 import {launchImageLibrary, ImageLibraryOptions, Asset} from "react-native-image-picker";
 import ctw from "../../../custom-tailwind";
@@ -31,7 +31,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
   const onAddPhotoClicked = () => {
     const option: ImageLibraryOptions = {
       mediaType: "photo",
-      quality: 1,
+      quality: 0.4,
       selectionLimit: selectionLimit,
     };
     launchImageLibrary(option, response => {
@@ -76,7 +76,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
             <Heading fontSize={hp(3.5)} fontWeight={600}>
               Photos
             </Heading>
-            <Text marginLeft={2} fontSize={hp(2)} fontWeight={400}>
+            <Text color="secondary.400" marginLeft={2} fontSize={hp(2)} fontWeight={400}>
               Optional
             </Text>
           </HStack>
@@ -131,7 +131,12 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
           maxLength={maxDiscLength}
           multiline
         />
-        <Text fontSize={hp(2)} fontWeight={500} width="100%" textAlign="right">
+        <Text
+          color="secondary.400"
+          fontSize={hp(2)}
+          fontWeight={500}
+          width="100%"
+          textAlign="right">
           characters left: {maxDiscLength - description.length}
         </Text>
         <CreateEventInput

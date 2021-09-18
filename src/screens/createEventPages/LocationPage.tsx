@@ -1,5 +1,5 @@
-import {AlertDialog, Box, Button, Heading, Pressable, Text, useTheme, VStack} from "native-base";
-import MapView, {Marker, PROVIDER_GOOGLE, Region} from "react-native-maps";
+import {AlertDialog, Box, Heading, Pressable, Text, useTheme, VStack} from "native-base";
+import MapView, {PROVIDER_GOOGLE, Region} from "react-native-maps";
 import React, {useContext, useRef, useState} from "react";
 import {useEffect} from "react";
 import {Linking} from "react-native";
@@ -63,6 +63,7 @@ export const LocationPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // If phone doesn't have location permission on startup, request for it
     if (!hasLocationPermission) {
       requestPermissionAsync(
         LOCATION_PERMISSION,
@@ -108,6 +109,7 @@ export const LocationPage: React.FC = () => {
     autoCompleteRef.current?.setAddressText(address[0]);
   }, [autoCompleteRef]);
 
+  // When location has been set, indicate that we're ready to move to the next page
   useEffect(() => {
     if (hasLocation) currentPageReady[1](true);
     else currentPageReady[1](false);
@@ -118,7 +120,9 @@ export const LocationPage: React.FC = () => {
       <Heading fontSize={hp(4.5)} fontWeight={600}>
         Location
       </Heading>
-      <Text fontSize={hp(2.5)}>Tell us where your event is going to take place</Text>
+      <Text color="secondary.400" fontSize={hp(2.5)}>
+        Tell us where your event is going to take place
+      </Text>
       <GooglePlacesAutocomplete
         ref={autoCompleteRef}
         fetchDetails={true}
@@ -224,13 +228,13 @@ export const LocationPage: React.FC = () => {
             }}>
             Location Permission
           </AlertDialog.Header>
-          <Text color="primary.700" fontSize={hp(2.25)} paddingLeft={3}>
+          <Text fontSize={hp(2.25)} paddingLeft={3}>
             This app requires location permission to work properly, please allow permission in the
             settings
           </Text>
           <AlertDialog.Footer>
             <Pressable onPress={() => setLocationPermissionAlert(false)}>
-              <Text fontWeight={500} fontSize={hp(2.5)}>
+              <Text color="secondary.400" fontWeight={500} fontSize={hp(2.5)}>
                 Cancel
               </Text>
             </Pressable>
@@ -240,7 +244,7 @@ export const LocationPage: React.FC = () => {
                 setLocationPermissionAlert(false);
                 Linking.openSettings();
               }}>
-              <Text fontWeight={500} fontSize={hp(2.5)}>
+              <Text color="secondary.400" fontWeight={500} fontSize={hp(2.5)}>
                 Go to settings
               </Text>
             </Pressable>
