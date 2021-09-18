@@ -19,8 +19,8 @@ export const AuthContext = React.createContext<{
   user: null,
   loading: true,
   errorMsg: "",
-  login: () => {},
-  logout: () => {},
+  login: () => null,
+  logout: () => null,
 });
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {

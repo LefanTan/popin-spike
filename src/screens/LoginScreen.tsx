@@ -25,7 +25,7 @@ import {AuthContext} from "../AuthProvider";
 
 interface LoginScreenProps {}
 
-export const LoginScreen: React.FC<LoginScreenProps> = () => {
+export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const authContext = useContext(AuthContext);
   const {colors, fontConfig} = useTheme();
 

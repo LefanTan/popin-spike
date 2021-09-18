@@ -29,6 +29,7 @@ import {SectionHeader} from "../components/SectionHeader";
 import {ProfileStackNavProps} from "../types/ParamList";
 import {NativeScrollEvent, NativeSyntheticEvent, ScrollView} from "react-native";
 import {useRef} from "react";
+import {LoginStack} from "../navigations/LoginStack";
 
 const pages = ["About", "My Events"];
 
@@ -67,7 +68,9 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
 
   // User not signed in
   if (!authContext.user) {
-    return <LoginScreen />;
+    //TODO: navigate to Login Stack
+    // return <LoginStack />;
+    return <LoginStack />;
   }
 
   return (
@@ -92,7 +95,8 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
               </Pressable>
               <Pressable
                 onPressIn={() => (settingScaleAnimatedValue.value = withSpring(0.75))}
-                onPressOut={() => (settingScaleAnimatedValue.value = withSpring(1))}>
+                onPressOut={() => (settingScaleAnimatedValue.value = withSpring(1))}
+                onPress={authContext.logout}>
                 <Animated.View style={settingScaleDownStyle}>
                   <AntIcons name="setting" size={hp(4)} color={colors["secondary"]["400"]} />
                 </Animated.View>
