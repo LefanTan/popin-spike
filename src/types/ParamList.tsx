@@ -29,6 +29,7 @@ export type DiscoverStackNavProps<T extends keyof DiscoverStackParamList> = {
 export type ProfileStackParamList = {
   Profile: undefined;
   CreateEvent: undefined;
+  LoginStack: undefined;
 };
 
 export type ProfileStackNavProps<T extends keyof ProfileStackParamList> = {
