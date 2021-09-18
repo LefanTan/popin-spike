@@ -6,7 +6,13 @@ import {FirestoreEvent} from "../types/FirestoreClasses";
 export const EVENTS_PHOTOS_PATH = "/events";
 export const USER_PHOTO_PATH = "/users";
 
-export async function UploadPhotosAsync(
+/**
+ * Upload photo assets to cloud storage
+ * @param photoAssets Photo Assets retrieved from react native image picker
+ * @param storagePath Path in cloud storage to store the files
+ * @returns
+ */
+export function UploadPhotos(
   photoAssets: Asset[],
   storagePath: string
 ): Promise<FirebaseStorageTypes.TaskSnapshot[]> {
@@ -32,4 +38,8 @@ export async function GetEventsListAsync(): Promise<FirestoreEvent[]> {
     );
 
   return eventsList;
+}
+
+export async function SetEventAsync(event: FirestoreEvent): Promise<void> {
+  await firestore().collection("events").doc(event.id).set(event);
 }

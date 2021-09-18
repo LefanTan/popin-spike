@@ -159,12 +159,14 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
                   {route.params.event.address}
                 </Text>
               </HStack>
-              <HStack marginTop={1} alignItems="center">
-                <Ionicon name="people-circle-sharp" size={hp(4)} style={detailIconStyle} />
-                <Text numberOfLines={2} color="primary.700" marginLeft={5}>
-                  {route.params.event.poppedInAmount} people popped in
-                </Text>
-              </HStack>
+              {route.params.event.poppedInAmount && (
+                <HStack marginTop={1} alignItems="center">
+                  <Ionicon name="people-circle-sharp" size={hp(4)} style={detailIconStyle} />
+                  <Text numberOfLines={2} color="primary.700" marginLeft={5}>
+                    {route.params.event.poppedInAmount} people popped in
+                  </Text>
+                </HStack>
+              )}
               <HStack marginTop={1} alignItems="center">
                 <Ionicon name="calendar" size={hp(3)} style={detailIconStyle} />
                 <Text flex={2} numberOfLines={2} color="primary.700" marginLeft={5}>

@@ -21,7 +21,7 @@ export const UploadingPage: React.FC<UploadingPageProps> = ({loading, onBackClic
   useEffect(() => {
     setTimeout(() => setDotCount((dotCount + 1) % 3), 1000);
   }, [dotCount]);
-  a;
+
   return (
     <Center flex={1} paddingX={10}>
       <HStack alignItems="center">
