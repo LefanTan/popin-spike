@@ -46,12 +46,7 @@ export const CreateEventInput: React.FC<CreateEventInputProps> = props => {
 
           <HStack alignItems="center">
             {props.prefix && (
-              <Text
-                marginTop={-1}
-                marginRight={1}
-                fontWeight={500}
-                fontSize={hp(2.5)}
-                color="primary.700">
+              <Text marginTop={-1} marginRight={1} fontWeight={500} fontSize={hp(2.5)}>
                 {props.prefix}
               </Text>
             )}

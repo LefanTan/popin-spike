@@ -7,7 +7,6 @@ export type FirestoreEvent = {
   id: string;
 
   address: string;
-  poppedInAmount: number;
   startDate: FirebaseFirestoreTypes.Timestamp;
   endDate: FirebaseFirestoreTypes.Timestamp;
   description: string;
@@ -15,6 +14,8 @@ export type FirestoreEvent = {
   hostName: string;
   flairs: string[];
   latlong: FirebaseFirestoreTypes.GeoPoint;
+
+  poppedInAmount?: number;
   mainPhotoUrl?: string;
   price?: number;
   website?: string;

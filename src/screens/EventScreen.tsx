@@ -9,7 +9,7 @@ import {
   useTheme,
   VStack,
 } from "native-base";
-import React, {useCallback, useEffect, useRef} from "react";
+import React, {useRef} from "react";
 import {mockPhotos} from "../data/mockPhotos";
 import {
   widthPercentageToDP as wp,

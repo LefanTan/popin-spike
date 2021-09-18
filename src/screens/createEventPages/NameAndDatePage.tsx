@@ -9,24 +9,18 @@ import {
   useTheme,
   VStack,
   Pressable,
-  FlatList,
-  Center,
 } from "native-base";
 import React, {useState} from "react";
 import Ripple from "react-native-material-ripple";
 import {CreateEventInputButton} from "../../buttons/CreateEventInputButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ctw from "../../../custom-tailwind";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
 import {useEffect, useContext} from "react";
 import {CreateEventContext} from "../CreateEventScreen";
 import {FlairButton} from "../../buttons/FlairButton";
 import {flairsList} from "../../data/flairsList";
-import {margin} from "styled-system";
 
 export const NameAndDatePage: React.FC = () => {
   const {colors} = useTheme();
@@ -88,7 +82,12 @@ export const NameAndDatePage: React.FC = () => {
           value={eventName?.[0]}
           onChangeText={eventName?.[1]}
         />
-        <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">
+        <Text
+          fontSize={hp(2.5)}
+          fontWeight={500}
+          width="100%"
+          textAlign="right"
+          color="secondary.400">
           characters left: {maxTitleLength - eventName?.[0]?.length}
         </Text>
         <Heading

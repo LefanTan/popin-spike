@@ -10,10 +10,7 @@ import FoundationIcon from "react-native-vector-icons/Foundation";
 import {FlairButton} from "../buttons/FlairButton";
 import firestore from "@react-native-firebase/firestore";
 import {useEffect} from "react";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {FirestoreEvent} from "../types/FirestoreClasses";
 import {MinimizedEvent} from "../buttons/MinimizedEvent";
 import {DiscoverStackNavProps} from "../types/ParamList";
@@ -47,7 +44,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
   // When menu open, load data
   useEffect(() => {
     if (menuOpened && events.length === 0) {
-      let eventsList: FirestoreEvent[] = [];
+      const eventsList: FirestoreEvent[] = [];
       firestore()
         .collection("events")
         .get()
