@@ -13,12 +13,14 @@ export const AuthContext = React.createContext<{
   user: User;
   loading: boolean;
   errorMsg: string;
+  signup: (email: string, password: string) => void;
   login: (email: string, password: string) => void;
   logout: () => void;
 }>({
   user: null,
   loading: true,
   errorMsg: "",
+  signup: () => null,
   login: () => null,
   logout: () => null,
 });
@@ -55,6 +57,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         user,
         loading: loading,
         errorMsg: errorMsg,
+        signup: (email, password) => {
+          setLoading(true);
+
+          if (email === "" || password === "") {
+            setError("Email or password can't be empty");
+            setLoading(false);
+            return;
+          }
+
+          auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+              console.log("User account created & signed in!");
+            })
+            .catch(error => {
+              setLoading(false);
+              if (error.code === "auth/email-already-in-use") {
+                setError("Email adress already in use!");
+              }
+
+              if (error.code === "auth/invalid-email") {
+                setError("That email address is invalid!");
+              }
+              if (error.code === "auth/weak-password") {
+                setError("Password should be at least 6 characters!");
+              }
+
+              console.error(error);
+            });
+        },
         // Login API called here
         login: async (email, password) => {
           setLoading(true);

@@ -37,13 +37,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     <VStack bg="primary.100" height={hp(100)}>
       <VStack
         padding={5}
-        bg="primary.200"
         width={wp(100)}
         height={hp(59)}
         borderBottomLeftRadius={25}
         borderBottomRightRadius={25}>
         <HStack width={wp(92.5)}>
-          <Heading variant="title" fontWeight={300} fontSize={hp(6)}>
+          <Heading variant="title" fontWeight={600} fontSize={hp(6)}>
             Sign in here!
           </Heading>
           {authContext.loading && (
@@ -109,15 +108,30 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
             </Pressable>
           </HStack>
         </VStack>
-        <Text marginTop={3} marginLeft={1} color="secondary.300" fontWeight={600} fontSize={hp(2)}>
-          {authContext.errorMsg}
-        </Text>
+        {authContext.errorMsg ? (
+          <Text
+            marginTop={3}
+            marginLeft={1}
+            color="secondary.300"
+            fontWeight={600}
+            fontSize={hp(2)}>
+            {authContext.errorMsg}
+          </Text>
+        ) : null}
+        <Pressable
+          marginTop={hp(3.5)}
+          onPress={() => {
+            navigation.navigate("Signup");
+          }}>
+          <Text fontSize={hp(2.5)} color="primary.800" marginLeft={1} underline={true}>
+            Create Account
+          </Text>
+        </Pressable>
         <Button
-          marginTop="auto"
+          marginTop={hp(2)}
           marginBottom={5}
-          variant="default"
-          height={hp(5)}
           borderRadius={10}
+          backgroundColor="secondary.400"
           width="100%"
           _text={{
             fontSize: hp(2.5),
