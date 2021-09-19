@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 export const LoginStack: React.FC<LoginStackProps> = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Signup"
+      initialRouteName="Login"
       screenOptions={{
         headerShown: false,
       }}>
