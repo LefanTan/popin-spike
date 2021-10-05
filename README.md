@@ -5,8 +5,13 @@ Currently using Typescript for the project.
 ## Installation
 
 1. Clone the project, and run `npm install`
-2. Head to the firebase console, go to `Project Overview` -> `Project Settings` and download `google-services.json`
-3. Copy the `google-services.json` to `popin-spike/android/app`
+2. Head to the firebase console, go to `Project Overview` -> `Project Settings`
+3. Download `google-services.json` and `GoogleService-Info.plist`
+   - For android builds, copy the `google-services.json` to `/popin-spike/android/app`
+   - For ios builds, Using Xcode, open the projects `/ios/{projectName}.xcodeproj` file (or `/ios/{projectName}.xcworkspace` if using Pods).
+     1. Right click on the project name and `Add files` to the project
+     2. Select the downloaded `GoogleService-Info.plist` file from your computer, and ensure the`Copy items if needed` checkbox is enabled.
+     3. run `cd ios && pod install --repo-update`
 4. After finishing, run `npm start`
 5. On another terminal, run `npm run android` or `npm run ios`
 
@@ -73,6 +78,10 @@ sudo chown -R [username] /Users/[username]/popin-spike
 
 16. [React Native Image Picker](https://github.com/react-native-image-picker/react-native-image-picker) : allow for uploading of images from gallery or camera.
 
+17. [React Native Maps](https://github.com/react-native-maps/react-native-maps) : For everything map related
+
+18. [React Native Permissions](https://github.com/zoontek/react-native-permissions) : For requesting permission etc
+
 ### Useful Snippets
 
 ```
@@ -103,9 +112,5 @@ sudo chown -R [username] /Users/[username]/popin-spike
 ],
 "description": "React Native StyleSheet"
 }
-
-```
-
-```
 
 ```

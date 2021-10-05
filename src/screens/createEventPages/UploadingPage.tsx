@@ -19,7 +19,15 @@ export const UploadingPage: React.FC<UploadingPageProps> = ({loading, onBackClic
 
   // This effect will keep invoking itself with a delay
   useEffect(() => {
-    setTimeout(() => setDotCount((dotCount + 1) % 3), 1000);
+    let isCancelled = false;
+
+    setTimeout(() => {
+      if (!isCancelled) setDotCount((dotCount + 1) % 3), 1000;
+    });
+
+    return () => {
+      isCancelled = true;
+    };
   }, [dotCount]);
 
   return (

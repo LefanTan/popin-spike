@@ -8,7 +8,6 @@ import {useAnimatedStyle} from "react-native-reanimated";
 import {useSharedValue} from "react-native-reanimated";
 import FoundationIcon from "react-native-vector-icons/Foundation";
 import {FlairButton} from "../buttons/FlairButton";
-import firestore from "@react-native-firebase/firestore";
 import {useEffect} from "react";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {FirestoreEvent} from "../types/FirestoreClasses";
@@ -56,13 +55,13 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
   return (
     <Center bg="primary.300" flex={1}>
       {/* <MapView
-                provider={PROVIDER_GOOGLE}
-                style={ctw`w-full h-full`}
-                onRegionChangeComplete={setRegion}
-                showsUserLocation={true}
-                followsUserLocation
-                initialRegion={region}
-            /> */}
+        provider={PROVIDER_GOOGLE}
+        style={ctw`w-full h-full`}
+        onRegionChangeComplete={setRegion}
+        showsUserLocation={true}
+        followsUserLocation
+        initialRegion={region}
+      /> */}
 
       {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
       {/* Min Height is how far you can drag up and vice versa */}
