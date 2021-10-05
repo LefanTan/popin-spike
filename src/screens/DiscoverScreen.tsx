@@ -53,7 +53,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
   }, [menuOpened, events]);
 
   return (
-    <Center bg="primary.300" flex={1}>
+    <Center bg="primary.300" flex={1} safeAreaTop>
       {/* <MapView
         provider={PROVIDER_GOOGLE}
         style={ctw`w-full h-full`}

@@ -58,7 +58,7 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
   }
 
   return (
-    <Flex bg="primary.100" height="100%">
+    <Flex bg="primary.100" height="100%" safeAreaTop>
       <ScrollView>
         <Center width="100%">
           <Box
@@ -66,7 +66,9 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
             width="95%"
             bg="primary.200"
             borderBottomRadius={25}
-            marginTop={3}
+            _android={{
+              marginTop: 3,
+            }}
             padding={2}>
             <HStack position="absolute" right={2} top={2}>
               <Pressable

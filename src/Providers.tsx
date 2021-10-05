@@ -14,7 +14,7 @@ const theme = extendTheme({
   components: NBComponents,
 });
 
-export const Providers: React.FC<ProvidersProps> = ({children}) => {
+export const Providers: React.FC<ProvidersProps> = () => {
   return (
     // For adding new dependencies, themes etc
     <NativeBaseProvider theme={theme}>
