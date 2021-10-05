@@ -166,10 +166,10 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         website: website,
         price: price,
       }}>
-      <VStack bg="primary.100" flex={1}>
+      <VStack bg="primary.100" flex={1} safeAreaTop>
         {/* Header */}
         {page < maxPage && (
-          <HStack alignItems="center" height={hp(8)} padding={2}>
+          <HStack alignItems="center" height={hp(6)} px={2} py={0}>
             <Pressable
               style={[
                 ctw.style(`flex justify-center items-center`, {

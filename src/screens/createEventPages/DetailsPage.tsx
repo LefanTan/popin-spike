@@ -67,7 +67,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
 
   return (
     <VStack paddingY={3} flex={1}>
-      <ScrollView paddingX={4}>
+      <ScrollView paddingX={4} bounces={false}>
         <Heading fontSize={hp(4.5)} fontWeight={600}>
           Details
         </Heading>
@@ -86,7 +86,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
           </Heading>
         </VStack>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} marginTop={2}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} marginTop={2} bounces={false}>
           {photos[0].length !== selectionLimit && (
             <Pressable
               width={100}
