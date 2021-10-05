@@ -1,5 +1,6 @@
 import {extendTheme, NativeBaseProvider} from "native-base";
 import React from "react";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 import {AuthProvider} from "./AuthProvider";
 import {NBColor, NBComponents, NBFont, NBFontConfig} from "./NativeBaseTheme";
 import {Routes} from "./Routes";
@@ -17,9 +18,11 @@ export const Providers: React.FC<ProvidersProps> = ({children}) => {
   return (
     // For adding new dependencies, themes etc
     <NativeBaseProvider theme={theme}>
-      <AuthProvider>
-        <Routes />
-      </AuthProvider>
+      <SafeAreaProvider>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </SafeAreaProvider>
     </NativeBaseProvider>
   );
 };

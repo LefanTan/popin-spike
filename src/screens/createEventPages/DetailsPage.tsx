@@ -76,7 +76,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
             <Heading fontSize={hp(3.5)} fontWeight={600}>
               Photos
             </Heading>
-            <Text color="secondary.400" marginLeft={2} fontSize={hp(2)} fontWeight={400}>
+            <Text color="secondary.400" mb={-1} marginLeft={2} fontSize={hp(2)} fontWeight={400}>
               Optional
             </Text>
           </HStack>
