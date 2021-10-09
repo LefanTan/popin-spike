@@ -83,10 +83,10 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
         </Text>
       ) : null}
       <Button
-        borderRadius={20}
-        width="85%"
+        borderRadius={23}
+        width="35%"
         marginTop={hp(2)}
-        marginLeft={hp(3)}
+        marginX="auto"
         backgroundColor="secondary.400"
         onPress={() => authContext.signup(email, password)}
         _text={{fontSize: hp(2.8)}}>
