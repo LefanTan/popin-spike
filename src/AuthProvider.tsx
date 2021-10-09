@@ -16,6 +16,7 @@ export const AuthContext = React.createContext<{
   signup: (email: string, password: string) => void;
   login: (email: string, password: string) => void;
   logout: () => void;
+  clearError: () => void;
 }>({
   user: null,
   loading: true,
@@ -23,6 +24,7 @@ export const AuthContext = React.createContext<{
   signup: () => null,
   login: () => null,
   logout: () => null,
+  clearError: () => null,
 });
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
@@ -127,6 +129,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 console.error(error);
               }
             );
+        },
+        //Clear error message
+        clearError: () => {
+          setError("");
         },
       }}>
       {children}
