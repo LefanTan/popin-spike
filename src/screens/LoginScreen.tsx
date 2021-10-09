@@ -48,15 +48,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
   return (
     <VStack bg="primary.100" height={hp(100)}>
-      <VStack
-        padding={5}
-        width={wp(100)}
-        height={hp(90)}
-        borderBottomLeftRadius={25}
-        borderBottomRightRadius={25}>
-        <HStack width={wp(92.5)}>
-          <Heading variant="title" fontWeight={600} fontSize={hp(6)}>
-            Sign in here!
+      <VStack padding={5} width={wp(100)} height={hp(75)} marginY="auto">
+        <HStack width={wp(92.5)} justifyContent="center">
+          <Heading variant="title" fontWeight={600} fontSize={hp(6)} paddingRight="5">
+            {isSignup ? "Sign in here!" : "Sign up here!"}
           </Heading>
           {authContext.loading && (
             <ActivityIndicator
@@ -70,8 +65,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
           marginTop={hp(5)}
           justifyContent="center"
           bg="primary.300"
-          width="90%"
-          marginLeft={hp(2)}
+          width="65%"
+          marginX="auto"
           borderRadius={borderRadius}>
           <Button
             borderRadius={borderRadius}
@@ -185,10 +180,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
             </Pressable>
             <Button
               marginTop={hp(5)}
-              marginLeft={hp(3)}
+              marginX="auto"
               borderRadius={borderRadius}
               backgroundColor="secondary.400"
-              width="85%"
+              width="35%"
               _text={{
                 fontSize: hp(2.5),
               }}
