@@ -11,11 +11,11 @@ const inputStyle = {
   width: "85%",
   height: hp(6),
   fontSize: hp(2.5),
-  marginLeft: hp(3),
   marginBottom: hp(3),
+  marginLeft: hp(3),
 };
 
-export const SignupScreen: React.FC<SignupProps> = ({navigation}) => {
+export const Signup: React.FC<SignupProps> = ({navigation}) => {
   const authContext = useContext(AuthContext);
   const {colors, fontConfig} = useTheme();
 
@@ -24,16 +24,7 @@ export const SignupScreen: React.FC<SignupProps> = ({navigation}) => {
   const [passwordCheck, setPasswordCheck] = useState("");
 
   return (
-    <VStack backgroundColor="primary.100" flex={1}>
-      <Heading
-        fontWeight={600}
-        fontSize={hp(8)}
-        marginTop={hp(2)}
-        marginLeft={hp(2)}
-        marginBottom={hp(5)}
-        color="secondary.400">
-        Sign up
-      </Heading>
+    <VStack backgroundColor="primary.100" flex={1} marginTop="8" maxHeight={hp(45)}>
       <VStack>
         <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
           Email
@@ -49,8 +40,7 @@ export const SignupScreen: React.FC<SignupProps> = ({navigation}) => {
           onChangeText={text => setEmail(text)}
         />
       </VStack>
-
-      <VStack>
+      <VStack marginTop="4">
         <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
           Password
         </Text>
@@ -93,12 +83,13 @@ export const SignupScreen: React.FC<SignupProps> = ({navigation}) => {
         </Text>
       ) : null}
       <Button
-        borderRadius={10}
+        borderRadius={20}
         width="85%"
         marginTop={hp(2)}
         marginLeft={hp(3)}
         backgroundColor="secondary.400"
-        onPress={() => authContext.signup(email, password)}>
+        onPress={() => authContext.signup(email, password)}
+        _text={{fontSize: hp(2.8)}}>
         Sign Up
       </Button>
       {authContext.loading && (
