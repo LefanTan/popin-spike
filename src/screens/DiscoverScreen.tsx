@@ -134,7 +134,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
                 keyExtractor={item => item.name}
               />
               <FlatList
-                paddingTop={5}
+                marginTop={5}
                 onRefresh={() => setEventsList([])}
                 refreshing={events.length === 0}
                 data={events}

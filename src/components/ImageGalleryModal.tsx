@@ -7,7 +7,7 @@ import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ctw from "../../custom-tailwind";
-import {styles} from "../GeneralStyles";
+import {generalStyles} from "../GeneralStyles";
 
 interface ImageGalleryModalProps {
   showGallery: boolean;
@@ -41,7 +41,7 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo(props =>
           justifyContent="flex-start"
           bg="shade.100"
           style={[
-            styles.shadow,
+            generalStyles.shadow,
             {
               elevation: 4,
             },

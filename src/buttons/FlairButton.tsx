@@ -3,7 +3,7 @@ import React, {memo} from "react";
 import {StyleProp, ViewStyle} from "react-native";
 import {ClassInput} from "tailwind-react-native-classnames";
 import ctw from "../../custom-tailwind";
-import {Flair} from "../screens/Flair";
+import {Flair} from "../components/Flair";
 
 interface FlairButtonProps {
   name: string;
