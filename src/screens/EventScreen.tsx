@@ -23,7 +23,7 @@ import FoundationIcon from "react-native-vector-icons/Foundation";
 import ctw from "../../custom-tailwind";
 import Ripple from "react-native-material-ripple";
 import moment from "moment";
-import {Flair} from "./Flair";
+import {Flair} from "../components/Flair";
 import {flairsList} from "../data/flairsList";
 import Carousel from "react-native-snap-carousel";
 import Animated, {
@@ -36,8 +36,9 @@ import Animated, {
 import {ImageButton} from "../buttons/ImageButton";
 import {useState} from "react";
 import {ImageGalleryModal} from "../components/ImageGalleryModal";
-import {styles} from "../GeneralStyles";
+import {generalStyles} from "../GeneralStyles";
 import {SafeAreaView} from "react-native-safe-area-context";
+import {StyleSheet} from "react-native";
 
 /**
  * EventScreen for viewing a full list of detail for an event
@@ -62,9 +63,12 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
     };
   });
 
-  const detailIconStyle = ctw.style(`text-secondary-400 -ml-1`, {
-    minWidth: "10%",
-    textAlign: "center",
+  const styles = StyleSheet.create({
+    detailIconStyle: ctw.style(`text-secondary-400 -ml-1`, {
+      minWidth: "10%",
+      textAlign: "center",
+    }),
+    detailTextStyle: ctw.style("text-primary-700 ml-5 w-10/12"),
   });
 
   return (
@@ -158,22 +162,26 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
                   Details
                 </Heading>
                 <HStack marginTop={3} alignItems="center">
-                  <Ionicon name="location-sharp" size={hp(4)} style={detailIconStyle} />
-                  <Text underline width="95%" numberOfLines={2} color="primary.700" marginLeft={5}>
+                  <Ionicon name="location-sharp" size={hp(4)} style={styles.detailIconStyle} />
+                  <Text underline width="95%" numberOfLines={2} style={styles.detailTextStyle}>
                     {route.params.event.address}
                   </Text>
                 </HStack>
                 {route.params.event.poppedInAmount && (
                   <HStack marginTop={1} alignItems="center">
-                    <Ionicon name="people-circle-sharp" size={hp(4)} style={detailIconStyle} />
-                    <Text numberOfLines={2} color="primary.700" marginLeft={5}>
+                    <Ionicon
+                      name="people-circle-sharp"
+                      size={hp(4)}
+                      style={styles.detailIconStyle}
+                    />
+                    <Text numberOfLines={2} style={styles.detailTextStyle}>
                       {route.params.event.poppedInAmount} people popped in
                     </Text>
                   </HStack>
                 )}
                 <HStack marginTop={1} alignItems="center">
-                  <Ionicon name="calendar" size={hp(3)} style={detailIconStyle} />
-                  <Text flex={2} numberOfLines={2} color="primary.700" marginLeft={5}>
+                  <Ionicon name="calendar" size={hp(3)} style={styles.detailIconStyle} />
+                  <Text flex={2} numberOfLines={2} style={styles.detailTextStyle}>
                     {`${startDate.format("dddd MMM DD : h:MMa")} - ${
                       sameDay ? "" : endDate.format(`dddd MMM DD :`)
                     } ${endDate.format(`h:MMa`)}`}
@@ -181,16 +189,20 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
                 </HStack>
                 {route.params.event.price && (
                   <HStack marginTop={1} alignItems="center">
-                    <FoundationIcon name="dollar" size={hp(5)} style={detailIconStyle} />
-                    <Text numberOfLines={2} color="primary.700" marginLeft={5}>
+                    <FoundationIcon name="dollar" size={hp(5)} style={styles.detailIconStyle} />
+                    <Text numberOfLines={2} style={styles.detailTextStyle}>
                       CAD {route.params.event.price}
                     </Text>
                   </HStack>
                 )}
                 {route.params.event.website && (
                   <HStack marginTop={1} alignItems="center">
-                    <MaterialCommunityIcon name="web" size={hp(3.5)} style={detailIconStyle} />
-                    <Text underline numberOfLines={1} color="primary.700" marginLeft={5}>
+                    <MaterialCommunityIcon
+                      name="web"
+                      size={hp(3.5)}
+                      style={styles.detailIconStyle}
+                    />
+                    <Text underline numberOfLines={1} style={styles.detailTextStyle}>
                       {route.params.event.website}
                     </Text>
                   </HStack>
@@ -217,7 +229,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
                 height: hp(6),
                 borderRadius: 50,
               }),
-              {...styles.shadow},
+              {...generalStyles.shadow},
             ]}
             bg="primary.200"
             onPress={() => navigation.goBack()}

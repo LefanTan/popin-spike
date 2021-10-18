@@ -11,7 +11,7 @@ import {
 import {ConfirmCancelAlert} from "../components/ConfirmCancelAlert";
 import Animated, {useAnimatedStyle, withSpring} from "react-native-reanimated";
 import {useSharedValue} from "react-native-reanimated";
-import {styles} from "../GeneralStyles";
+import {generalStyles} from "../GeneralStyles";
 import {SectionHeader} from "../components/SectionHeader";
 import {ProfileStackNavProps} from "../types/ParamList";
 import {NativeScrollEvent, NativeSyntheticEvent, ScrollView} from "react-native";
@@ -161,7 +161,7 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
         justifyContent="center"
         onPress={() => navigation.navigate("CreateEvent")}
         _pressed={{bg: colors["primary"]["300"]}}
-        style={{...styles.shadow, shadowOpacity: 0.3, elevation: 3}}>
+        style={{...generalStyles.shadow, shadowOpacity: 0.3, elevation: 3}}>
         <AntIcons name="plus" size={hp(5)} color={colors["secondary"]["400"]} />
       </Pressable>
       <ConfirmCancelAlert

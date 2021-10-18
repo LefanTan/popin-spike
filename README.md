@@ -21,6 +21,11 @@ Note: On a mac, you might encounter permission denied error, give access your us
 sudo chown -R [username] /Users/[username]/popin-spike
 ```
 
+### Android Installation
+
+1. Go to android/build.gradle and change enableHermes: false for first build
+2. Change it back to true after
+
 ### IOS Installation
 
 1. Install cocoapods with `sudo gem install cocoapods`
