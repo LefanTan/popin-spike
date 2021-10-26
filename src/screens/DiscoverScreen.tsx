@@ -135,7 +135,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
               />
               <FlatList
                 marginTop={5}
-                onRefresh={() => setEventsList([])}
+                onRefresh={() => setTimeout(() => setEventsList([]), 750)}
                 refreshing={events.length === 0}
                 data={events}
                 keyExtractor={(event: FirestoreEvent) => event.id}
@@ -147,6 +147,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
                         event: item,
                       })
                     }
+                    style={{height: hp(12), marginBottom: 15}}
                     event={item}
                   />
                 )}

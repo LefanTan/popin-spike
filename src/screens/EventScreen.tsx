@@ -77,19 +77,19 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
         <ScrollView
           bounces={false}
           bg="primary.100"
-          scrollEventThrottle={16}
+          scrollEventThrottle={15}
           onScroll={event => {
-            headerOpacityValue.value = withTiming(
-              interpolate(
-                event.nativeEvent.contentOffset.y - prevScrolled,
-                [0, 1],
-                [1, 0],
-                Extrapolate.CLAMP
-              ),
-              {duration: 150}
-            );
-          }}
-          onScrollEndDrag={event => (prevScrolled = event.nativeEvent.contentOffset.y)}>
+            const yOffset = event.nativeEvent.contentOffset.y;
+            const diff = yOffset - prevScrolled;
+
+            if (yOffset > 20) {
+              headerOpacityValue.value = withTiming(
+                interpolate(diff, [0, 1], [1, 0], Extrapolate.CLAMP),
+                {duration: 150}
+              );
+            }
+            prevScrolled = event.nativeEvent.contentOffset.y;
+          }}>
           <VStack>
             <Center borderRadius={15} width="100%">
               <Carousel
