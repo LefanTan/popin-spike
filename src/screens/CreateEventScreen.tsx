@@ -20,6 +20,7 @@ import {FirestoreEvent} from "../types/FirestoreClasses";
 // needs to be imported before uuid
 import "react-native-get-random-values";
 import {v4 as uuidv4} from "uuid";
+import {SafeAreaView} from "react-native-safe-area-context";
 import {EVENTS_PHOTOS_PATH, SetEventAsync, UploadPhotos} from "../helpers/FirestoreApiHelpers";
 import {UploadingPage} from "./createEventPages/UploadingPage";
 import {BackHandler} from "react-native";
@@ -166,10 +167,10 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         website: website,
         price: price,
       }}>
-      <VStack bg="primary.100" flex={1} safeAreaTop>
+      <SafeAreaView edges={["top"]} style={ctw`flex-1 bg-primary-100`}>
         {/* Header */}
         {page < maxPage && (
-          <HStack alignItems="center" height={hp(6)} px={2} py={0}>
+          <HStack alignItems="center" px={2} py={2}>
             <Pressable
               style={[
                 ctw.style(`flex justify-center items-center`, {
@@ -229,7 +230,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
             </Center>
           </>
         )}
-      </VStack>
+      </SafeAreaView>
     </CreateEventContext.Provider>
   );
 };
