@@ -144,7 +144,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
   const endDate = useState(startDate[0]);
   const address = useState("");
   const latlong = useState<FirebaseFirestoreTypes.GeoPoint>(
-    new firebase.firestore.GeoPoint(53.540936, -113.499203)
+    new firebase.firestore.GeoPoint(53.540936, -113.529203)
   );
   const pageReady = useState(false);
   const description = useState("test");

@@ -19,27 +19,30 @@ import {
   LOCATION_PERMISSION,
   requestPermissionAsync,
 } from "../../helpers/PermissionHelpers";
+import Geolocation from "react-native-geolocation-service";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import {CreateEventContext} from "../CreateEventScreen";
 import {firebase} from "@react-native-firebase/auth";
 
+/**
+ * Store this in .env variables!
+ */
 const PLACES_API_KEY = "AIzaSyCsSpnG59UlSCaflM68hzRyCsBhENlLgjE";
 const GEOCODING_KEY = "AIzaSyAeoSDyBXu8qQdGGRDnCepDjkTsrEDpUQE";
 
 Geocoder.init(GEOCODING_KEY);
 
 export const LocationPage: React.FC = () => {
-  const autoCompleteRef = React.createRef<GooglePlacesAutocompleteRef>();
-  const mapRef = useRef<MapView>(null);
+  let autoComplete: GooglePlacesAutocompleteRef | null;
+  let map: MapView | null;
   const {colors, fontConfig} = useTheme();
   const locationAlertRef = useRef();
   const {latlong, address, currentPageReady} = useContext(CreateEventContext);
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
-  // dummy value
   const [pinMapRegion, setPinMapRegion] = useState<Region>({
-    latitude: 53.540936,
-    longitude: -113.499203,
+    latitude: latlong[0].latitude,
+    longitude: latlong[0].longitude,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0521,
   });
@@ -53,14 +56,6 @@ export const LocationPage: React.FC = () => {
       () => setHasLocationPermission(true),
       () => setHasLocationPermission(false)
     );
-
-    // Use eventcreation context's latlong to initalize, this will trigger another useEffect that will populate all UI updates
-    setPinMapRegion({
-      latitude: latlong[0].latitude,
-      longitude: latlong[0].longitude,
-      latitudeDelta: pinMapRegion.latitudeDelta,
-      longitudeDelta: pinMapRegion.longitudeDelta,
-    });
   }, []);
 
   useEffect(() => {
@@ -76,6 +71,16 @@ export const LocationPage: React.FC = () => {
             () => setLocationPermissionAlert(true)
           )
       );
+    } else {
+      // If location is available, use user position as starting point
+      Geolocation.getCurrentPosition(info => {
+        map?.animateToRegion({
+          latitude: info.coords.latitude,
+          longitude: info.coords.longitude,
+          latitudeDelta: pinMapRegion.latitudeDelta,
+          longitudeDelta: pinMapRegion.longitudeDelta,
+        });
+      });
     }
   }, [hasLocationPermission]);
 
@@ -86,14 +91,7 @@ export const LocationPage: React.FC = () => {
       Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
         result => {
           // update search bar's text
-          // autoCompleteRef.current could be null during start up, add another useEffect to check for this
-          autoCompleteRef.current?.setAddressText(result.results[0].formatted_address);
-
-          // update context value
-          address[1](result.results[0].formatted_address);
-          latlong[1](
-            new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude)
-          );
+          autoComplete?.setAddressText(result.results[0].formatted_address);
 
           // indicate that an address has been set
           setHasLocation(true);
@@ -105,15 +103,16 @@ export const LocationPage: React.FC = () => {
     };
   }, [pinMapRegion]);
 
-  useEffect(() => {
-    // when autoCompleteRef.current isn't null, set textinput to use context's value
-    autoCompleteRef.current?.setAddressText(address[0]);
-  }, [autoCompleteRef]);
-
   // When location has been set, indicate that we're ready to move to the next page
   useEffect(() => {
-    if (hasLocation) currentPageReady[1](true);
-    else currentPageReady[1](false);
+    const addressText = autoComplete?.getAddressText();
+
+    if (hasLocation && addressText != undefined) {
+      // update context value
+      address[1](addressText);
+      latlong[1](new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude));
+      currentPageReady[1](true);
+    } else currentPageReady[1](false);
   }, [hasLocation]);
 
   return (
@@ -125,7 +124,7 @@ export const LocationPage: React.FC = () => {
         Tell us where your event is going to take place
       </Text>
       <GooglePlacesAutocomplete
-        ref={autoCompleteRef}
+        ref={(node: GooglePlacesAutocompleteRef) => (autoComplete = node)}
         fetchDetails={true}
         placeholder="search address..."
         textInputProps={{placeholderTextColor: colors["primary"]["700"]}}
@@ -169,7 +168,7 @@ export const LocationPage: React.FC = () => {
             latitudeDelta: pinMapRegion.latitudeDelta,
             longitudeDelta: pinMapRegion.longitudeDelta,
           };
-          mapRef.current?.animateToRegion(newRegion);
+          map?.animateToRegion(newRegion);
         }}
         query={{
           key: PLACES_API_KEY,
@@ -182,7 +181,10 @@ export const LocationPage: React.FC = () => {
               ctw`absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
               {borderRadius: 50, transform: [{translateY: hp(1.5)}]},
             ]}
-            onPress={() => autoCompleteRef.current?.setAddressText("")}>
+            onPress={() => {
+              autoComplete?.setAddressText("");
+              setHasLocation(false);
+            }}>
             <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
           </Pressable>
         )}
@@ -196,7 +198,7 @@ export const LocationPage: React.FC = () => {
         overflow="hidden"
         bg="secondary.200">
         <MapView
-          ref={mapRef}
+          ref={(node: MapView) => (map = node)}
           provider={PROVIDER_GOOGLE}
           initialRegion={pinMapRegion}
           onRegionChangeComplete={setPinMapRegion}
