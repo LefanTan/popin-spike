@@ -2,7 +2,7 @@ import {AlertDialog, Box, Heading, Pressable, Text, useTheme, VStack} from "nati
 import MapView, {PROVIDER_GOOGLE, Region} from "react-native-maps";
 import React, {useContext, useRef, useState} from "react";
 import {useEffect} from "react";
-import {Linking} from "react-native";
+import {Linking, Platform} from "react-native";
 import {
   GooglePlacesAutocomplete,
   GooglePlacesAutocompleteRef,
@@ -30,6 +30,7 @@ Geocoder.init(GEOCODING_KEY);
 
 export const LocationPage: React.FC = () => {
   const autoCompleteRef = React.createRef<GooglePlacesAutocompleteRef>();
+  const mapRef = useRef<MapView>(null);
   const {colors, fontConfig} = useTheme();
   const locationAlertRef = useRef();
   const {latlong, address, currentPageReady} = useContext(CreateEventContext);
@@ -81,8 +82,7 @@ export const LocationPage: React.FC = () => {
   // Called when the map is being dragged or pinMapRegion is changed
   useEffect(() => {
     let mounted = true;
-
-    if (mounted)
+    if (mounted) {
       Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
         result => {
           // update search bar's text
@@ -99,6 +99,7 @@ export const LocationPage: React.FC = () => {
           setHasLocation(true);
         }
       );
+    }
     return () => {
       mounted = false;
     };
@@ -130,14 +131,14 @@ export const LocationPage: React.FC = () => {
         textInputProps={{placeholderTextColor: colors["primary"]["700"]}}
         styles={{
           container: {
-            maxHeight: hp(6),
+            maxHeight: hp(5),
             marginTop: 10,
           },
           listView: {
             position: "absolute",
             top: hp(7),
-            elevation: 5,
-            zIndex: 5,
+            elevation: 10,
+            zIndex: 10,
           },
           row: {
             backgroundColor: colors["primary"]["200"],
@@ -146,7 +147,7 @@ export const LocationPage: React.FC = () => {
             backgroundColor: "transparent",
             fontFamily: fontConfig["primary"]["500"],
             color: colors["primary"]["700"],
-            maxWidth: "90%",
+            maxWidth: Platform.OS === "android" ? "90%" : "97.5%",
           },
           textInputContainer: {
             backgroundColor: colors["primary"]["200"],
@@ -162,30 +163,29 @@ export const LocationPage: React.FC = () => {
         }}
         onPress={(data, details = null) => {
           // 'details' is provided when fetchDetails = true
-          setPinMapRegion({
-            // return default if geometry's location is null
+          const newRegion = {
             latitude: details?.geometry.location.lat ?? pinMapRegion.latitude,
             longitude: details?.geometry.location.lng ?? pinMapRegion.longitude,
             latitudeDelta: pinMapRegion.latitudeDelta,
             longitudeDelta: pinMapRegion.longitudeDelta,
-          });
+          };
+          mapRef.current?.animateToRegion(newRegion);
         }}
         query={{
           key: PLACES_API_KEY,
           language: "en",
           components: "country:ca",
         }}>
-        <Pressable
-          style={ctw.style(
-            `absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
-            {borderRadius: 50, transform: [{translateY: hp(1.5)}]}
-          )}
-          onPress={() => {
-            autoCompleteRef.current?.setAddressText("");
-            setHasLocation(false);
-          }}>
-          <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
-        </Pressable>
+        {Platform.OS === "android" && (
+          <Pressable
+            style={[
+              ctw`absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
+              {borderRadius: 50, transform: [{translateY: hp(1.5)}]},
+            ]}
+            onPress={() => autoCompleteRef.current?.setAddressText("")}>
+            <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
+          </Pressable>
+        )}
       </GooglePlacesAutocomplete>
 
       <Box
@@ -196,6 +196,7 @@ export const LocationPage: React.FC = () => {
         overflow="hidden"
         bg="secondary.200">
         <MapView
+          ref={mapRef}
           provider={PROVIDER_GOOGLE}
           initialRegion={pinMapRegion}
           onRegionChangeComplete={setPinMapRegion}
