@@ -49,6 +49,16 @@ export const LocationPage: React.FC = () => {
   const [hasLocation, setHasLocation] = useState(false);
   const [locationPermissionAlert, setLocationPermissionAlert] = useState(false);
 
+  const updateAddressText = (text: string) => {
+    const prevText = autoComplete?.getAddressText();
+    autoComplete?.setAddressText(text);
+
+    if (autoComplete?.getAddressText() != prevText) {
+      setHasLocation(false);
+      setHasLocation(true);
+    }
+  };
+
   useEffect(() => {
     // Check if app already has location permission
     checkPermissionAsync(
@@ -73,29 +83,31 @@ export const LocationPage: React.FC = () => {
       );
     } else {
       // If location is available, use user position as starting point
-      Geolocation.getCurrentPosition(info => {
-        map?.animateToRegion({
-          latitude: info.coords.latitude,
-          longitude: info.coords.longitude,
-          latitudeDelta: pinMapRegion.latitudeDelta,
-          longitudeDelta: pinMapRegion.longitudeDelta,
-        });
-      });
+      Geolocation.getCurrentPosition(
+        info =>
+          map?.animateToRegion({
+            latitude: info.coords.latitude,
+            longitude: info.coords.longitude,
+            latitudeDelta: pinMapRegion.latitudeDelta,
+            longitudeDelta: pinMapRegion.longitudeDelta,
+          }),
+        error => console.log(error.message),
+        {enableHighAccuracy: true}
+      );
     }
   }, [hasLocationPermission]);
 
   // Called when the map is being dragged or pinMapRegion is changed
   useEffect(() => {
     let mounted = true;
+
     if (mounted) {
       Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
         result => {
           // update search bar's text
-          autoComplete?.setAddressText(result.results[0].formatted_address);
-
-          // indicate that an address has been set
-          setHasLocation(true);
-        }
+          updateAddressText(result.results[0].formatted_address);
+        },
+        error => console.error(error.message)
       );
     }
     return () => {
@@ -107,7 +119,7 @@ export const LocationPage: React.FC = () => {
   useEffect(() => {
     const addressText = autoComplete?.getAddressText();
 
-    if (hasLocation && addressText != undefined) {
+    if (hasLocation && addressText) {
       // update context value
       address[1](addressText);
       latlong[1](new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude));
@@ -127,17 +139,20 @@ export const LocationPage: React.FC = () => {
         ref={(node: GooglePlacesAutocompleteRef) => (autoComplete = node)}
         fetchDetails={true}
         placeholder="search address..."
+        enablePoweredByContainer={false}
         textInputProps={{placeholderTextColor: colors["primary"]["700"]}}
         styles={{
           container: {
             maxHeight: hp(5),
             marginTop: 10,
+            elevation: 5,
+            zIndex: 5,
           },
           listView: {
             position: "absolute",
             top: hp(7),
-            elevation: 10,
-            zIndex: 10,
+            backgroundColor: colors["primary"]["200"],
+            borderRadius: 15,
           },
           row: {
             backgroundColor: colors["primary"]["200"],
@@ -155,9 +170,6 @@ export const LocationPage: React.FC = () => {
           },
           description: {
             fontFamily: fontConfig["primary"]["500"],
-          },
-          poweredContainer: {
-            opacity: 0,
           },
         }}
         onPress={(data, details = null) => {
@@ -181,10 +193,7 @@ export const LocationPage: React.FC = () => {
               ctw`absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
               {borderRadius: 50, transform: [{translateY: hp(1.5)}]},
             ]}
-            onPress={() => {
-              autoComplete?.setAddressText("");
-              setHasLocation(false);
-            }}>
+            onPress={() => updateAddressText("")}>
             <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
           </Pressable>
         )}
