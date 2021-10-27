@@ -15,6 +15,7 @@ import { MinimizedEvent } from "../buttons/MinimizedEvent";
 import { DiscoverStackNavProps } from "../types/ParamList";
 import { flairsList } from "../data/flairsList";
 import { GetEventsListAsync } from "../helpers/FirestoreApiHelpers";
+import { useWindowDimensions } from "react-native";
 
 export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ navigation }) => {
   const { colors } = useTheme();
@@ -29,6 +30,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
 
   const [menuOpened, setMenuOpened] = useState(false);
   const [events, setEventsList] = useState<FirestoreEvent[]>([]);
+  const { height: screenHeight } = useWindowDimensions();
 
   const dragMenuOpacity = useSharedValue(0);
   const headingStyle = useAnimatedStyle(() => {
@@ -52,7 +54,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
     }
     getEvents();
   }, [menuOpened, events]);
-  // console.log(`${(menuHeightPercentage - 0.1) * 100}%`);
+  console.log(menuHeightPercentage);
   return (
     <Center bg="primary.300" flex={1} safeAreaTop>
       {/* <MapView
@@ -71,12 +73,10 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
           dragMenuOpacity.value = withTiming(percent * 2, { duration: 400 });
           setMenuOpened(percent > 0);
         }}
-        //For some reason, the flair buttons scale with the parent height, even though it shouldn't, setting a
-        //a min of 0.5 helps the scale changes to not be so obvious
         onMenuDraggedEnd={setHeightPerct}
         maxHeightFromTop={85}
         minHeightFromTop={10}
-        snapPositionsInPercentage={[0, 0.5, 1]}>
+        snapPositionsInPercentage={[0, 0.4, 1]}>
         <VStack
           padding={2}
           paddingTop={1}
@@ -93,7 +93,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
           <Animated.View
             pointerEvents={menuOpened ? "auto" : "none"}
             style={[mainViewStyle, { width: "100%", height: "100%" }]}>
-            <VStack justifyContent="flex-start" flex={1} py={1}>
+            <VStack justifyContent="flex-start" py={1}>
               <HStack justifyContent="flex-start">
                 <Input
                   height={hp(5)}
@@ -119,9 +119,8 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
                 </Pressable>
               </HStack>
               <FlatList
-                marginTop={1}
-                mb={1}
-                style={{ height: 30, maxHeight: 30 }}
+                marginTop={2}
+                style={{ height: hp(4), maxHeight: hp(4) }}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 data={flairsList}
@@ -131,16 +130,20 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
                     onClick={type => console.log(type)}
                     name={item.name}
                     iconSource={item.iconSource}
-                    customStyle={{ paddingHorizontal: 8, height: "100%" }}
+                    customStyle={{
+                      paddingHorizontal: 8,
+                      height: "100%",
+                    }}
                   />
                 )}
                 keyExtractor={item => item.name}
               />
               <FlatList
-                marginTop={1}
-                flex={1}
-                height="55%"
-                contentContainerStyle={{ paddingRight: 10 }}
+                marginTop={4}
+                style={{
+                  height: hp(menuHeightPercentage <= 0.6 ? 39 : 69),
+                }}
+                contentContainerStyle={ctw`pr-5`}
                 onRefresh={() => setTimeout(() => setEventsList([]), 750)}
                 refreshing={events.length === 0}
                 data={events}
