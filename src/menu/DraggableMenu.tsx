@@ -14,10 +14,11 @@ import ctw from "../../custom-tailwind";
 import { runOnJS } from "react-native-reanimated";
 
 interface DraggableMenuProps {
-  minHeightOffset: number;
-  maxHeightOffsetFromScreenHeight: number;
+  minHeightFromTop: number;
+  maxHeightFromTop: number;
   snapPositionsInPercentage: number[];
-  onMenuDragged: (percent: number) => void;
+  onMenuDragged?: (percent: number) => void;
+  onMenuDraggedEnd?: (percent: number) => void;
 }
 
 export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
@@ -25,8 +26,8 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
   // useTheme retrieves the theme object from NativeBase
   const { colors } = useTheme();
 
-  const maxHeightOffset = height - hp(props.maxHeightOffsetFromScreenHeight);
-  const minHeightOffset = hp(props.minHeightOffset);
+  const maxHeightOffset = hp(props.maxHeightFromTop);
+  const minHeightOffset = hp(props.minHeightFromTop);
   const yMenu = useSharedValue(maxHeightOffset);
   const yMenuSnapPositions = props.snapPositionsInPercentage.map((percent, index) =>
     index === 0 ? minHeightOffset : percent * maxHeightOffset
@@ -47,19 +48,19 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
     },
     onActive: (evt, ctx) => {
       // clamp the value so it doesn't go below or over the limit
-      let draggedVal = clamp(ctx.startY + evt.translationY, minHeightOffset, maxHeightOffset);
+      const draggedVal = clamp(ctx.startY + evt.translationY, minHeightOffset, maxHeightOffset);
 
       // update the limit
       yMenu.value = draggedVal;
 
-      var percentage = Math.abs(
+      const percentage = Math.abs(
         1 - (draggedVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)
       );
-      runOnJS(props.onMenuDragged)(percentage);
+      if (props.onMenuDragged) runOnJS(props.onMenuDragged)(percentage);
     },
-    onEnd: (evt, _) => {
+    onEnd: evt => {
       // evt.translationY > 0 = pull down
-      let closestVal =
+      const closestVal =
         evt.translationY > 0
           ? yMenuSnapPositions[yMenuSnapPositions.length - 1]
           : yMenuSnapPositions
@@ -71,10 +72,11 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
         // WithSpring() adds a 'spring' effect to the drag animation
         yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 });
 
-        var percentage = Math.abs(
+        const percentage = Math.abs(
           1 - (closestVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)
         );
-        runOnJS(props.onMenuDragged)(percentage);
+        if (props.onMenuDragged) runOnJS(props.onMenuDragged)(percentage);
+        if (props.onMenuDraggedEnd) runOnJS(props.onMenuDraggedEnd)(percentage);
       }
     },
   });

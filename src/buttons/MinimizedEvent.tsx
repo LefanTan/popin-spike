@@ -46,9 +46,8 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
             height={elementHeight}
             width={elementHeight}
             borderRadius={15}
-            style={{ aspectRatio: 1 / 1 }}
           />
-          <VStack style={ctw.style(`h-full pl-2 ml-1 justify-center`)}>
+          <VStack style={ctw.style(`h-full pl-2 ml-1 justify-center flex-1`)}>
             <Heading
               fontWeight={500}
               fontFamily="heading"
