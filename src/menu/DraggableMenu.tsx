@@ -29,8 +29,10 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
   const maxHeightOffset = hp(props.maxHeightFromTop);
   const minHeightOffset = hp(props.minHeightFromTop);
   const yMenu = useSharedValue(maxHeightOffset);
-  const yMenuSnapPositions = props.snapPositionsInPercentage.map((percent, index) =>
-    index === 0 ? minHeightOffset : percent * maxHeightOffset
+  const yMenuSnapPositions = props.snapPositionsInPercentage.map(
+    percent =>
+      // interpolate
+      minHeightOffset + percent * (maxHeightOffset - minHeightOffset)
   );
 
   // Animated style for the View
