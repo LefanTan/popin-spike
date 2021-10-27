@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import auth, {FirebaseAuthTypes} from "@react-native-firebase/auth";
+import {GoogleSignin, statusCodes} from "@react-native-google-signin/google-signin";
 import {useEffect} from "react";
 
 interface AuthProviderProps {}
@@ -9,11 +10,16 @@ type User = null | {
   userName: string;
 };
 
+GoogleSignin.configure({
+  webClientId: "218703914734-qq2j5f8b0obg54lmv1vgr9mlan8vr6m0.apps.googleusercontent.com",
+});
+
 export const AuthContext = React.createContext<{
   user: User;
   loading: boolean;
   errorMsg: string;
   signup: (email: string, password: string) => void;
+  googleLogin: () => void;
   login: (email: string, password: string) => void;
   logout: () => void;
   clearError: () => void;
@@ -22,6 +28,7 @@ export const AuthContext = React.createContext<{
   loading: true,
   errorMsg: "",
   signup: () => null,
+  googleLogin: () => null,
   login: () => null,
   logout: () => null,
   clearError: () => null,
@@ -89,6 +96,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
               console.error(error);
             });
         },
+
+        //Google Login here
+        googleLogin: async () => {
+          try {
+            // Get the users ID token
+            const {idToken} = await GoogleSignin.signIn();
+            // Create a Google credential with the token
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+            // Sign-in the user with the credential
+            auth().signInWithCredential(googleCredential);
+          } catch (error) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+              // user cancelled the login flow
+              console.log("user cancelled the login flow");
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+              // operation (e.g. sign in) is in progress already
+              console.log("operation (e.g. sign in) is in progress already");
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+              // play services not available or outdated
+              console.log("play services not available or outdated");
+              // some other error happened
+            } else {
+              console.log(error.code);
+            }
+          }
+        },
+
         // Login API called here
         login: async (email, password) => {
           setLoading(true);

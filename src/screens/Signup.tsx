@@ -24,7 +24,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
   const [passwordCheck, setPasswordCheck] = useState("");
 
   return (
-    <VStack backgroundColor="primary.100" flex={1} marginTop="8" maxHeight={hp(45)}>
+    <VStack backgroundColor="primary.100" flex={1} marginTop="8" minHeight={hp(43)}>
       <VStack>
         <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
           Email
@@ -84,12 +84,12 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
       ) : null}
       <Button
         borderRadius={23}
-        width="35%"
+        width="30%"
         marginTop={hp(2)}
         marginX="auto"
         backgroundColor="secondary.400"
         onPress={() => authContext.signup(email, password)}
-        _text={{fontSize: hp(2.8)}}>
+        _text={{fontSize: hp(2.5)}}>
         Sign Up
       </Button>
       {authContext.loading && (

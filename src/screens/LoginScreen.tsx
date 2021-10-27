@@ -10,6 +10,7 @@ import {
   Center,
   useTheme,
   View,
+  Image,
 } from "native-base";
 import React from "react";
 import {useState} from "react";
@@ -48,7 +49,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
   return (
     <VStack bg="primary.100" height={hp(100)}>
-      <VStack padding={5} width={wp(100)} height={hp(75)} marginY="auto">
+      <VStack padding={5} width={wp(100)} height={hp(75)} marginTop={hp(5)}>
         <HStack width={wp(92.5)} justifyContent="center">
           <Heading variant="title" fontWeight={600} fontSize={hp(6)} paddingRight="5">
             {isSignup ? "Sign in here!" : "Sign up here!"}
@@ -167,13 +168,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                 {authContext.errorMsg}
               </Text>
             ) : null}
-            <Pressable
-              marginTop={hp(1)}
-              onPress={() => {
-                navigation.navigate("Signup");
-              }}
-              width="85%"
-              marginLeft={hp(3)}>
+            <Pressable marginTop={hp(1)} width="85%" marginLeft={hp(3)}>
               <Text fontSize={hp(2.4)} color="primary.800" marginLeft="auto" underline={true}>
                 Forgot password?
               </Text>
@@ -183,7 +178,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
               marginX="auto"
               borderRadius={borderRadius}
               backgroundColor="secondary.400"
-              width="35%"
+              width="30%"
               _text={{
                 fontSize: hp(2.5),
               }}
@@ -195,6 +190,33 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
             </Button>
           </View>
         )}
+        <Text marginX="auto" marginTop={hp(1.5)}>
+          or
+        </Text>
+        <Button
+          marginTop={hp(1.5)}
+          marginX="auto"
+          borderRadius={borderRadius}
+          backgroundColor="primary.200"
+          width="70%"
+          _text={{
+            fontSize: hp(2.5),
+            color: "primary.800",
+          }}
+          onPress={() => {
+            authContext.googleLogin();
+          }}
+          startIcon={
+            <Icon marginTop={hp(0.5)}>
+              <Image
+                source={require("../../assets/imgs/google-logo.png")}
+                alt="Google logo"
+                size={hp(4)}
+              />
+            </Icon>
+          }>
+          Sign in with Google
+        </Button>
       </VStack>
     </VStack>
   );
