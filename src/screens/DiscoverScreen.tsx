@@ -120,10 +120,10 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
                 </Pressable>
               </HStack>
               <FlatList
-                paddingTop={2}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 data={flairsList}
+                marginTop={2}
                 renderItem={({ item }) => (
                   <FlairButton
                     isSelected={false}
