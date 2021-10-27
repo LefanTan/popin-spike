@@ -1,9 +1,9 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const generalStyles = StyleSheet.create({
   shadow: {
     shadowColor: "black",
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 5,

@@ -1,17 +1,17 @@
-import {Box, useTheme} from "native-base";
-import React, {memo} from "react";
-import {PanGestureHandler} from "react-native-gesture-handler";
+import { Box, useTheme } from "native-base";
+import React, { memo } from "react";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   useAnimatedGestureHandler,
   withSpring,
 } from "react-native-reanimated";
-import {clamp} from "react-native-redash";
-import {useWindowDimensions} from "react-native";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { clamp } from "react-native-redash";
+import { useWindowDimensions } from "react-native";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import ctw from "../../custom-tailwind";
-import {runOnJS} from "react-native-reanimated";
+import { runOnJS } from "react-native-reanimated";
 
 interface DraggableMenuProps {
   minHeightOffset: number;
@@ -21,9 +21,9 @@ interface DraggableMenuProps {
 }
 
 export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
-  const {height} = useWindowDimensions();
+  const { height } = useWindowDimensions();
   // useTheme retrieves the theme object from NativeBase
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   const maxHeightOffset = height - hp(props.maxHeightOffsetFromScreenHeight);
   const minHeightOffset = hp(props.minHeightOffset);
@@ -35,7 +35,7 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
   // Animated style for the View
   const draggableMenuStyle = useAnimatedStyle(() => {
     return {
-      transform: [{translateY: yMenu.value}],
+      transform: [{ translateY: yMenu.value }],
     };
   });
 
@@ -69,7 +69,7 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
 
       if (closestVal !== undefined) {
         // WithSpring() adds a 'spring' effect to the drag animation
-        yMenu.value = withSpring(closestVal, {stiffness: 200, damping: 20});
+        yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 });
 
         var percentage = Math.abs(
           1 - (closestVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)
@@ -92,7 +92,7 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
           position: "absolute",
           left: 0,
           right: 0,
-          shadowOffset: {width: 0, height: 12},
+          shadowOffset: { width: 0, height: 12 },
           shadowColor: "black",
           shadowOpacity: 1,
           elevation: 17,

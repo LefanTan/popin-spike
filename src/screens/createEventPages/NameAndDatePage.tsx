@@ -9,28 +9,22 @@ import {
   useTheme,
   VStack,
   Pressable,
-  FlatList,
-  Center,
 } from "native-base";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Ripple from "react-native-material-ripple";
-import {EditButton} from "../../components/EditButton";
+import { CreateEventInputButton } from "../../buttons/CreateEventInputButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ctw from "../../../custom-tailwind";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {useEffect, useContext} from "react";
-import {CreateEventContext} from "../CreateEventScreen";
-import {FlairButton} from "../../buttons/FlairButton";
-import {flairsList} from "../../data/flairsList";
-import {margin} from "styled-system";
+import { useEffect, useContext } from "react";
+import { CreateEventContext } from "../CreateEventScreen";
+import { FlairButton } from "../../buttons/FlairButton";
+import { flairsList } from "../../data/flairsList";
 
 export const NameAndDatePage: React.FC = () => {
-  const {colors} = useTheme();
-  const {eventName, startDate, endDate, currentPageReady, selectedTags} =
+  const { colors } = useTheme();
+  const { eventName, startDate, endDate, currentPageReady, selectedFlairs } =
     useContext(CreateEventContext);
 
   // Maximum length for a title
@@ -60,9 +54,9 @@ export const NameAndDatePage: React.FC = () => {
 
   // Upon completion of field, call onComplete
   useEffect(() => {
-    if (eventName?.[0].length > 0) currentPageReady[1](true);
+    if (eventName?.[0].length > 0 && selectedFlairs[0].length > 0) currentPageReady[1](true);
     else currentPageReady[1](false);
-  }, [eventName]);
+  }, [eventName, selectedFlairs]);
 
   // Ensure that if the end date is lesser than start date, adjust
   useEffect(() => {
@@ -88,57 +82,60 @@ export const NameAndDatePage: React.FC = () => {
           value={eventName?.[0]}
           onChangeText={eventName?.[1]}
         />
-        <Text fontSize={hp(2.5)} fontWeight={500} width="100%" textAlign="right">
+        <Text
+          fontSize={hp(2.5)}
+          fontWeight={500}
+          width="100%"
+          textAlign="right"
+          color="secondary.400">
           characters left: {maxTitleLength - eventName?.[0]?.length}
         </Text>
-        <Text
-          fontSize={hp(4)}
+        <Heading
+          fontSize={hp(3.5)}
           fontWeight={600}
           width="100%"
           textAlign="left"
           color="black"
           marginTop={3}>
-          Tags
-        </Text>
-        <HStack marginTop={hp(2)} width="100%" flexWrap="wrap">
+          Flairs
+        </Heading>
+        <HStack marginTop={2} width="100%" flexWrap="wrap">
           {flairsList.map((flair, index) => (
             <FlairButton
               key={index}
               onClick={type => {
-                if (selectedTags[0].includes(type)) {
-                  selectedTags[1](selectedTags[0].filter(x => x !== type));
-                } else selectedTags[1]([...selectedTags[0], type]);
-
-                console.log(selectedTags[0]);
+                if (selectedFlairs[0].includes(type))
+                  selectedFlairs[1](selectedFlairs[0].filter(x => x !== type));
+                else selectedFlairs[1]([...selectedFlairs[0], type]);
               }}
-              isSelected={selectedTags[0].includes(flair.name)}
-              customStyle={{marginVertical: 5, marginRight: 10}}
+              isSelected={selectedFlairs[0].includes(flair.name)}
+              customStyle={{ marginVertical: 2.5, marginRight: 5 }}
               name={flair.name}
               iconSource={flair.iconSource}
             />
           ))}
         </HStack>
-        <Text
-          fontSize={hp(4)}
+        <Heading
+          fontSize={hp(3.5)}
           fontWeight={600}
           width="100%"
           textAlign="left"
           color="black"
           marginTop={3}>
           Time
-        </Text>
-        <EditButton
+        </Heading>
+        <CreateEventInputButton
           onClick={() => setDateTimeDialog("start")}
-          viewStyle={{marginTop: hp(2)}}
+          viewStyle={{ marginTop: 10 }}
           content={startDate[0].calendar(null, {
             sameElse: "MMMM Do [at] h:mm A",
           })}
           title="Start Date"
         />
         {hasEndDate && (
-          <EditButton
+          <CreateEventInputButton
             onClick={() => setDateTimeDialog("end")}
-            viewStyle={{marginTop: 10}}
+            viewStyle={{ marginTop: 10 }}
             content={endDate[0].calendar(null, {
               sameElse: "MMMM Do [at] h:mm A",
             })}
@@ -177,9 +174,9 @@ export const NameAndDatePage: React.FC = () => {
           <Heading marginTop={-1} fontWeight={600}>
             {dateTimeDialog.charAt(0).toUpperCase() + dateTimeDialog.substring(1)} Time
           </Heading>
-          <EditButton
+          <CreateEventInputButton
             onClick={() => setDateTimeModal("date")}
-            viewStyle={{marginTop: 10}}
+            viewStyle={{ marginTop: 10 }}
             title="Date"
             content={
               dateTimeDialog === "start"
@@ -187,9 +184,9 @@ export const NameAndDatePage: React.FC = () => {
                 : tempEndDate.calendar(null, dateOption)
             }
           />
-          <EditButton
+          <CreateEventInputButton
             onClick={() => setDateTimeModal("time")}
-            viewStyle={{marginTop: 10}}
+            viewStyle={{ marginTop: 10 }}
             title="Time"
             content={(dateTimeDialog === "start" ? tempStartDate : tempEndDate).format("h:mm A")}
           />

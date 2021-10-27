@@ -24,6 +24,8 @@ module.exports = {
     "rules": {
         "react/display-name": "off",
         "react/prop-types": "off",
-        "@typescript-eslint/no-empty-interface": "off"
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "react-hooks/exhaustive-deps": "warn"
     }
 };

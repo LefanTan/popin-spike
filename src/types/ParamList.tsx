@@ -1,9 +1,9 @@
 // This type is passed on to HomeTab's bottomTabNavigator
 
-import {RouteProp} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import { RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Animated from "react-native-reanimated";
-import {FirestoreEvent} from "./FirestoreClasses";
+import { FirestoreEvent } from "./FirestoreClasses";
 
 // To reinforce the types allowed for HomeTab's tab
 export type HomeTabParamList = {
