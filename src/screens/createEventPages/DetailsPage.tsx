@@ -10,13 +10,13 @@ import {
   Box,
   HStack,
 } from "native-base";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import React, {useContext, useEffect} from "react";
-import {CreateEventInput} from "../../components/CreateEventInput";
-import {launchImageLibrary, ImageLibraryOptions, Asset} from "react-native-image-picker";
+import React, { useContext, useEffect } from "react";
+import { CreateEventInput } from "../../components/CreateEventInput";
+import { launchImageLibrary, ImageLibraryOptions, Asset } from "react-native-image-picker";
 import ctw from "../../../custom-tailwind";
-import {CreateEventContext} from "../CreateEventScreen";
+import { CreateEventContext } from "../CreateEventScreen";
 
 interface DetailsPageProps {}
 
@@ -24,8 +24,8 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
   const maxDiscLength = 400;
   const selectionLimit = 5;
 
-  const {colors} = useTheme();
-  const {description, photos, price, website, currentPageReady} = useContext(CreateEventContext);
+  const { colors } = useTheme();
+  const { description, photos, price, website, currentPageReady } = useContext(CreateEventContext);
   const toast = useToast();
 
   const onAddPhotoClicked = () => {
@@ -66,7 +66,9 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{paddingBottom: 15, paddingHorizontal: 20}} bounces={false}>
+    <ScrollView
+      contentContainerStyle={{ paddingBottom: 15, paddingHorizontal: 20 }}
+      bounces={false}>
       <Heading fontSize={hp(4.5)} fontWeight={600}>
         Details
       </Heading>
@@ -95,25 +97,25 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
             justifyContent="center"
             alignItems="center"
             onPress={onAddPhotoClicked}
-            _pressed={{bg: "primary.300"}}>
+            _pressed={{ bg: "primary.300" }}>
             <AntIcons name="plus" size={hp(7)} color={colors["primary"]["500"]} />
           </Pressable>
         )}
         {photos[0].map(photo => (
           <Box key={photo.fileName}>
             <Image
-              source={{uri: photo.uri}}
+              source={{ uri: photo.uri }}
               borderRadius={12.5}
               marginLeft={2}
               height={100}
               width={undefined}
-              style={{aspectRatio: 1 / 1}}
+              style={{ aspectRatio: 1 / 1 }}
               alt="event_photo"
             />
             <Pressable
               style={ctw.style(
                 `absolute top-2 right-2 bg-primary-100 p-1 flex items-center justify-center`,
-                {borderRadius: 50}
+                { borderRadius: 50 }
               )}
               onPress={() => removePhoto(photo.fileName)}>
               <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
@@ -125,7 +127,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
         title="Event Description"
         onChangeText={description[1]}
         content={description[0]}
-        viewStyle={{marginTop: 20}}
+        viewStyle={{ marginTop: 20 }}
         numberOfLines={5}
         maxLength={maxDiscLength}
         multiline
@@ -139,7 +141,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
         content={price[0] !== undefined ? price[0]?.toString() : ""}
         prefix="$"
         keyboardType="number-pad"
-        viewStyle={{marginTop: 10}}
+        viewStyle={{ marginTop: 10 }}
         optional
       />
       <CreateEventInput
@@ -147,7 +149,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
         onChangeText={website[1]}
         content={website[0] !== undefined ? website[0] : ""}
         optional
-        viewStyle={{marginTop: 10}}
+        viewStyle={{ marginTop: 10 }}
       />
     </ScrollView>
   );

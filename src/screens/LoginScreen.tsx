@@ -11,23 +11,23 @@ import {
   useTheme,
 } from "native-base";
 import React from "react";
-import {useState} from "react";
-import {useEffect} from "react";
-import {useContext} from "react";
-import {ActivityIndicator} from "react-native";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { ActivityIndicator } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ctw from "../../custom-tailwind";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import {AuthContext} from "../AuthProvider";
+import { AuthContext } from "../AuthProvider";
 
 interface LoginScreenProps {}
 
 export const LoginScreen: React.FC<LoginScreenProps> = () => {
   const authContext = useContext(AuthContext);
-  const {colors, fontConfig} = useTheme();
+  const { colors, fontConfig } = useTheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -84,7 +84,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = () => {
               fontSize={hp(2.5)}
               // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
               ref={ref =>
-                ref && ref.setNativeProps({style: {fontFamily: fontConfig["primary"]["400"]}})
+                ref && ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
               }
               value={password}
               onChangeText={text => setPassword(text)}
@@ -97,7 +97,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = () => {
               onPress={() => setHidePass(!hidePass)}
               display="flex"
               justifyContent="center">
-              {({isPressed}) => (
+              {({ isPressed }) => (
                 <Icon
                   as={Ionicons}
                   textAlign="center"

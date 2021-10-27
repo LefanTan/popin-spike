@@ -1,6 +1,6 @@
-import {Center, Heading, HStack, Pressable, Text, useTheme} from "native-base";
-import React, {useEffect, useState} from "react";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { Center, Heading, HStack, Pressable, Text, useTheme } from "native-base";
+import React, { useEffect, useState } from "react";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
 
 interface UploadingPageProps {
@@ -8,9 +8,9 @@ interface UploadingPageProps {
   onBackClick: () => void;
 }
 
-export const UploadingPage: React.FC<UploadingPageProps> = ({loading, onBackClick}) => {
+export const UploadingPage: React.FC<UploadingPageProps> = ({ loading, onBackClick }) => {
   const [dotCount, setDotCount] = useState(0);
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   // start the dot dot dot animation
   useEffect(() => {
@@ -35,7 +35,7 @@ export const UploadingPage: React.FC<UploadingPageProps> = ({loading, onBackClic
       <HStack alignItems="center">
         {!loading && (
           <Pressable marginRight={2} onPress={onBackClick}>
-            {({isPressed}) => (
+            {({ isPressed }) => (
               <AntIcons
                 name="arrowleft"
                 size={hp(5)}

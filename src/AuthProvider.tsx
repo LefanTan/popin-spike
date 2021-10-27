@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import auth, {FirebaseAuthTypes} from "@react-native-firebase/auth";
-import {useEffect} from "react";
+import React, { useState } from "react";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { useEffect } from "react";
 
 interface AuthProviderProps {}
 
@@ -23,7 +23,7 @@ export const AuthContext = React.createContext<{
   logout: () => {},
 });
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>(null);
   const [init, setInit] = useState(true);
   const [errorMsg, setError] = useState("");
@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     if (userData) {
       // React Native Firebase automatically persist user login state
       const displayName = userData.displayName ?? "";
-      setUser({userName: displayName, firebaseAuthData: userData});
+      setUser({ userName: displayName, firebaseAuthData: userData });
     } else setUser(null);
   };
 

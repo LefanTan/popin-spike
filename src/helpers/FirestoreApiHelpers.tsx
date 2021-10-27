@@ -1,7 +1,7 @@
-import storage, {FirebaseStorageTypes} from "@react-native-firebase/storage";
-import {Asset} from "react-native-image-picker";
+import storage, { FirebaseStorageTypes } from "@react-native-firebase/storage";
+import { Asset } from "react-native-image-picker";
 import firestore from "@react-native-firebase/firestore";
-import {FirestoreEvent} from "../types/FirestoreClasses";
+import { FirestoreEvent } from "../types/FirestoreClasses";
 
 export const EVENTS_PHOTOS_PATH = "/events";
 export const USER_PHOTO_PATH = "/users";

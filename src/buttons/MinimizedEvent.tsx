@@ -1,16 +1,16 @@
-import {HStack, Image, Text, VStack, Heading, useTheme} from "native-base";
-import React, {useState, useCallback} from "react";
-import {FirestoreEvent} from "../types/FirestoreClasses";
+import { HStack, Image, Text, VStack, Heading, useTheme } from "native-base";
+import React, { useState, useCallback } from "react";
+import { FirestoreEvent } from "../types/FirestoreClasses";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import {flairsList} from "../data/flairsList";
+import { flairsList } from "../data/flairsList";
 import Ripple from "react-native-material-ripple";
 import ctw from "../../custom-tailwind";
 import moment from "moment";
-import {LayoutChangeEvent, ViewStyle} from "react-native";
+import { LayoutChangeEvent, ViewStyle } from "react-native";
 
 interface MinimizedEventProps {
   event: FirestoreEvent;
@@ -25,7 +25,7 @@ interface MinimizedEventProps {
  * @returns
  */
 export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const startDate = moment(props.event.startDate.toDate());
   const [elementHeight, setElementHeight] = useState(0);
 
@@ -37,7 +37,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
   return (
     <HStack onLayout={onLayout} style={props.style}>
       <HStack height="100%" width="100%" padding={1} bg={"primary.200"} borderRadius={15}>
-        <Ripple onPress={props.onEventClick} style={ctw.style(`flex-row`, {width: "85%"})}>
+        <Ripple onPress={props.onEventClick} style={ctw.style(`flex-row`, { width: "85%" })}>
           {/* TODO: Update this to use main photo url */}
           <Image
             alt="pp"
@@ -46,7 +46,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
             height={elementHeight}
             width={elementHeight}
             borderRadius={15}
-            style={{aspectRatio: 1 / 1}}
+            style={{ aspectRatio: 1 / 1 }}
           />
           <VStack style={ctw.style(`h-full pl-2 ml-1 justify-center`)}>
             <Heading
@@ -55,7 +55,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
               color="primary.700"
               numberOfLines={2}
               fontSize={hp(3)}
-              style={{lineHeight: hp(3)}}
+              style={{ lineHeight: hp(3) }}
               marginTop={1.5}>
               {props.event.eventName}
             </Heading>
@@ -63,7 +63,11 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
               By: {props.event.hostName}
             </Text>
             <HStack alignItems="center">
-              <Ionicon name="calendar" size={hp(2.5)} style={{color: colors["secondary"]["400"]}} />
+              <Ionicon
+                name="calendar"
+                size={hp(2.5)}
+                style={{ color: colors["secondary"]["400"] }}
+              />
               <Text marginTop={-0.5} marginLeft={1} fontSize={hp(2)} color="secondary.400">
                 {`${startDate.format("ddd DD MMM - h:mm a")}`}
               </Text>
@@ -90,7 +94,11 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
           style={ctw`items-center justify-center z-20`}
           rippleSize={100}
           onPress={props.onMapPinClick}>
-          <Ionicon name="location-sharp" size={hp(5)} style={{color: colors["secondary"]["400"]}} />
+          <Ionicon
+            name="location-sharp"
+            size={hp(5)}
+            style={{ color: colors["secondary"]["400"] }}
+          />
         </Ripple>
       </HStack>
     </HStack>

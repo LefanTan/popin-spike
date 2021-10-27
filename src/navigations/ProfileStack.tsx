@@ -1,8 +1,8 @@
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import {CreateEventScreen} from "../screens/CreateEventScreen";
-import {ProfileScreen} from "../screens/ProfileScreen";
-import {ProfileStackParamList} from "../types/ParamList";
+import { CreateEventScreen } from "../screens/CreateEventScreen";
+import { ProfileScreen } from "../screens/ProfileScreen";
+import { ProfileStackParamList } from "../types/ParamList";
 
 interface ProfileStackProps {}
 

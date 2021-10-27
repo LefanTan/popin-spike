@@ -1,6 +1,6 @@
-import {NavigationContainer} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import {HomeTab} from "./navigations/HomeTab";
+import { HomeTab } from "./navigations/HomeTab";
 
 /**
  * Container for all the navigation components (bottom tabs, stack navs)

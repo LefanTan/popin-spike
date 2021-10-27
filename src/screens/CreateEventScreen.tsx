@@ -1,29 +1,29 @@
-import {Center, Heading, HStack, Pressable, Text, useTheme, VStack} from "native-base";
-import React, {useEffect} from "react";
-import {ProfileStackNavProps} from "../types/ParamList";
+import { Center, Heading, HStack, Pressable, Text, useTheme, VStack } from "native-base";
+import React, { useEffect } from "react";
+import { ProfileStackNavProps } from "../types/ParamList";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import ctw from "../../custom-tailwind";
-import {NameAndDatePage} from "./createEventPages/NameAndDatePage";
+import { NameAndDatePage } from "./createEventPages/NameAndDatePage";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {ProgressBar} from "../components/ProgressBar";
+import { ProgressBar } from "../components/ProgressBar";
 import Ripple from "react-native-material-ripple";
-import {useState} from "react";
+import { useState } from "react";
 import moment from "moment";
-import {LocationPage} from "./createEventPages/LocationPage";
-import {firebase, FirebaseFirestoreTypes} from "@react-native-firebase/firestore";
-import {DetailsPage} from "./createEventPages/DetailsPage";
-import {Asset} from "react-native-image-picker";
-import {FirestoreEvent} from "../types/FirestoreClasses";
+import { LocationPage } from "./createEventPages/LocationPage";
+import { firebase, FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+import { DetailsPage } from "./createEventPages/DetailsPage";
+import { Asset } from "react-native-image-picker";
+import { FirestoreEvent } from "../types/FirestoreClasses";
 // needs to be imported before uuid
 import "react-native-get-random-values";
-import {v4 as uuidv4} from "uuid";
-import {SafeAreaView} from "react-native-safe-area-context";
-import {EVENTS_PHOTOS_PATH, SetEventAsync, UploadPhotos} from "../helpers/FirestoreApiHelpers";
-import {UploadingPage} from "./createEventPages/UploadingPage";
-import {BackHandler} from "react-native";
+import { v4 as uuidv4 } from "uuid";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { EVENTS_PHOTOS_PATH, SetEventAsync, UploadPhotos } from "../helpers/FirestoreApiHelpers";
+import { UploadingPage } from "./createEventPages/UploadingPage";
+import { BackHandler } from "react-native";
 
 /**
  * Using context to make sure all child components have access to edit EventCreation fields (eventName etc)
@@ -71,8 +71,10 @@ export const CreateEventContext = React.createContext<{
   website: [undefined, () => null],
 });
 
-export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({navigation}) => {
-  const {colors} = useTheme();
+export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = ({
+  navigation,
+}) => {
+  const { colors } = useTheme();
 
   // Maximum form page, Uploading page doesn't count
   const maxPage = 3;
@@ -179,9 +181,9 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
                   borderRadius: 50,
                 }),
               ]}
-              _pressed={{bg: colors["primary"]["300"]}}
+              _pressed={{ bg: colors["primary"]["300"] }}
               onPress={() => navigateToPage(page - 1)}>
-              {({isPressed}) => (
+              {({ isPressed }) => (
                 <AntIcons
                   name="arrowleft"
                   size={hp(5)}
@@ -209,7 +211,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
             <ProgressBar
               totalCount={maxPage}
               currentCount={page + 1}
-              style={{marginTop: "auto", width: wp(100), height: hp(3)}}
+              style={{ marginTop: "auto", width: wp(100), height: hp(3) }}
             />
             <Center padding={3}>
               <Ripple

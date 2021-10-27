@@ -1,9 +1,9 @@
-import {extendTheme, NativeBaseProvider} from "native-base";
+import { extendTheme, NativeBaseProvider } from "native-base";
 import React from "react";
-import {SafeAreaProvider} from "react-native-safe-area-context";
-import {AuthProvider} from "./AuthProvider";
-import {NBColor, NBComponents, NBFont, NBFontConfig} from "./NativeBaseTheme";
-import {Routes} from "./Routes";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AuthProvider } from "./AuthProvider";
+import { NBColor, NBComponents, NBFont, NBFontConfig } from "./NativeBaseTheme";
+import { Routes } from "./Routes";
 
 interface ProvidersProps {}
 

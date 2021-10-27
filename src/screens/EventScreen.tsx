@@ -9,13 +9,13 @@ import {
   useTheme,
   VStack,
 } from "native-base";
-import React, {useRef} from "react";
-import {mockPhotos} from "../data/mockPhotos";
+import React, { useRef } from "react";
+import { mockPhotos } from "../data/mockPhotos";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import {DiscoverStackNavProps} from "../types/ParamList";
+import { DiscoverStackNavProps } from "../types/ParamList";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -23,8 +23,8 @@ import FoundationIcon from "react-native-vector-icons/Foundation";
 import ctw from "../../custom-tailwind";
 import Ripple from "react-native-material-ripple";
 import moment from "moment";
-import {Flair} from "../components/Flair";
-import {flairsList} from "../data/flairsList";
+import { Flair } from "../components/Flair";
+import { flairsList } from "../data/flairsList";
 import Carousel from "react-native-snap-carousel";
 import Animated, {
   Extrapolate,
@@ -33,17 +33,17 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import {ImageButton} from "../buttons/ImageButton";
-import {useState} from "react";
-import {ImageGalleryModal} from "../components/ImageGalleryModal";
-import {generalStyles} from "../GeneralStyles";
-import {SafeAreaView} from "react-native-safe-area-context";
-import {StyleSheet} from "react-native";
+import { ImageButton } from "../buttons/ImageButton";
+import { useState } from "react";
+import { ImageGalleryModal } from "../components/ImageGalleryModal";
+import { generalStyles } from "../GeneralStyles";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet } from "react-native";
 
 /**
  * EventScreen for viewing a full list of detail for an event
  */
-export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigation, route}) => {
+export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigation, route }) => {
   const [showImageGallery, setShowGallery] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -51,7 +51,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
   const endDate = moment(route.params.event.endDate.toDate());
   const sameDay = startDate.format("DD MMM") === endDate.format("DD MMM");
 
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const headerOpacityValue = useSharedValue(1);
   const carouselRef = useRef(null);
   let prevScrolled = 0;
@@ -59,7 +59,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
   const headerStyle = useAnimatedStyle(() => {
     return {
       opacity: headerOpacityValue.value,
-      transform: [{translateX: -100 + headerOpacityValue.value * 100}],
+      transform: [{ translateX: -100 + headerOpacityValue.value * 100 }],
     };
   });
 
@@ -85,7 +85,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
             if (yOffset > 20) {
               headerOpacityValue.value = withTiming(
                 interpolate(diff, [0, 1], [1, 0], Extrapolate.CLAMP),
-                {duration: 150}
+                { duration: 150 }
               );
             }
             prevScrolled = event.nativeEvent.contentOffset.y;
@@ -98,10 +98,10 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
                 inactiveSlideOpacity={1}
                 inactiveSlideScale={1}
                 vertical={false}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <ImageButton
                     onClick={() => setShowGallery(true)}
-                    style={{width: wp(100), height: hp(35)}}
+                    style={{ width: wp(100), height: hp(35) }}
                     imgSource={item.props.source}
                   />
                 )}
@@ -229,16 +229,18 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({navigatio
                 height: hp(6),
                 borderRadius: 50,
               }),
-              {...generalStyles.shadow},
+              { ...generalStyles.shadow },
             ]}
             bg="primary.200"
             onPress={() => navigation.goBack()}
-            _pressed={{bg: colors["primary"]["300"]}}>
-            {({isPressed}) => (
+            _pressed={{ bg: colors["primary"]["300"] }}>
+            {({ isPressed }) => (
               <AntDesign
                 name="arrowleft"
                 size={hp(4.5)}
-                style={{color: isPressed ? colors["secondary"]["500"] : colors["secondary"]["400"]}}
+                style={{
+                  color: isPressed ? colors["secondary"]["500"] : colors["secondary"]["400"],
+                }}
               />
             )}
           </Pressable>

@@ -1,13 +1,13 @@
-import {Center, Heading, HStack, VStack, Pressable, useTheme} from "native-base";
-import React, {memo, useEffect, useState} from "react";
-import {Modal} from "react-native";
+import { Center, Heading, HStack, VStack, Pressable, useTheme } from "native-base";
+import React, { memo, useEffect, useState } from "react";
+import { Modal } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
-import {IImageInfo} from "react-native-image-zoom-viewer/built/image-viewer.type";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { IImageInfo } from "react-native-image-zoom-viewer/built/image-viewer.type";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ctw from "../../custom-tailwind";
-import {generalStyles} from "../GeneralStyles";
+import { generalStyles } from "../GeneralStyles";
 
 interface ImageGalleryModalProps {
   showGallery: boolean;
@@ -21,7 +21,7 @@ interface ImageGalleryModalProps {
  */
 export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo(props => {
   const [imageIndex, setImageIndex] = useState(0);
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   // if prop index changes, update the local one too
   useEffect(() => setImageIndex(props.index), [props.index]);
@@ -47,7 +47,7 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo(props =>
             },
           ]}>
           <Pressable onPress={props.onCancel}>
-            {({isPressed}) => (
+            {({ isPressed }) => (
               <Ionicons
                 name="close"
                 style={{

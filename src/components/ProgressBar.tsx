@@ -1,6 +1,6 @@
-import {Box, HStack, Text} from "native-base";
+import { Box, HStack, Text } from "native-base";
 import React from "react";
-import {StyleProp, ViewStyle} from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 
 interface ProgressBarProps {
   style: StyleProp<ViewStyle>;

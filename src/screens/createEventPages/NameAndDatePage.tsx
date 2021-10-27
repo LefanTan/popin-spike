@@ -10,21 +10,21 @@ import {
   VStack,
   Pressable,
 } from "native-base";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Ripple from "react-native-material-ripple";
-import {CreateEventInputButton} from "../../buttons/CreateEventInputButton";
+import { CreateEventInputButton } from "../../buttons/CreateEventInputButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ctw from "../../../custom-tailwind";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {useEffect, useContext} from "react";
-import {CreateEventContext} from "../CreateEventScreen";
-import {FlairButton} from "../../buttons/FlairButton";
-import {flairsList} from "../../data/flairsList";
+import { useEffect, useContext } from "react";
+import { CreateEventContext } from "../CreateEventScreen";
+import { FlairButton } from "../../buttons/FlairButton";
+import { flairsList } from "../../data/flairsList";
 
 export const NameAndDatePage: React.FC = () => {
-  const {colors} = useTheme();
-  const {eventName, startDate, endDate, currentPageReady, selectedFlairs} =
+  const { colors } = useTheme();
+  const { eventName, startDate, endDate, currentPageReady, selectedFlairs } =
     useContext(CreateEventContext);
 
   // Maximum length for a title
@@ -109,7 +109,7 @@ export const NameAndDatePage: React.FC = () => {
                 else selectedFlairs[1]([...selectedFlairs[0], type]);
               }}
               isSelected={selectedFlairs[0].includes(flair.name)}
-              customStyle={{marginVertical: 2.5, marginRight: 5}}
+              customStyle={{ marginVertical: 2.5, marginRight: 5 }}
               name={flair.name}
               iconSource={flair.iconSource}
             />
@@ -126,7 +126,7 @@ export const NameAndDatePage: React.FC = () => {
         </Heading>
         <CreateEventInputButton
           onClick={() => setDateTimeDialog("start")}
-          viewStyle={{marginTop: 10}}
+          viewStyle={{ marginTop: 10 }}
           content={startDate[0].calendar(null, {
             sameElse: "MMMM Do [at] h:mm A",
           })}
@@ -135,7 +135,7 @@ export const NameAndDatePage: React.FC = () => {
         {hasEndDate && (
           <CreateEventInputButton
             onClick={() => setDateTimeDialog("end")}
-            viewStyle={{marginTop: 10}}
+            viewStyle={{ marginTop: 10 }}
             content={endDate[0].calendar(null, {
               sameElse: "MMMM Do [at] h:mm A",
             })}
@@ -176,7 +176,7 @@ export const NameAndDatePage: React.FC = () => {
           </Heading>
           <CreateEventInputButton
             onClick={() => setDateTimeModal("date")}
-            viewStyle={{marginTop: 10}}
+            viewStyle={{ marginTop: 10 }}
             title="Date"
             content={
               dateTimeDialog === "start"
@@ -186,7 +186,7 @@ export const NameAndDatePage: React.FC = () => {
           />
           <CreateEventInputButton
             onClick={() => setDateTimeModal("time")}
-            viewStyle={{marginTop: 10}}
+            viewStyle={{ marginTop: 10 }}
             title="Time"
             content={(dateTimeDialog === "start" ? tempStartDate : tempEndDate).format("h:mm A")}
           />
