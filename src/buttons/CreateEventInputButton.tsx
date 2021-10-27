@@ -1,21 +1,18 @@
-import {Heading, HStack, Pressable, Text, useTheme, VStack} from "native-base";
+import { Heading, HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import React from "react";
-import {StyleProp, ViewStyle} from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-interface EditButtonProps {
+interface CreateEventInputButtonProps {
   onClick: () => void;
   content: string;
   title: string;
   viewStyle?: StyleProp<ViewStyle>;
 }
 
-export const EditButton: React.FC<EditButtonProps> = props => {
-  const {colors} = useTheme();
+export const CreateEventInputButton: React.FC<CreateEventInputButtonProps> = props => {
+  const { colors } = useTheme();
 
   return (
     <Pressable
@@ -24,7 +21,7 @@ export const EditButton: React.FC<EditButtonProps> = props => {
       paddingY={2}
       paddingX={3}
       width="100%"
-      _pressed={{bg: colors["primary"]["300"]}}
+      _pressed={{ bg: colors["primary"]["300"] }}
       onPress={props.onClick}
       style={props.viewStyle}>
       <HStack alignItems="center">
