@@ -97,7 +97,7 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
           shadowOffset: { width: 0, height: 12 },
           shadowColor: "black",
           shadowOpacity: 1,
-          elevation: 17,
+          elevation: 10,
         },
       ]}>
       <PanGestureHandler onGestureEvent={menuGestureHandler}>
