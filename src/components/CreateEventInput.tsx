@@ -1,6 +1,6 @@
-import {Heading, HStack, Input, Text, View, VStack} from "native-base";
-import React, {useState} from "react";
-import {KeyboardTypeOptions, StyleProp, ViewStyle} from "react-native";
+import { Heading, HStack, Input, Text, View, VStack } from "native-base";
+import React, { useState } from "react";
+import { KeyboardTypeOptions, StyleProp, ViewStyle } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

@@ -1,5 +1,5 @@
-import {Platform} from "react-native";
-import {check, Permission, PERMISSIONS, request, RESULTS} from "react-native-permissions";
+import { Platform } from "react-native";
+import { check, Permission, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 
 export const LOCATION_PERMISSION =
   Platform.OS === "android"

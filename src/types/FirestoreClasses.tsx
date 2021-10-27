@@ -1,4 +1,4 @@
-import {FirebaseFirestoreTypes} from "@react-native-firebase/firestore";
+import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 
 /**
  * Map to the Event document on firestore

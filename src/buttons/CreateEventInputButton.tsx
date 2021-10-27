@@ -1,8 +1,8 @@
-import {Heading, HStack, Pressable, Text, useTheme, VStack} from "native-base";
+import { Heading, HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import React from "react";
-import {StyleProp, ViewStyle} from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 interface CreateEventInputButtonProps {
   onClick: () => void;
@@ -12,7 +12,7 @@ interface CreateEventInputButtonProps {
 }
 
 export const CreateEventInputButton: React.FC<CreateEventInputButtonProps> = props => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   return (
     <Pressable
@@ -21,7 +21,7 @@ export const CreateEventInputButton: React.FC<CreateEventInputButtonProps> = pro
       paddingY={2}
       paddingX={3}
       width="100%"
-      _pressed={{bg: colors["primary"]["300"]}}
+      _pressed={{ bg: colors["primary"]["300"] }}
       onPress={props.onClick}
       style={props.viewStyle}>
       <HStack alignItems="center">

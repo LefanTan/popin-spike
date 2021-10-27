@@ -1,8 +1,8 @@
-import {AlertDialog, Box, Heading, Pressable, Text, useTheme, VStack} from "native-base";
-import MapView, {PROVIDER_GOOGLE, Region} from "react-native-maps";
-import React, {useContext, useRef, useState} from "react";
-import {useEffect} from "react";
-import {Linking, Platform} from "react-native";
+import { AlertDialog, Box, Heading, Pressable, Text, useTheme, VStack } from "native-base";
+import MapView, { PROVIDER_GOOGLE, Region } from "react-native-maps";
+import React, { useContext, useRef, useState } from "react";
+import { useEffect } from "react";
+import { Linking, Platform } from "react-native";
 import {
   GooglePlacesAutocomplete,
   GooglePlacesAutocompleteRef,
@@ -21,8 +21,8 @@ import {
 } from "../../helpers/PermissionHelpers";
 import Geolocation from "react-native-geolocation-service";
 import Ionicon from "react-native-vector-icons/Ionicons";
-import {CreateEventContext} from "../CreateEventScreen";
-import {firebase} from "@react-native-firebase/auth";
+import { CreateEventContext } from "../CreateEventScreen";
+import { firebase } from "@react-native-firebase/auth";
 
 /**
  * Store this in .env variables!
@@ -35,9 +35,9 @@ Geocoder.init(GEOCODING_KEY);
 export const LocationPage: React.FC = () => {
   let autoComplete: GooglePlacesAutocompleteRef | null;
   let map: MapView | null;
-  const {colors, fontConfig} = useTheme();
+  const { colors, fontConfig } = useTheme();
   const locationAlertRef = useRef();
-  const {latlong, address, currentPageReady} = useContext(CreateEventContext);
+  const { latlong, address, currentPageReady } = useContext(CreateEventContext);
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [pinMapRegion, setPinMapRegion] = useState<Region>({
@@ -92,7 +92,7 @@ export const LocationPage: React.FC = () => {
             longitudeDelta: pinMapRegion.longitudeDelta,
           }),
         error => console.log(error.message),
-        {enableHighAccuracy: true}
+        { enableHighAccuracy: true }
       );
     }
   }, [hasLocationPermission]);
@@ -102,7 +102,7 @@ export const LocationPage: React.FC = () => {
     let mounted = true;
 
     if (mounted) {
-      Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
+      Geocoder.from({ latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude }).then(
         result => {
           // update search bar's text
           updateAddressText(result.results[0].formatted_address);
@@ -140,7 +140,7 @@ export const LocationPage: React.FC = () => {
         fetchDetails={true}
         placeholder="search address..."
         enablePoweredByContainer={false}
-        textInputProps={{placeholderTextColor: colors["primary"]["700"]}}
+        textInputProps={{ placeholderTextColor: colors["primary"]["700"] }}
         styles={{
           container: {
             maxHeight: hp(5),
@@ -191,7 +191,7 @@ export const LocationPage: React.FC = () => {
           <Pressable
             style={[
               ctw`absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
-              {borderRadius: 50, transform: [{translateY: hp(1.5)}]},
+              { borderRadius: 50, transform: [{ translateY: hp(1.5) }] },
             ]}
             onPress={() => updateAddressText("")}>
             <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
@@ -213,7 +213,7 @@ export const LocationPage: React.FC = () => {
           onRegionChangeComplete={setPinMapRegion}
           showsMyLocationButton={true}
           showsUserLocation={true}
-          style={{width: "100%", height: "100%"}}>
+          style={{ width: "100%", height: "100%" }}>
           {/* <Marker
             coordinate={{latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}}
           /> */}
@@ -222,7 +222,7 @@ export const LocationPage: React.FC = () => {
           name="location-sharp"
           size={hp(5)}
           color={colors["secondary"]["400"]}
-          style={{position: "absolute", left: "45%", top: "37.5%"}}
+          style={{ position: "absolute", left: "45%", top: "37.5%" }}
         />
       </Box>
 

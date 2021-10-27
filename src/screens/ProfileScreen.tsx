@@ -1,27 +1,27 @@
-import {Heading, HStack, Text, useTheme, Pressable, VStack, Center, Box, Flex} from "native-base";
-import React, {useEffect, useState} from "react";
+import { Heading, HStack, Text, useTheme, Pressable, VStack, Center, Box, Flex } from "native-base";
+import React, { useEffect, useState } from "react";
 import AntIcons from "react-native-vector-icons/AntDesign";
-import {useContext} from "react";
-import {AuthContext} from "../AuthProvider";
-import {LoginScreen} from "./LoginScreen";
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider";
+import { LoginScreen } from "./LoginScreen";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import {ConfirmCancelAlert} from "../components/ConfirmCancelAlert";
-import Animated, {useAnimatedStyle, withSpring} from "react-native-reanimated";
-import {useSharedValue} from "react-native-reanimated";
-import {generalStyles} from "../GeneralStyles";
-import {SectionHeader} from "../components/SectionHeader";
-import {ProfileStackNavProps} from "../types/ParamList";
-import {NativeScrollEvent, NativeSyntheticEvent, ScrollView} from "react-native";
-import {useRef} from "react";
+import { ConfirmCancelAlert } from "../components/ConfirmCancelAlert";
+import Animated, { useAnimatedStyle, withSpring } from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
+import { generalStyles } from "../GeneralStyles";
+import { SectionHeader } from "../components/SectionHeader";
+import { ProfileStackNavProps } from "../types/ParamList";
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView } from "react-native";
+import { useRef } from "react";
 
 const pages = ["About", "My Events"];
 
-export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({navigation}) => {
+export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({ navigation }) => {
   const authContext = useContext(AuthContext);
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   const [section, setSection] = useState("About");
   const [signOutConfirm, setSignOutConfirm] = useState(false);
@@ -31,13 +31,13 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
   const editScaleAnimatedValue = useSharedValue(1);
   const editScaleDownStyle = useAnimatedStyle(() => {
     return {
-      transform: [{scale: editScaleAnimatedValue.value}],
+      transform: [{ scale: editScaleAnimatedValue.value }],
     };
   });
   const settingScaleAnimatedValue = useSharedValue(1);
   const settingScaleDownStyle = useAnimatedStyle(() => {
     return {
-      transform: [{scale: settingScaleAnimatedValue.value}],
+      transform: [{ scale: settingScaleAnimatedValue.value }],
     };
   });
 
@@ -49,7 +49,7 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
   const handleSectionClick = (type: string) => {
     setSection(type);
     const index = pages.indexOf(type);
-    pageScrollRef.current?.scrollTo({x: index * wp(100), y: 0});
+    pageScrollRef.current?.scrollTo({ x: index * wp(100), y: 0 });
   };
 
   // User not signed in
@@ -98,8 +98,8 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
             bottom={-hp(8)}
             zIndex={10}
             bg="primary.200"
-            _pressed={{bg: colors["primary"]["400"]}}
-            style={{elevation: 11, shadowOpacity: 0, shadowColor: "white"}}>
+            _pressed={{ bg: colors["primary"]["400"] }}
+            style={{ elevation: 11, shadowOpacity: 0, shadowColor: "white" }}>
             <AntIcons name="camera" size={hp(10)} color={colors["secondary"]["400"]} />
           </Pressable>
         </Center>
@@ -160,8 +160,8 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({naviga
         alignItems="center"
         justifyContent="center"
         onPress={() => navigation.navigate("CreateEvent")}
-        _pressed={{bg: colors["primary"]["300"]}}
-        style={{...generalStyles.shadow, shadowOpacity: 0.3, elevation: 3}}>
+        _pressed={{ bg: colors["primary"]["300"] }}
+        style={{ ...generalStyles.shadow, shadowOpacity: 0.3, elevation: 3 }}>
         <AntIcons name="plus" size={hp(5)} color={colors["secondary"]["400"]} />
       </Pressable>
       <ConfirmCancelAlert

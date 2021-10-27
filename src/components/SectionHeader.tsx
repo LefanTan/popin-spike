@@ -1,9 +1,9 @@
-import {Heading, Pressable, useTheme} from "native-base";
-import React, {useEffect} from "react";
-import Animated, {useAnimatedStyle, withSpring} from "react-native-reanimated";
-import {useSharedValue} from "react-native-reanimated";
+import { Heading, Pressable, useTheme } from "native-base";
+import React, { useEffect } from "react";
+import Animated, { useAnimatedStyle, withSpring } from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import ctw from "../../custom-tailwind";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 interface SectionHeaderProps {
   name: string;
@@ -12,12 +12,12 @@ interface SectionHeaderProps {
 }
 
 export const SectionHeader: React.FC<SectionHeaderProps> = props => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   const scaleVal = useSharedValue(1);
   const scaleStyle = useAnimatedStyle(() => {
     return {
-      transform: [{scale: scaleVal.value}],
+      transform: [{ scale: scaleVal.value }],
     };
   });
 
@@ -45,7 +45,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = props => {
           style={[
             opacityStyle,
             ctw`rounded-xl absolute -bottom-1 w-full bg-secondary-400`,
-            {borderColor: colors["secondary"]["400"], borderWidth: 1},
+            { borderColor: colors["secondary"]["400"], borderWidth: 1 },
           ]}
         />
       </Animated.View>

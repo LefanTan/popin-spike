@@ -1,19 +1,19 @@
 import React from "react";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {HomeTabParamList} from "../types/ParamList";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { HomeTabParamList } from "../types/ParamList";
 import MaterialIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcons from "react-native-vector-icons/AntDesign";
-import {useTheme} from "native-base";
+import { useTheme } from "native-base";
 import ctw from "../../custom-tailwind";
-import {DiscoverStack} from "./DiscoverStack";
-import {ProfileStack} from "./ProfileStack";
+import { DiscoverStack } from "./DiscoverStack";
+import { ProfileStack } from "./ProfileStack";
 
 interface HomeTabProps {}
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export const HomeTab: React.FC<HomeTabProps> = ({}) => {
-  const {colors, fontConfig} = useTheme();
+  const { colors, fontConfig } = useTheme();
 
   return (
     <Tab.Navigator
@@ -30,7 +30,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({}) => {
         name="DiscoverStack"
         component={DiscoverStack}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <AntDesignIcons name="search1" size={size} color={color} />
           ),
           tabBarLabel: "Discover",
@@ -40,7 +40,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({}) => {
         name="ProfileStack"
         component={ProfileStack}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="face-profile" size={size} color={color} />
           ),
           tabBarLabel: "Profile",
