@@ -18,6 +18,7 @@ import { GetEventsListAsync } from "../helpers/FirestoreApiHelpers";
 
 export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ navigation }) => {
   const { colors } = useTheme();
+  const [menuHeightPercentage, setHeightPerct] = useState(0);
 
   const [region, setRegion] = useState<Region>({
     latitude: 53.540936,
@@ -29,15 +30,15 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
   const [menuOpened, setMenuOpened] = useState(false);
   const [events, setEventsList] = useState<FirestoreEvent[]>([]);
 
-  const dragMenuPercentage = useSharedValue(0);
+  const dragMenuOpacity = useSharedValue(0);
   const headingStyle = useAnimatedStyle(() => {
     return {
-      opacity: 1 - dragMenuPercentage.value,
+      opacity: 1 - dragMenuOpacity.value,
     };
   });
   const mainViewStyle = useAnimatedStyle(() => {
     return {
-      opacity: dragMenuPercentage.value,
+      opacity: dragMenuOpacity.value,
     };
   });
 
@@ -64,15 +65,15 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
       /> */}
 
       {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
-      {/* Min Height is how far you can drag up and vice versa */}
+      {/* Min Height From Top is how far you can drag up and vice versa */}
       <DraggableMenu
         onMenuDragged={percent => {
-          dragMenuPercentage.value = withTiming(percent * 2, { duration: 400 });
-          // console.log('percent' + percent)
+          dragMenuOpacity.value = withTiming(percent * 2, { duration: 400 });
           setMenuOpened(percent > 0);
         }}
-        minHeightOffset={6}
-        maxHeightOffsetFromScreenHeight={17.5}
+        onMenuDraggedEnd={setHeightPerct}
+        maxHeightFromTop={85}
+        minHeightFromTop={10}
         snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
         <VStack
           padding={2}
@@ -89,19 +90,20 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
           </Animated.Text>
           <Animated.View
             pointerEvents={menuOpened ? "auto" : "none"}
-            style={[mainViewStyle, ctw`w-full h-full`]}>
+            style={[
+              mainViewStyle,
+              { width: "100%", height: `${(menuHeightPercentage - 0.1) * 100}%` },
+            ]}>
             <VStack>
               <HStack height={hp(5)} justifyContent="flex-start">
                 <Input
-                  flex={15}
                   height={hp(5)}
+                  width="90%"
                   fontSize={hp(2)}
                   placeholder="Search event name..."
                   borderWidth={0}
                 />
                 <Pressable
-                  flex={1}
-                  height={hp(5)}
                   _pressed={{
                     bg: "transparent",
                   }}
@@ -135,6 +137,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
               />
               <FlatList
                 marginTop={5}
+                contentContainerStyle={{ paddingRight: 10 }}
                 onRefresh={() => setTimeout(() => setEventsList([]), 750)}
                 refreshing={events.length === 0}
                 data={events}
