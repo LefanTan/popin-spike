@@ -54,7 +54,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
     }
     getEvents();
   }, [menuOpened, events]);
-  console.log(menuHeightPercentage);
+
   return (
     <Center bg="primary.300" flex={1} safeAreaTop>
       {/* <MapView
@@ -140,10 +140,12 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
               />
               <FlatList
                 marginTop={4}
+                // Adjust the height of the flat list according to snap position of the draggable menu,
+                // not sure how well this works
                 style={{
-                  height: hp(menuHeightPercentage <= 0.6 ? 39 : 69),
+                  height: hp(menuHeightPercentage <= 0.6 ? 38 : 68),
                 }}
-                contentContainerStyle={ctw`pr-5`}
+                contentContainerStyle={ctw`pr-3`}
                 onRefresh={() => setTimeout(() => setEventsList([]), 750)}
                 refreshing={events.length === 0}
                 data={events}
