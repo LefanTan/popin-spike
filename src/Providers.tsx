@@ -4,8 +4,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthProvider } from "./AuthProvider";
 import { NBColor, NBComponents, NBFont, NBFontConfig } from "./NativeBaseTheme";
 import { Routes } from "./Routes";
+import Geocoder from "react-native-geocoding";
+import { GEOCODING_API_KEY } from "react-native-dotenv";
 
-interface ProvidersProps {}
+Geocoder.init(GEOCODING_API_KEY);
 
 const theme = extendTheme({
   colors: NBColor,
@@ -14,7 +16,7 @@ const theme = extendTheme({
   components: NBComponents,
 });
 
-export const Providers: React.FC<ProvidersProps> = () => {
+export const Providers: React.FC = () => {
   return (
     // For adding new dependencies, themes etc
     <NativeBaseProvider theme={theme}>
