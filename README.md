@@ -12,8 +12,10 @@ Currently using Typescript for the project.
      1. Right click on the project name and `Add files` to the project
      2. Select the downloaded `GoogleService-Info.plist` file from your computer, and ensure the`Copy items if needed` checkbox is enabled.
      3. run `cd ios && pod install --repo-update`
-4. After finishing, run `npm start`
-5. On another terminal, run `npm run android` or `npm run ios`
+4. Create a copy of .env.example and name it .env
+   - Get the API key from Popin's Cloud Console
+5. After finishing, run `npm start`
+6. On another terminal, run `npm run android` or `npm run ios`
 
 Note: On a mac, you might encounter permission denied error, give access your user full access to your folder with
 
