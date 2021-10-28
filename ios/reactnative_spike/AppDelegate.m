@@ -5,6 +5,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import "ReactNativeConfig.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -27,10 +28,11 @@ static void InitializeFlipper(UIApplication *application) {
 
 @implementation AppDelegate
 
+NSString *mapsApiKey = [ReactNativeConfig envFor:@"MAP_SDK_KEY"];
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
-  [GMSServices provideAPIKey:@"AIzaSyBO_YN6AI7NCScOuCO2wIIhBXqfBKF7fDI"]; // add this line using the api key obtained from Google Console
+  [GMSServices provideAPIKey:mapsApiKey]; // add this line using the api key obtained from Google Console
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
