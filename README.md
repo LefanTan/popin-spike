@@ -89,6 +89,8 @@ sudo chown -R [username] /Users/[username]/popin-spike
 
 18. [React Native Permissions](https://github.com/zoontek/react-native-permissions) : For requesting permission etc
 
+19. [React Native Config](https://github.com/luggit/react-native-config) : Allow access to .env variables
+
 ### Useful Snippets
 
 ```
