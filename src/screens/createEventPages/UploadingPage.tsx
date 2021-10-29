@@ -32,7 +32,7 @@ export const UploadingPage: React.FC<UploadingPageProps> = ({ loading, onBackCli
 
   return (
     <Center flex={1} paddingX={10}>
-      <HStack>
+      <HStack alignItems="center">
         {!loading && (
           <Pressable marginRight={2} onPress={onBackClick}>
             {({ isPressed }) => (
