@@ -36,19 +36,20 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
 
   return (
     <HStack onLayout={onLayout} style={props.style}>
-      <HStack height="100%" width="100%" padding={1} bg={"primary.200"} borderRadius={15}>
-        <Ripple onPress={props.onEventClick} style={ctw.style(`flex-row`, { width: "85%" })}>
+      <HStack height="100%" width="100%" bg={"primary.200"} borderRadius={15}>
+        <Ripple
+          onPress={props.onEventClick}
+          style={ctw.style(`flex-row items-center justify-start p-1`, { width: "85%" })}>
           {/* TODO: Update this to use main photo url */}
           <Image
             alt="pp"
             source={require("../../assets/imgs/testeventpic.jpeg")}
             resizeMode="cover"
-            height={elementHeight}
+            height={elementHeight - 7.5}
             width={elementHeight}
             borderRadius={15}
-            style={{ aspectRatio: 1 / 1 }}
           />
-          <VStack style={ctw.style(`h-full pl-2 ml-1 justify-center`)}>
+          <VStack style={ctw.style(`h-full pl-2 ml-1 justify-center flex-1`)}>
             <Heading
               fontWeight={500}
               fontFamily="heading"
@@ -91,7 +92,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
           </VStack>
         </Ripple>
         <Ripple
-          style={ctw`items-center justify-center z-20`}
+          style={ctw`items-center justify-center z-20 flex-1`}
           rippleSize={100}
           onPress={props.onMapPinClick}>
           <Ionicon

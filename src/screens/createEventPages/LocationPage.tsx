@@ -23,14 +23,7 @@ import Geolocation from "react-native-geolocation-service";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import { CreateEventContext } from "../CreateEventScreen";
 import { firebase } from "@react-native-firebase/auth";
-
-/**
- * Store this in .env variables!
- */
-const PLACES_API_KEY = "AIzaSyCsSpnG59UlSCaflM68hzRyCsBhENlLgjE";
-const GEOCODING_KEY = "AIzaSyAeoSDyBXu8qQdGGRDnCepDjkTsrEDpUQE";
-
-Geocoder.init(GEOCODING_KEY);
+import Config from "react-native-config";
 
 export const LocationPage: React.FC = () => {
   let autoComplete: GooglePlacesAutocompleteRef | null;
@@ -92,7 +85,7 @@ export const LocationPage: React.FC = () => {
             longitudeDelta: pinMapRegion.longitudeDelta,
           }),
         error => console.log(error.message),
-        { enableHighAccuracy: true }
+        { enableHighAccuracy: true, timeout: 10000 }
       );
     }
   }, [hasLocationPermission]);
@@ -145,17 +138,17 @@ export const LocationPage: React.FC = () => {
           container: {
             maxHeight: hp(5),
             marginTop: 10,
-            elevation: 5,
-            zIndex: 5,
+            zIndex: Platform.OS === "ios" ? 1 : undefined,
           },
           listView: {
             position: "absolute",
             top: hp(7),
             backgroundColor: colors["primary"]["200"],
             borderRadius: 15,
+            zIndex: Platform.OS === "android" ? 1 : 0,
           },
           row: {
-            backgroundColor: colors["primary"]["200"],
+            backgroundColor: "transparent",
           },
           textInput: {
             backgroundColor: "transparent",
@@ -183,16 +176,18 @@ export const LocationPage: React.FC = () => {
           map?.animateToRegion(newRegion);
         }}
         query={{
-          key: PLACES_API_KEY,
+          key: Config.PLACES_API_KEY,
           language: "en",
           components: "country:ca",
         }}>
         {Platform.OS === "android" && (
           <Pressable
             style={[
-              ctw`absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
+              ctw`absolute top-0 right-3 p-1 flex items-center justify-center`,
               { borderRadius: 50, transform: [{ translateY: hp(1.5) }] },
             ]}
+            bg="primary.300"
+            _pressed={{ bg: colors["primary"]["400"] }}
             onPress={() => updateAddressText("")}>
             <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
           </Pressable>

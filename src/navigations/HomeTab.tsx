@@ -8,16 +8,14 @@ import ctw from "../../custom-tailwind";
 import { DiscoverStack } from "./DiscoverStack";
 import { ProfileStack } from "./ProfileStack";
 
-interface HomeTabProps {}
-
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
-export const HomeTab: React.FC<HomeTabProps> = ({}) => {
+export const HomeTab: React.FC = () => {
   const { colors, fontConfig } = useTheme();
 
   return (
     <Tab.Navigator
-      initialRouteName="ProfileStack"
+      initialRouteName="DiscoverStack"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors["secondary"]["400"],

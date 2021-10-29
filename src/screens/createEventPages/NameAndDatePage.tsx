@@ -109,7 +109,7 @@ export const NameAndDatePage: React.FC = () => {
                 else selectedFlairs[1]([...selectedFlairs[0], type]);
               }}
               isSelected={selectedFlairs[0].includes(flair.name)}
-              customStyle={{ marginVertical: 2.5, marginRight: 5 }}
+              customStyle={ctw`mr-1 my-1 px-2 py-1`}
               name={flair.name}
               iconSource={flair.iconSource}
             />

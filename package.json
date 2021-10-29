@@ -8,7 +8,7 @@
     "start": "react-native start",
     "style": "npx trnc-create-styles",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "prettier": "npx prettier --write ./src"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "native-base": "^3.0.7",
     "react": "17.0.1",
     "react-native": "0.64.1",
+    "react-native-config": "^1.4.5",
     "react-native-extended-stylesheet": "^0.12.0",
     "react-native-geocoding": "^0.5.0",
     "react-native-geolocation-service": "^5.3.0-beta.2",
