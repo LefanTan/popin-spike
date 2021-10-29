@@ -22,8 +22,8 @@ export const UploadingPage: React.FC<UploadingPageProps> = ({ loading, onBackCli
     let isCancelled = false;
 
     setTimeout(() => {
-      if (!isCancelled) setDotCount((dotCount + 1) % 3), 1000;
-    });
+      if (!isCancelled) setDotCount((dotCount + 1) % 3);
+    }, 500);
 
     return () => {
       isCancelled = true;
@@ -46,7 +46,7 @@ export const UploadingPage: React.FC<UploadingPageProps> = ({ loading, onBackCli
             )}
           </Pressable>
         )}
-        <Heading color="secondary.400" fontSize={hp(5)}>
+        <Heading textAlign="center" color="secondary.400" fontSize={hp(5)}>
           {loading ? `uploading${".".repeat(dotCount + 1)}` : "done"}
         </Heading>
       </HStack>

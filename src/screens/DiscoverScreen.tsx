@@ -1,7 +1,7 @@
 import MapView, { PROVIDER_GOOGLE, Region } from "react-native-maps";
 import React, { useState } from "react";
 import ctw from "../../custom-tailwind";
-import { Center, HStack, Input, VStack, Pressable, FlatList, useTheme } from "native-base";
+import { Center, HStack, Input, VStack, Pressable, FlatList, useTheme, Box } from "native-base";
 import { DraggableMenu } from "../menu/DraggableMenu";
 import Animated, { withTiming } from "react-native-reanimated";
 import { useAnimatedStyle } from "react-native-reanimated";
@@ -15,9 +15,11 @@ import { MinimizedEvent } from "../buttons/MinimizedEvent";
 import { DiscoverStackNavProps } from "../types/ParamList";
 import { flairsList } from "../data/flairsList";
 import { GetEventsListAsync } from "../helpers/FirestoreApiHelpers";
+import { useWindowDimensions } from "react-native";
 
 export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ navigation }) => {
   const { colors } = useTheme();
+  const [menuHeightPercentage, setHeightPerct] = useState(0);
 
   const [region, setRegion] = useState<Region>({
     latitude: 53.540936,
@@ -28,16 +30,17 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
 
   const [menuOpened, setMenuOpened] = useState(false);
   const [events, setEventsList] = useState<FirestoreEvent[]>([]);
+  const { height: screenHeight } = useWindowDimensions();
 
-  const dragMenuPercentage = useSharedValue(0);
+  const dragMenuOpacity = useSharedValue(0);
   const headingStyle = useAnimatedStyle(() => {
     return {
-      opacity: 1 - dragMenuPercentage.value,
+      opacity: 1 - dragMenuOpacity.value,
     };
   });
   const mainViewStyle = useAnimatedStyle(() => {
     return {
-      opacity: dragMenuPercentage.value,
+      opacity: dragMenuOpacity.value,
     };
   });
 
@@ -64,16 +67,16 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
       /> */}
 
       {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
-      {/* Min Height is how far you can drag up and vice versa */}
+      {/* Min Height From Top is how far you can drag up and vice versa */}
       <DraggableMenu
         onMenuDragged={percent => {
-          dragMenuPercentage.value = withTiming(percent * 2, { duration: 400 });
-          // console.log('percent' + percent)
+          dragMenuOpacity.value = withTiming(percent * 2, { duration: 400 });
           setMenuOpened(percent > 0);
         }}
-        minHeightOffset={6}
-        maxHeightOffsetFromScreenHeight={17.5}
-        snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
+        onMenuDraggedEnd={setHeightPerct}
+        maxHeightFromTop={85}
+        minHeightFromTop={10}
+        snapPositionsInPercentage={[0, 0.4, 1]}>
         <VStack
           padding={2}
           paddingTop={1}
@@ -89,19 +92,17 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
           </Animated.Text>
           <Animated.View
             pointerEvents={menuOpened ? "auto" : "none"}
-            style={[mainViewStyle, ctw`w-full h-full`]}>
-            <VStack>
-              <HStack height={hp(5)} justifyContent="flex-start">
+            style={[mainViewStyle, { width: "100%", height: "100%" }]}>
+            <VStack justifyContent="flex-start" py={1}>
+              <HStack justifyContent="flex-start">
                 <Input
-                  flex={15}
                   height={hp(5)}
+                  width="90%"
                   fontSize={hp(2)}
                   placeholder="Search event name..."
                   borderWidth={0}
                 />
                 <Pressable
-                  flex={1}
-                  height={hp(5)}
                   _pressed={{
                     bg: "transparent",
                   }}
@@ -118,7 +119,8 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
                 </Pressable>
               </HStack>
               <FlatList
-                paddingTop={2}
+                marginTop={2}
+                style={{ height: hp(4), maxHeight: hp(4) }}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 data={flairsList}
@@ -128,13 +130,22 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
                     onClick={type => console.log(type)}
                     name={item.name}
                     iconSource={item.iconSource}
-                    customStyle={{ paddingLeft: 8, paddingRight: 8 }}
+                    customStyle={{
+                      paddingHorizontal: 8,
+                      height: "100%",
+                    }}
                   />
                 )}
                 keyExtractor={item => item.name}
               />
               <FlatList
-                marginTop={5}
+                marginTop={4}
+                // Adjust the height of the flat list according to snap position of the draggable menu,
+                // not sure how well this works
+                style={{
+                  height: hp(menuHeightPercentage <= 0.6 ? 38 : 68),
+                }}
+                contentContainerStyle={ctw`pr-3`}
                 onRefresh={() => setTimeout(() => setEventsList([]), 750)}
                 refreshing={events.length === 0}
                 data={events}
@@ -147,7 +158,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
                         event: item,
                       })
                     }
-                    style={{ height: hp(12), marginBottom: 15 }}
+                    style={{ height: hp(12), marginBottom: 10 }}
                     event={item}
                   />
                 )}

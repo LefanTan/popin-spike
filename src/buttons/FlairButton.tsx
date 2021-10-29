@@ -16,10 +16,10 @@ interface FlairButtonProps {
 /**
  * A clickable flair button component
  */
-export const FlairButton: React.FC<FlairButtonProps> = memo(props => {
+export const FlairButton: React.FC<FlairButtonProps> = props => {
   return (
     <Pressable
-      style={[ctw`px-2 py-2 mr-1 rounded-2xl flex justify-center`, props.customStyle]}
+      style={[ctw`mr-1 rounded-2xl flex justify-center`, props.customStyle]}
       bg={props.isSelected ? "secondary.400" : "primary.200"}
       _pressed={{
         bg: "primary.300",
@@ -33,4 +33,4 @@ export const FlairButton: React.FC<FlairButtonProps> = memo(props => {
       />
     </Pressable>
   );
-});
+};
