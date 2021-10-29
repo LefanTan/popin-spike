@@ -28,10 +28,10 @@ static void InitializeFlipper(UIApplication *application) {
 
 @implementation AppDelegate
 
-NSString *mapsApiKey = [ReactNativeConfig envFor:@"MAP_SDK_KEY"];
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
+  NSString *mapsApiKey = [ReactNativeConfig envFor:@"MAP_SDK_KEY"];
   [GMSServices provideAPIKey:mapsApiKey]; // add this line using the api key obtained from Google Console
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);

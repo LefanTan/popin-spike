@@ -5,9 +5,9 @@ import { AuthProvider } from "./AuthProvider";
 import { NBColor, NBComponents, NBFont, NBFontConfig } from "./NativeBaseTheme";
 import { Routes } from "./Routes";
 import Geocoder from "react-native-geocoding";
-import { GEOCODING_API_KEY } from "react-native-dotenv";
+import Config from "react-native-config";
 
-Geocoder.init(GEOCODING_API_KEY);
+Geocoder.init(Config.GEOCODING_API_KEY);
 
 const theme = extendTheme({
   colors: NBColor,

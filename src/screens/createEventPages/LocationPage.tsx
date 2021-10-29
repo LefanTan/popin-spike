@@ -23,7 +23,7 @@ import Geolocation from "react-native-geolocation-service";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import { CreateEventContext } from "../CreateEventScreen";
 import { firebase } from "@react-native-firebase/auth";
-import { PLACES_API_KEY } from "react-native-dotenv";
+import Config from "react-native-config";
 
 export const LocationPage: React.FC = () => {
   let autoComplete: GooglePlacesAutocompleteRef | null;
@@ -85,7 +85,7 @@ export const LocationPage: React.FC = () => {
             longitudeDelta: pinMapRegion.longitudeDelta,
           }),
         error => console.log(error.message),
-        { enableHighAccuracy: true }
+        { enableHighAccuracy: true, timeout: 10000 }
       );
     }
   }, [hasLocationPermission]);
@@ -138,13 +138,14 @@ export const LocationPage: React.FC = () => {
           container: {
             maxHeight: hp(5),
             marginTop: 10,
+            zIndex: Platform.OS === "ios" ? 1 : undefined,
           },
           listView: {
             position: "absolute",
             top: hp(7),
             backgroundColor: colors["primary"]["200"],
             borderRadius: 15,
-            zIndex: 1,
+            zIndex: Platform.OS === "android" ? 1 : 0,
           },
           row: {
             backgroundColor: "transparent",
@@ -175,7 +176,7 @@ export const LocationPage: React.FC = () => {
           map?.animateToRegion(newRegion);
         }}
         query={{
-          key: PLACES_API_KEY,
+          key: Config.PLACES_API_KEY,
           language: "en",
           components: "country:ca",
         }}>
