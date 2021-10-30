@@ -1,9 +1,9 @@
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import {CreateEventScreen} from "../screens/CreateEventScreen";
-import {ProfileScreen} from "../screens/ProfileScreen";
-import {ProfileStackParamList} from "../types/ParamList";
-import {LoginStack} from "./LoginStack";
+import { CreateEventScreen } from "../screens/CreateEventScreen";
+import { ProfileScreen } from "../screens/ProfileScreen";
+import { ProfileStackParamList } from "../types/ParamList";
+import { LoginStack } from "./LoginStack";
 
 interface ProfileStackProps {}
 
@@ -18,7 +18,8 @@ export const ProfileStack: React.FC<ProfileStackProps> = () => {
       initialRouteName="Profile"
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
       <Stack.Screen name="LoginStack" component={LoginStack} />

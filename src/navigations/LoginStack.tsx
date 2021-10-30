@@ -1,7 +1,6 @@
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import {LoginScreen} from "../screens/LoginScreen";
-import {Signup} from "../screens/Signup";
+import { LoginScreen } from "../screens/LoginScreen";
 
 interface LoginStackProps {}
 

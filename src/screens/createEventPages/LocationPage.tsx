@@ -1,8 +1,8 @@
-import {AlertDialog, Box, Button, Heading, Pressable, Text, useTheme, VStack} from "native-base";
-import MapView, {Marker, PROVIDER_GOOGLE, Region} from "react-native-maps";
-import React, {useContext, useRef, useState} from "react";
-import {useEffect} from "react";
-import {Linking} from "react-native";
+import { AlertDialog, Box, Heading, Pressable, Text, useTheme, VStack } from "native-base";
+import MapView, { PROVIDER_GOOGLE, Region } from "react-native-maps";
+import React, { useContext, useRef, useState } from "react";
+import { useEffect } from "react";
+import { Linking, Platform } from "react-native";
 import {
   GooglePlacesAutocomplete,
   GooglePlacesAutocompleteRef,
@@ -15,90 +15,109 @@ import {
 } from "react-native-responsive-screen";
 import ctw from "../../../custom-tailwind";
 import {
-  checkLocationPermissionAsync,
-  requestLocationPermissionAsync,
+  checkPermissionAsync,
+  LOCATION_PERMISSION,
+  requestPermissionAsync,
 } from "../../helpers/PermissionHelpers";
+import Geolocation from "react-native-geolocation-service";
 import Ionicon from "react-native-vector-icons/Ionicons";
-import {CreateEventContext} from "../CreateEventScreen";
-import {firebase} from "@react-native-firebase/auth";
-
-const PLACES_API_KEY = "AIzaSyCsSpnG59UlSCaflM68hzRyCsBhENlLgjE";
-const GEOCODING_KEY = "AIzaSyAeoSDyBXu8qQdGGRDnCepDjkTsrEDpUQE";
-
-Geocoder.init(GEOCODING_KEY);
+import { CreateEventContext } from "../CreateEventScreen";
+import { firebase } from "@react-native-firebase/auth";
+import Config from "react-native-config";
 
 export const LocationPage: React.FC = () => {
-  const autoCompleteRef = React.createRef<GooglePlacesAutocompleteRef>();
-  const {colors, fontConfig} = useTheme();
+  let autoComplete: GooglePlacesAutocompleteRef | null;
+  let map: MapView | null;
+  const { colors, fontConfig } = useTheme();
   const locationAlertRef = useRef();
-  const {latlong, address, currentPageReady} = useContext(CreateEventContext);
+  const { latlong, address, currentPageReady } = useContext(CreateEventContext);
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
-  // dummy value
   const [pinMapRegion, setPinMapRegion] = useState<Region>({
-    latitude: 53.540936,
-    longitude: -113.499203,
+    latitude: latlong[0].latitude,
+    longitude: latlong[0].longitude,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0521,
   });
   const [hasLocation, setHasLocation] = useState(false);
   const [locationPermissionAlert, setLocationPermissionAlert] = useState(false);
 
+  const updateAddressText = (text: string) => {
+    const prevText = autoComplete?.getAddressText();
+    autoComplete?.setAddressText(text);
+
+    if (autoComplete?.getAddressText() != prevText) {
+      setHasLocation(false);
+      setHasLocation(true);
+    }
+  };
+
   useEffect(() => {
     // Check if app already has location permission
-    checkLocationPermissionAsync(
+    checkPermissionAsync(
+      LOCATION_PERMISSION,
       () => setHasLocationPermission(true),
       () => setHasLocationPermission(false)
     );
-
-    // Use eventcreation context's latlong to initalize, this will trigger another useEffect that will populate all UI updates
-    setPinMapRegion({
-      latitude: latlong[0].latitude,
-      longitude: latlong[0].longitude,
-      latitudeDelta: pinMapRegion.latitudeDelta,
-      longitudeDelta: pinMapRegion.longitudeDelta,
-    });
   }, []);
 
   useEffect(() => {
+    // If phone doesn't have location permission on startup, request for it
     if (!hasLocationPermission) {
-      requestLocationPermissionAsync(
+      requestPermissionAsync(
+        LOCATION_PERMISSION,
         () => setHasLocationPermission(true),
         () =>
-          checkLocationPermissionAsync(
+          checkPermissionAsync(
+            LOCATION_PERMISSION,
             () => setHasLocationPermission(true),
             () => setLocationPermissionAlert(true)
           )
+      );
+    } else {
+      // If location is available, use user position as starting point
+      Geolocation.getCurrentPosition(
+        info =>
+          map?.animateToRegion({
+            latitude: info.coords.latitude,
+            longitude: info.coords.longitude,
+            latitudeDelta: pinMapRegion.latitudeDelta,
+            longitudeDelta: pinMapRegion.longitudeDelta,
+          }),
+        error => console.log(error.message),
+        { enableHighAccuracy: true, timeout: 10000 }
       );
     }
   }, [hasLocationPermission]);
 
   // Called when the map is being dragged or pinMapRegion is changed
   useEffect(() => {
-    Geocoder.from({latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}).then(
-      result => {
-        // update search bar's text
-        // autoCompleteRef.current could be null during start up, add another useEffect to check for this
-        autoCompleteRef.current?.setAddressText(result.results[0].formatted_address);
+    let mounted = true;
 
-        // update context value
-        address[1](result.results[0].formatted_address);
-        latlong[1](new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude));
-
-        // indicate that an address has been set
-        setHasLocation(true);
-      }
-    );
+    if (mounted) {
+      Geocoder.from({ latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude }).then(
+        result => {
+          // update search bar's text
+          updateAddressText(result.results[0].formatted_address);
+        },
+        error => console.error(error.message)
+      );
+    }
+    return () => {
+      mounted = false;
+    };
   }, [pinMapRegion]);
 
+  // When location has been set, indicate that we're ready to move to the next page
   useEffect(() => {
-    // when autoCompleteRef.current isn't null, set textinput to use context's value
-    autoCompleteRef.current?.setAddressText(address[0]);
-  }, [autoCompleteRef]);
+    const addressText = autoComplete?.getAddressText();
 
-  useEffect(() => {
-    if (hasLocation) currentPageReady[1](true);
-    else currentPageReady[1](false);
+    if (hasLocation && addressText) {
+      // update context value
+      address[1](addressText);
+      latlong[1](new firebase.firestore.GeoPoint(pinMapRegion.latitude, pinMapRegion.longitude));
+      currentPageReady[1](true);
+    } else currentPageReady[1](false);
   }, [hasLocation]);
 
   return (
@@ -106,31 +125,36 @@ export const LocationPage: React.FC = () => {
       <Heading fontSize={hp(4.5)} fontWeight={600}>
         Location
       </Heading>
-      <Text fontSize={hp(2.5)}>Tell us where your event is going to take place</Text>
+      <Text color="secondary.400" fontSize={hp(2.5)}>
+        Tell us where your event is going to take place
+      </Text>
       <GooglePlacesAutocomplete
-        ref={autoCompleteRef}
+        ref={(node: GooglePlacesAutocompleteRef) => (autoComplete = node)}
         fetchDetails={true}
         placeholder="search address..."
-        textInputProps={{placeholderTextColor: colors["primary"]["700"]}}
+        enablePoweredByContainer={false}
+        textInputProps={{ placeholderTextColor: colors["primary"]["700"] }}
         styles={{
           container: {
-            maxHeight: hp(6),
+            maxHeight: hp(5),
             marginTop: 10,
+            zIndex: Platform.OS === "ios" ? 1 : undefined,
           },
           listView: {
             position: "absolute",
             top: hp(7),
-            elevation: 5,
-            zIndex: 5,
+            backgroundColor: colors["primary"]["200"],
+            borderRadius: 15,
+            zIndex: Platform.OS === "android" ? 1 : 0,
           },
           row: {
-            backgroundColor: colors["primary"]["200"],
+            backgroundColor: "transparent",
           },
           textInput: {
             backgroundColor: "transparent",
             fontFamily: fontConfig["primary"]["500"],
             color: colors["primary"]["700"],
-            maxWidth: "90%",
+            maxWidth: Platform.OS === "android" ? "90%" : "97.5%",
           },
           textInputContainer: {
             backgroundColor: colors["primary"]["200"],
@@ -140,36 +164,36 @@ export const LocationPage: React.FC = () => {
           description: {
             fontFamily: fontConfig["primary"]["500"],
           },
-          poweredContainer: {
-            opacity: 0,
-          },
         }}
         onPress={(data, details = null) => {
           // 'details' is provided when fetchDetails = true
-          setPinMapRegion({
-            // return default if geometry's location is null
+          const newRegion = {
             latitude: details?.geometry.location.lat ?? pinMapRegion.latitude,
             longitude: details?.geometry.location.lng ?? pinMapRegion.longitude,
             latitudeDelta: pinMapRegion.latitudeDelta,
             longitudeDelta: pinMapRegion.longitudeDelta,
-          });
+          };
+          map?.animateToRegion(newRegion);
         }}
         query={{
-          key: PLACES_API_KEY,
+          key: Config.PLACES_API_KEY,
           language: "en",
           components: "country:ca",
-        }}>
-        <Button
-          style={ctw.style(
-            `absolute top-0 right-3 bg-primary-300 p-1 flex items-center justify-center`,
-            {borderRadius: 50, transform: [{translateY: hp(1.5)}]}
-          )}
-          onPress={() => {
-            autoCompleteRef.current?.setAddressText("");
-            setHasLocation(false);
-          }}>
-          <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
-        </Button>
+        }}
+      >
+        {Platform.OS === "android" && (
+          <Pressable
+            style={[
+              ctw`absolute top-0 right-3 p-1 flex items-center justify-center`,
+              { borderRadius: 50, transform: [{ translateY: hp(1.5) }] },
+            ]}
+            bg="primary.300"
+            _pressed={{ bg: colors["primary"]["400"] }}
+            onPress={() => updateAddressText("")}
+          >
+            <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
+          </Pressable>
+        )}
       </GooglePlacesAutocomplete>
 
       <Box
@@ -178,14 +202,17 @@ export const LocationPage: React.FC = () => {
         marginBottom={3}
         borderRadius={15}
         overflow="hidden"
-        bg="secondary.200">
+        bg="secondary.200"
+      >
         <MapView
+          ref={(node: MapView) => (map = node)}
           provider={PROVIDER_GOOGLE}
-          region={pinMapRegion}
+          initialRegion={pinMapRegion}
           onRegionChangeComplete={setPinMapRegion}
           showsMyLocationButton={true}
           showsUserLocation={true}
-          style={{width: "100%", height: "100%"}}>
+          style={{ width: "100%", height: "100%" }}
+        >
           {/* <Marker
             coordinate={{latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}}
           /> */}
@@ -194,14 +221,15 @@ export const LocationPage: React.FC = () => {
           name="location-sharp"
           size={hp(5)}
           color={colors["secondary"]["400"]}
-          style={{position: "absolute", left: "45%", top: "37.5%"}}
+          style={{ position: "absolute", left: "45%", top: "37.5%" }}
         />
       </Box>
 
       <AlertDialog
         isOpen={locationPermissionAlert}
         leastDestructiveRef={locationAlertRef}
-        onClose={() => setLocationPermissionAlert(false)}>
+        onClose={() => setLocationPermissionAlert(false)}
+      >
         <AlertDialog.Content width={wp(85)} padding={3}>
           <AlertDialog.Header
             paddingLeft={3}
@@ -209,16 +237,17 @@ export const LocationPage: React.FC = () => {
               color: colors["primary"]["700"],
               fontWeight: 500,
               fontSize: hp(3.5),
-            }}>
+            }}
+          >
             Location Permission
           </AlertDialog.Header>
-          <Text color="primary.700" fontSize={hp(2.25)} paddingLeft={3}>
+          <Text fontSize={hp(2.25)} paddingLeft={3}>
             This app requires location permission to work properly, please allow permission in the
             settings
           </Text>
           <AlertDialog.Footer>
             <Pressable onPress={() => setLocationPermissionAlert(false)}>
-              <Text fontWeight={500} fontSize={hp(2.5)}>
+              <Text color="secondary.400" fontWeight={500} fontSize={hp(2.5)}>
                 Cancel
               </Text>
             </Pressable>
@@ -227,8 +256,9 @@ export const LocationPage: React.FC = () => {
               onPress={() => {
                 setLocationPermissionAlert(false);
                 Linking.openSettings();
-              }}>
-              <Text fontWeight={500} fontSize={hp(2.5)}>
+              }}
+            >
+              <Text color="secondary.400" fontWeight={500} fontSize={hp(2.5)}>
                 Go to settings
               </Text>
             </Pressable>

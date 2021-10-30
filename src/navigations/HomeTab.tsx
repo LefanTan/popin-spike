@@ -1,23 +1,21 @@
 import React from "react";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {HomeTabParamList} from "../types/ParamList";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { HomeTabParamList } from "../types/ParamList";
 import MaterialIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcons from "react-native-vector-icons/AntDesign";
-import {useTheme} from "native-base";
+import { useTheme } from "native-base";
 import ctw from "../../custom-tailwind";
-import {DiscoverStack} from "./DiscoverStack";
-import {ProfileStack} from "./ProfileStack";
-
-interface HomeTabProps {}
+import { DiscoverStack } from "./DiscoverStack";
+import { ProfileStack } from "./ProfileStack";
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
-export const HomeTab: React.FC<HomeTabProps> = ({}) => {
-  const {colors, fontConfig} = useTheme();
+export const HomeTab: React.FC = () => {
+  const { colors, fontConfig } = useTheme();
 
   return (
     <Tab.Navigator
-      initialRouteName="ProfileStack"
+      initialRouteName="DiscoverStack"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors["secondary"]["400"],
@@ -25,12 +23,13 @@ export const HomeTab: React.FC<HomeTabProps> = ({}) => {
           fontFamily: fontConfig["primary"]["600"]["normal"],
         },
         tabBarStyle: ctw`pb-2 h-14`,
-      }}>
+      }}
+    >
       <Tab.Screen
         name="DiscoverStack"
         component={DiscoverStack}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <AntDesignIcons name="search1" size={size} color={color} />
           ),
           tabBarLabel: "Discover",
@@ -40,7 +39,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({}) => {
         name="ProfileStack"
         component={ProfileStack}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="face-profile" size={size} color={color} />
           ),
           tabBarLabel: "Profile",

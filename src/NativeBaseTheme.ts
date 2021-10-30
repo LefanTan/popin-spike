@@ -76,10 +76,6 @@ export const NBComponents = {
     },
   },
   Input: {
-    defaultProps: {
-      bg: "primary.200",
-      variant: "filled",
-    },
     baseStyle: {
       paddingTop: 0,
       paddingBottom: 0,
@@ -102,12 +98,12 @@ export const NBComponents = {
       },
       titleInput: {
         variant: "unstyled",
-        bg: "transparent",
         border: "transparent",
         color: "primary.700",
         fontFamily: "Urbanist-SemiBold",
         placeholderTextColor: "primary.400",
         padding: 0,
+        paddingLeft: 0,
         paddingBottom: 15,
         borderRadius: 0,
       },
@@ -140,8 +136,8 @@ export const NBComponents = {
         bg: "secondary.400",
         paddingX: 1.5,
         paddingY: 1,
-        _text: {color: "primary.200"},
-        _pressed: {bg: "secondary.500"},
+        _text: { color: "primary.200" },
+        _pressed: { bg: "secondary.500" },
       },
     },
   },

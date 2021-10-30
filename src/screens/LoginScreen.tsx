@@ -13,18 +13,18 @@ import {
   Image,
 } from "native-base";
 import React from "react";
-import {useState} from "react";
-import {useEffect} from "react";
-import {useContext} from "react";
-import {ActivityIndicator} from "react-native";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { ActivityIndicator } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ctw from "../../custom-tailwind";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import {AuthContext} from "../AuthProvider";
-import {Signup} from "./Signup";
+import { AuthContext } from "../AuthProvider";
+import { Signup } from "./Signup";
 
 interface LoginScreenProps {}
 
@@ -38,9 +38,9 @@ const inputStyle = {
 
 const borderRadius = 20;
 
-export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
+export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const authContext = useContext(AuthContext);
-  const {colors, fontConfig} = useTheme();
+  const { colors, fontConfig } = useTheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -68,7 +68,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
           bg="primary.300"
           width="65%"
           marginX="auto"
-          borderRadius={borderRadius}>
+          borderRadius={borderRadius}
+        >
           <Button
             borderRadius={borderRadius}
             width="50%"
@@ -81,7 +82,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
               setIsSignup(false);
               authContext.clearError();
             }}
-            _pressed={{bg: "primary.300"}}>
+            _pressed={{ bg: "primary.300" }}
+          >
             Sign in
           </Button>
           <Button
@@ -96,7 +98,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
               setIsSignup(true);
               authContext.clearError();
             }}
-            _pressed={{bg: "primary.300"}}>
+            _pressed={{ bg: "primary.300" }}
+          >
             Sign up
           </Button>
         </HStack>
@@ -132,7 +135,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                   secureTextEntry={true}
                   // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
                   ref={ref =>
-                    ref && ref.setNativeProps({style: {fontFamily: fontConfig["primary"]["400"]}})
+                    ref &&
+                    ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
                   }
                   marginBottom={hp(1)}
                   value={password}
@@ -145,8 +149,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                   borderBottomColor="secondary.400"
                   onPress={() => setHidePass(!hidePass)}
                   display="flex"
-                  justifyContent="center">
-                  {({isPressed}) => (
+                  justifyContent="center"
+                >
+                  {({ isPressed }) => (
                     <Icon
                       as={Ionicons}
                       textAlign="center"
@@ -164,7 +169,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                 marginLeft={1}
                 color="secondary.300"
                 fontWeight={600}
-                fontSize={hp(2)}>
+                fontSize={hp(2)}
+              >
                 {authContext.errorMsg}
               </Text>
             ) : null}
@@ -185,7 +191,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
               onPress={() => {
                 authContext.login(email, password);
                 setPassword("");
-              }}>
+              }}
+            >
               LOGIN
             </Button>
           </View>
@@ -214,7 +221,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                 size={hp(4)}
               />
             </Icon>
-          }>
+          }
+        >
           Sign in with Google
         </Button>
       </VStack>

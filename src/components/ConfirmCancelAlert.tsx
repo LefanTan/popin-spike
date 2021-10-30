@@ -1,6 +1,6 @@
-import {AlertDialog, Icon, Pressable, Text, useTheme} from "native-base";
+import { AlertDialog, Icon, Pressable, Text, useTheme } from "native-base";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -15,7 +15,7 @@ interface AlertProps {
 }
 
 export const ConfirmCancelAlert: React.FC<AlertProps> = props => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const alertRef = useRef();
 
   return (
@@ -27,7 +27,8 @@ export const ConfirmCancelAlert: React.FC<AlertProps> = props => {
             color: colors["primary"]["700"],
             fontWeight: 500,
             fontSize: hp(4),
-          }}>
+          }}
+        >
           {props.header}
         </AlertDialog.Header>
         <Text color="primary.700" fontSize={hp(2.25)} paddingLeft={3}>
@@ -35,7 +36,7 @@ export const ConfirmCancelAlert: React.FC<AlertProps> = props => {
         </Text>
         <AlertDialog.Footer>
           <Pressable onPress={props.onClose}>
-            {({isPressed}) => (
+            {({ isPressed }) => (
               <Icon
                 as={MaterialCommunityIcons}
                 size={8}
@@ -49,8 +50,9 @@ export const ConfirmCancelAlert: React.FC<AlertProps> = props => {
             onPress={() => {
               props.onClose();
               props.onConfirm();
-            }}>
-            {({isPressed}) => (
+            }}
+          >
+            {({ isPressed }) => (
               <Icon
                 as={MaterialCommunityIcons}
                 size={9}
