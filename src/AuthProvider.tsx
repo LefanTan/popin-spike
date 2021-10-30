@@ -153,6 +153,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
         // Logout API called here
         logout: () => {
+          setLoading(false);
           auth()
             .signOut()
             .then(
@@ -169,8 +170,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         clearError: () => {
           setError("");
         },
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );

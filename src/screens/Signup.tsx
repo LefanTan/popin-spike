@@ -4,8 +4,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import ctw from "../../custom-tailwind";
 import { ActivityIndicator } from "react-native";
 import { AuthContext } from "../AuthProvider";
-
-interface SignupProps {}
+import { height } from "styled-system";
 
 const inputStyle = {
   width: "85%",
@@ -15,7 +14,7 @@ const inputStyle = {
   marginLeft: hp(3),
 };
 
-export const Signup: React.FC<SignupProps> = ({ navigation }) => {
+export const Signup: React.FC = () => {
   const authContext = useContext(AuthContext);
   const { colors, fontConfig } = useTheme();
 
@@ -24,7 +23,11 @@ export const Signup: React.FC<SignupProps> = ({ navigation }) => {
   const [passwordCheck, setPasswordCheck] = useState("");
 
   return (
-    <VStack backgroundColor="primary.100" flex={1} marginTop="8" minHeight={hp(43)}>
+    <VStack
+      backgroundColor="primary.100"
+      flex={1}
+      marginTop="8"
+      maxHeight={authContext.errorMsg ? hp(53) : hp(44)}>
       <VStack>
         <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
           Email
@@ -60,7 +63,7 @@ export const Signup: React.FC<SignupProps> = ({ navigation }) => {
         />
         <Input
           {...inputStyle}
-          placeholder="Re-enter password here..."
+          placeholder="re-enter password here..."
           variant="input"
           secureTextEntry={true}
           // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
@@ -78,31 +81,25 @@ export const Signup: React.FC<SignupProps> = ({ navigation }) => {
           marginBottom={hp(1)}
           color="secondary.300"
           fontWeight={600}
-          fontSize={hp(2)}
-        >
+          fontSize={hp(2)}>
           {authContext.errorMsg}
         </Text>
       ) : null}
       <Button
         borderRadius={23}
-        width="30%"
         marginTop={hp(2)}
         marginX="auto"
         backgroundColor="secondary.400"
+        px={6}
         onPress={() => authContext.signup(email, password)}
         _text={{ fontSize: hp(2.5) }}
-      >
-        Sign Up
+        _pressed={{ bg: "secondary.600" }}>
+        {authContext.loading ? (
+          <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
+        ) : (
+          "SIGNUP"
+        )}
       </Button>
-      {authContext.loading && (
-        <ActivityIndicator
-          size="large"
-          color={colors["secondary"]["400"]}
-          style={{
-            marginTop: hp(3),
-          }}
-        />
-      )}
     </VStack>
   );
 };
