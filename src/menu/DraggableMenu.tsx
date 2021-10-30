@@ -1,41 +1,44 @@
-import {Box, useTheme} from "native-base";
-import React, {memo} from "react";
-import {PanGestureHandler} from "react-native-gesture-handler";
+import { Box, useTheme } from "native-base";
+import React, { memo } from "react";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   useAnimatedGestureHandler,
   withSpring,
 } from "react-native-reanimated";
-import {clamp} from "react-native-redash";
-import {useWindowDimensions} from "react-native";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { clamp } from "react-native-redash";
+import { useWindowDimensions } from "react-native";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import ctw from "../../custom-tailwind";
-import {runOnJS} from "react-native-reanimated";
+import { runOnJS } from "react-native-reanimated";
 
 interface DraggableMenuProps {
-  minHeightOffset: number;
-  maxHeightOffsetFromScreenHeight: number;
+  minHeightFromTop: number;
+  maxHeightFromTop: number;
   snapPositionsInPercentage: number[];
-  onMenuDragged: (percent: number) => void;
+  onMenuDragged?: (percent: number) => void;
+  onMenuDraggedEnd?: (percent: number) => void;
 }
 
 export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
-  const {height} = useWindowDimensions();
+  const { height } = useWindowDimensions();
   // useTheme retrieves the theme object from NativeBase
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
-  const maxHeightOffset = height - hp(props.maxHeightOffsetFromScreenHeight);
-  const minHeightOffset = hp(props.minHeightOffset);
+  const maxHeightOffset = hp(props.maxHeightFromTop);
+  const minHeightOffset = hp(props.minHeightFromTop);
   const yMenu = useSharedValue(maxHeightOffset);
-  const yMenuSnapPositions = props.snapPositionsInPercentage.map((percent, index) =>
-    index === 0 ? minHeightOffset : percent * maxHeightOffset
+  const yMenuSnapPositions = props.snapPositionsInPercentage.map(
+    percent =>
+      // interpolate
+      minHeightOffset + percent * (maxHeightOffset - minHeightOffset)
   );
 
   // Animated style for the View
   const draggableMenuStyle = useAnimatedStyle(() => {
     return {
-      transform: [{translateY: yMenu.value}],
+      transform: [{ translateY: yMenu.value }],
     };
   });
 
@@ -47,19 +50,19 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
     },
     onActive: (evt, ctx) => {
       // clamp the value so it doesn't go below or over the limit
-      let draggedVal = clamp(ctx.startY + evt.translationY, minHeightOffset, maxHeightOffset);
+      const draggedVal = clamp(ctx.startY + evt.translationY, minHeightOffset, maxHeightOffset);
 
       // update the limit
       yMenu.value = draggedVal;
 
-      var percentage = Math.abs(
+      const percentage = Math.abs(
         1 - (draggedVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)
       );
-      runOnJS(props.onMenuDragged)(percentage);
+      if (props.onMenuDragged) runOnJS(props.onMenuDragged)(percentage);
     },
-    onEnd: (evt, _) => {
+    onEnd: evt => {
       // evt.translationY > 0 = pull down
-      let closestVal =
+      const closestVal =
         evt.translationY > 0
           ? yMenuSnapPositions[yMenuSnapPositions.length - 1]
           : yMenuSnapPositions
@@ -69,12 +72,13 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
 
       if (closestVal !== undefined) {
         // WithSpring() adds a 'spring' effect to the drag animation
-        yMenu.value = withSpring(closestVal, {stiffness: 200, damping: 20});
+        yMenu.value = withSpring(closestVal, { stiffness: 200, damping: 20 });
 
-        var percentage = Math.abs(
+        const percentage = Math.abs(
           1 - (closestVal - minHeightOffset) / (maxHeightOffset - minHeightOffset)
         );
-        runOnJS(props.onMenuDragged)(percentage);
+        if (props.onMenuDragged) runOnJS(props.onMenuDragged)(percentage);
+        if (props.onMenuDraggedEnd) runOnJS(props.onMenuDraggedEnd)(percentage);
       }
     },
   });
@@ -92,12 +96,13 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
           position: "absolute",
           left: 0,
           right: 0,
-          shadowOffset: {width: 0, height: 12},
+          shadowOffset: { width: 0, height: 12 },
           shadowColor: "black",
           shadowOpacity: 1,
-          elevation: 17,
+          elevation: 10,
         },
-      ]}>
+      ]}
+    >
       <PanGestureHandler onGestureEvent={menuGestureHandler}>
         <Animated.View style={ctw`flex items-center justify-center bg-transparent p-0 h-9`}>
           <Box height={1} width={20} rounded={20} bg="secondary.400" />

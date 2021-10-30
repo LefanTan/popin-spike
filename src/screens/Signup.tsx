@@ -1,9 +1,9 @@
-import {Button, Heading, Input, Text, VStack, useTheme} from "native-base";
-import React, {useState, useEffect, useContext} from "react";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { Button, Heading, Input, Text, VStack, useTheme } from "native-base";
+import React, { useState, useEffect, useContext } from "react";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import ctw from "../../custom-tailwind";
-import {ActivityIndicator} from "react-native";
-import {AuthContext} from "../AuthProvider";
+import { ActivityIndicator } from "react-native";
+import { AuthContext } from "../AuthProvider";
 
 interface SignupProps {}
 
@@ -15,9 +15,9 @@ const inputStyle = {
   marginLeft: hp(3),
 };
 
-export const Signup: React.FC<SignupProps> = ({navigation}) => {
+export const Signup: React.FC<SignupProps> = ({ navigation }) => {
   const authContext = useContext(AuthContext);
-  const {colors, fontConfig} = useTheme();
+  const { colors, fontConfig } = useTheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -52,7 +52,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
           secureTextEntry={true}
           // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
           ref={ref =>
-            ref && ref.setNativeProps({style: {fontFamily: fontConfig["primary"]["400"]}})
+            ref && ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
           }
           marginBottom={hp(1)}
           value={password}
@@ -65,7 +65,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
           secureTextEntry={true}
           // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
           ref={ref =>
-            ref && ref.setNativeProps({style: {fontFamily: fontConfig["primary"]["400"]}})
+            ref && ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
           }
           value={passwordCheck}
           onChangeText={text => setPasswordCheck(text)}
@@ -78,7 +78,8 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
           marginBottom={hp(1)}
           color="secondary.300"
           fontWeight={600}
-          fontSize={hp(2)}>
+          fontSize={hp(2)}
+        >
           {authContext.errorMsg}
         </Text>
       ) : null}
@@ -89,7 +90,8 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
         marginX="auto"
         backgroundColor="secondary.400"
         onPress={() => authContext.signup(email, password)}
-        _text={{fontSize: hp(2.5)}}>
+        _text={{ fontSize: hp(2.5) }}
+      >
         Sign Up
       </Button>
       {authContext.loading && (

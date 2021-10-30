@@ -2,8 +2,12 @@
 #
 .DS_Store
 
+# Dev
+.env
+
 # Xcode
 #
+GoogleService-Info.plist
 build/
 *.pbxuser
 !default.pbxuser

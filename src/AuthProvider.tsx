@@ -1,7 +1,7 @@
-import React, {useState} from "react";
-import auth, {FirebaseAuthTypes} from "@react-native-firebase/auth";
-import {GoogleSignin, statusCodes} from "@react-native-google-signin/google-signin";
-import {useEffect} from "react";
+import React, { useState } from "react";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { useEffect } from "react";
+import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
 
 interface AuthProviderProps {}
 
@@ -34,7 +34,7 @@ export const AuthContext = React.createContext<{
   clearError: () => null,
 });
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>(null);
   const [init, setInit] = useState(true);
   const [errorMsg, setError] = useState("");
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     if (userData) {
       // React Native Firebase automatically persist user login state
       const displayName = userData.displayName ?? "";
-      setUser({userName: displayName, firebaseAuthData: userData});
+      setUser({ userName: displayName, firebaseAuthData: userData });
     } else setUser(null);
   };
 
@@ -101,7 +101,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         googleLogin: async () => {
           try {
             // Get the users ID token
-            const {idToken} = await GoogleSignin.signIn();
+            const { idToken } = await GoogleSignin.signIn();
             // Create a Google credential with the token
             const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
@@ -169,7 +169,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         clearError: () => {
           setError("");
         },
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

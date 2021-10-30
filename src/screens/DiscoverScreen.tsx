@@ -1,26 +1,25 @@
-import MapView, {PROVIDER_GOOGLE, Region} from "react-native-maps";
-import React, {useState} from "react";
+import MapView, { PROVIDER_GOOGLE, Region } from "react-native-maps";
+import React, { useState } from "react";
 import ctw from "../../custom-tailwind";
-import {Center, HStack, Input, VStack, Pressable, FlatList, useTheme} from "native-base";
-import {DraggableMenu} from "../menu/DraggableMenu";
-import Animated, {withTiming} from "react-native-reanimated";
-import {useAnimatedStyle} from "react-native-reanimated";
-import {useSharedValue} from "react-native-reanimated";
+import { Center, HStack, Input, VStack, Pressable, FlatList, useTheme, Box } from "native-base";
+import { DraggableMenu } from "../menu/DraggableMenu";
+import Animated, { withTiming } from "react-native-reanimated";
+import { useAnimatedStyle } from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import FoundationIcon from "react-native-vector-icons/Foundation";
-import {FlairButton} from "../buttons/FlairButton";
-import firestore from "@react-native-firebase/firestore";
-import {useEffect} from "react";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import {FirestoreEvent} from "../types/FirestoreClasses";
-import {MinimizedEvent} from "../buttons/MinimizedEvent";
-import {DiscoverStackNavProps} from "../types/ParamList";
-import {flairsList} from "../data/flairsList";
+import { FlairButton } from "../buttons/FlairButton";
+import { useEffect } from "react";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { FirestoreEvent } from "../types/FirestoreClasses";
+import { MinimizedEvent } from "../buttons/MinimizedEvent";
+import { DiscoverStackNavProps } from "../types/ParamList";
+import { flairsList } from "../data/flairsList";
+import { GetEventsListAsync } from "../helpers/FirestoreApiHelpers";
+import { useWindowDimensions } from "react-native";
 
-export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({navigation}) => {
-  const {colors} = useTheme();
+export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ navigation }) => {
+  const { colors } = useTheme();
+  const [menuHeightPercentage, setHeightPerct] = useState(0);
 
   const [region, setRegion] = useState<Region>({
     latitude: 53.540936,
@@ -31,61 +30,53 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
 
   const [menuOpened, setMenuOpened] = useState(false);
   const [events, setEventsList] = useState<FirestoreEvent[]>([]);
+  const { height: screenHeight } = useWindowDimensions();
 
-  const dragMenuPercentage = useSharedValue(0);
+  const dragMenuOpacity = useSharedValue(0);
   const headingStyle = useAnimatedStyle(() => {
     return {
-      opacity: 1 - dragMenuPercentage.value,
+      opacity: 1 - dragMenuOpacity.value,
     };
   });
   const mainViewStyle = useAnimatedStyle(() => {
     return {
-      opacity: dragMenuPercentage.value,
+      opacity: dragMenuOpacity.value,
     };
   });
 
   // When menu open, load data
   useEffect(() => {
-    if (menuOpened && events.length === 0) {
-      let eventsList: FirestoreEvent[] = [];
-      firestore()
-        .collection("events")
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            const event: FirestoreEvent = documentSnapshot.data() as FirestoreEvent;
-            event.id = documentSnapshot.id;
-            eventsList.push(event);
-          });
-        })
-        .finally(() => {
-          setEventsList(eventsList);
-        });
+    async function getEvents() {
+      if (menuOpened && events.length === 0) {
+        const eventsList: FirestoreEvent[] = await GetEventsListAsync();
+        setEventsList(eventsList);
+      }
     }
+    getEvents();
   }, [menuOpened, events]);
 
   return (
-    <Center bg="primary.300" flex={1}>
+    <Center bg="primary.300" flex={1} safeAreaTop>
       {/* <MapView
-                provider={PROVIDER_GOOGLE}
-                style={ctw`w-full h-full`}
-                onRegionChangeComplete={setRegion}
-                showsUserLocation={true}
-                followsUserLocation
-                region={region}
-            /> */}
+        provider={PROVIDER_GOOGLE}
+        style={ctw`w-full h-full`}
+        onRegionChangeComplete={setRegion}
+        showsUserLocation={true}
+        followsUserLocation
+        initialRegion={region}
+      /> */}
 
       {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
-      {/* Min Height is how far you can drag up and vice versa */}
+      {/* Min Height From Top is how far you can drag up and vice versa */}
       <DraggableMenu
         onMenuDragged={percent => {
-          dragMenuPercentage.value = withTiming(percent * 2, {duration: 400});
-          // console.log('percent' + percent)
+          dragMenuOpacity.value = withTiming(percent * 2, { duration: 400 });
           setMenuOpened(percent > 0);
         }}
-        minHeightOffset={6}
-        maxHeightOffsetFromScreenHeight={17.5}
-        snapPositionsInPercentage={[0, 0.25, 0.5, 1]}>
+        onMenuDraggedEnd={setHeightPerct}
+        maxHeightFromTop={85}
+        minHeightFromTop={10}
+        snapPositionsInPercentage={[0, 0.4, 1]}>
         <VStack
           padding={2}
           paddingTop={1}
@@ -101,24 +92,23 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
           </Animated.Text>
           <Animated.View
             pointerEvents={menuOpened ? "auto" : "none"}
-            style={[mainViewStyle, ctw`w-full h-full`]}>
-            <VStack>
-              <HStack height={hp(5)} justifyContent="flex-start">
+            style={[mainViewStyle, { width: "100%", height: "100%" }]}>
+            <VStack justifyContent="flex-start" py={1}>
+              <HStack justifyContent="flex-start">
                 <Input
-                  flex={15}
                   height={hp(5)}
+                  width="90%"
                   fontSize={hp(2)}
+                  bg="primary.200"
                   placeholder="Search event name..."
                   borderWidth={0}
                 />
                 <Pressable
-                  flex={1}
-                  height={hp(5)}
                   _pressed={{
                     bg: "transparent",
                   }}
                   padding={1}>
-                  {({isPressed}) => (
+                  {({ isPressed }) => (
                     <FoundationIcon
                       size={hp(4)}
                       name="filter"
@@ -130,25 +120,38 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
                 </Pressable>
               </HStack>
               <FlatList
-                paddingTop={2}
+                marginTop={2}
+                style={{ height: hp(4), maxHeight: hp(4) }}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 data={flairsList}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <FlairButton
+                    isSelected={false}
                     onClick={type => console.log(type)}
                     name={item.name}
-                    iconSource={item.iconSource}></FlairButton>
+                    iconSource={item.iconSource}
+                    customStyle={{
+                      paddingHorizontal: 8,
+                      height: "100%",
+                    }}
+                  />
                 )}
                 keyExtractor={item => item.name}
               />
               <FlatList
-                paddingTop={5}
-                onRefresh={() => setEventsList([])}
+                marginTop={4}
+                // Adjust the height of the flat list according to snap position of the draggable menu,
+                // not sure how well this works
+                style={{
+                  height: hp(menuHeightPercentage <= 0.6 ? 38 : 68),
+                }}
+                contentContainerStyle={ctw`pr-3`}
+                onRefresh={() => setTimeout(() => setEventsList([]), 750)}
                 refreshing={events.length === 0}
                 data={events}
                 keyExtractor={(event: FirestoreEvent) => event.id}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <MinimizedEvent
                     onMapPinClick={() => null}
                     onEventClick={() =>
@@ -156,6 +159,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({nav
                         event: item,
                       })
                     }
+                    style={{ height: hp(12), marginBottom: 10 }}
                     event={item}
                   />
                 )}
