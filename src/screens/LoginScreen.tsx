@@ -48,28 +48,20 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [isSignup, setIsSignup] = useState(false);
 
   return (
-    <VStack bg="primary.100" height={hp(100)}>
-      <VStack padding={5} width={wp(100)} height={hp(75)} marginTop={hp(5)}>
+    <Center flex={1} bg="primary.100">
+      <VStack padding={5} width={wp(100)} height={hp(90)} marginTop="auto" marginBottom="auto">
         <HStack width={wp(92.5)} justifyContent="center">
-          <Heading variant="title" fontWeight={600} fontSize={hp(6)} paddingRight="5">
+          <Heading variant="title" fontWeight={400} fontSize={hp(7)} textAlign="center">
             {isSignup ? "Sign in here!" : "Sign up here!"}
           </Heading>
-          {authContext.loading && (
-            <ActivityIndicator
-              style={ctw`ml-auto mt-2`}
-              size="large"
-              color={colors["secondary"]["400"]}
-            />
-          )}
         </HStack>
         <HStack
           marginTop={hp(5)}
           justifyContent="center"
           bg="primary.300"
-          width="65%"
+          width="60%"
           marginX="auto"
-          borderRadius={borderRadius}
-        >
+          borderRadius={borderRadius}>
           <Button
             borderRadius={borderRadius}
             width="50%"
@@ -82,9 +74,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               setIsSignup(false);
               authContext.clearError();
             }}
-            _pressed={{ bg: "primary.300" }}
-          >
-            Sign in
+            _pressed={{ bg: isSignup ? "primary.300" : "secondary.400" }}>
+            SIGN IN
           </Button>
           <Button
             borderRadius={borderRadius}
@@ -98,9 +89,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               setIsSignup(true);
               authContext.clearError();
             }}
-            _pressed={{ bg: "primary.300" }}
-          >
-            Sign up
+            _pressed={{ bg: !isSignup ? "primary.300" : "secondary.400" }}>
+            SIGN UP
           </Button>
         </HStack>
         {isSignup ? (
@@ -149,8 +139,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                   borderBottomColor="secondary.400"
                   onPress={() => setHidePass(!hidePass)}
                   display="flex"
-                  justifyContent="center"
-                >
+                  justifyContent="center">
                   {({ isPressed }) => (
                     <Icon
                       as={Ionicons}
@@ -166,16 +155,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             {authContext.errorMsg ? (
               <Text
                 marginTop={3}
-                marginLeft={1}
+                marginLeft={hp(3)}
                 color="secondary.300"
                 fontWeight={600}
-                fontSize={hp(2)}
-              >
+                fontSize={hp(2)}>
                 {authContext.errorMsg}
               </Text>
             ) : null}
             <Pressable marginTop={hp(1)} width="85%" marginLeft={hp(3)}>
-              <Text fontSize={hp(2.4)} color="primary.800" marginLeft="auto" underline={true}>
+              <Text fontSize={hp(2.4)} color="secondary.400" marginLeft="auto" underline={true}>
                 Forgot password?
               </Text>
             </Pressable>
@@ -192,12 +180,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 authContext.login(email, password);
                 setPassword("");
               }}
-            >
-              LOGIN
+              _pressed={{ bg: "secondary.600" }}>
+              {authContext.loading ? (
+                <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
+              ) : (
+                "LOGIN"
+              )}
             </Button>
           </View>
         )}
-        <Text marginX="auto" marginTop={hp(1.5)}>
+        <Text marginX="auto" marginTop={hp(1)}>
           or
         </Text>
         <Button
@@ -213,6 +205,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           onPress={() => {
             authContext.googleLogin();
           }}
+          _pressed={{ bg: "primary.300" }}
           startIcon={
             <Icon marginTop={hp(0.5)}>
               <Image
@@ -221,11 +214,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 size={hp(4)}
               />
             </Icon>
-          }
-        >
+          }>
           Sign in with Google
         </Button>
       </VStack>
-    </VStack>
+    </Center>
   );
 };
