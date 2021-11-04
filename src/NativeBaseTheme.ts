@@ -1,6 +1,6 @@
 /**
  * Themes related objects to be used in extending NativeBase's default theme
- */
+*/
 
 export const NBColor = {
   // 400 is the standard shade
@@ -82,7 +82,7 @@ export const NBComponents = {
       paddingLeft: 3,
       borderRadius: 10,
       placeholderTextColor: "secondary.500",
-      color: "primary.400",
+      color: "primary.700",
       fontWeight: 500,
     },
     variants: {
