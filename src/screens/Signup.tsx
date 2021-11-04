@@ -1,10 +1,12 @@
-import { Button, Heading, Input, Text, VStack, useTheme } from "native-base";
-import React, { useState, useEffect, useContext } from "react";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { Button, Input, Text, VStack, useTheme } from "native-base";
+import React, { useState, useContext } from "react";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import ctw from "../../custom-tailwind";
 import { ActivityIndicator } from "react-native";
 import { AuthContext } from "../AuthProvider";
-import { height } from "styled-system";
 
 const inputStyle = {
   width: "85%",
@@ -77,7 +79,7 @@ export const Signup: React.FC = () => {
       {authContext.errorMsg ? (
         <Text
           width="85%"
-          marginLeft={hp(3)}
+          marginLeft={wp(7)}
           marginBottom={hp(1)}
           color="secondary.300"
           fontWeight={600}

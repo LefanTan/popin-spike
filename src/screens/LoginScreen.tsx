@@ -14,7 +14,6 @@ import {
 } from "native-base";
 import React from "react";
 import { useState } from "react";
-import { useEffect } from "react";
 import { useContext } from "react";
 import { ActivityIndicator } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -155,7 +154,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             {authContext.errorMsg ? (
               <Text
                 marginTop={3}
-                marginLeft={hp(3)}
+                marginLeft={wp(7)}
                 color="secondary.300"
                 fontWeight={600}
                 fontSize={hp(2)}>
