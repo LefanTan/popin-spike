@@ -24,6 +24,7 @@ import {
 } from "react-native-responsive-screen";
 import { AuthContext } from "../AuthProvider";
 import { Signup } from "./Signup";
+import { LoginButton } from "../buttons/LoginButton";
 
 interface LoginScreenProps {}
 
@@ -43,6 +44,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [hidePass, setHidePass] = useState(true);
   const [isSignup, setIsSignup] = useState(false);
 
@@ -61,39 +63,112 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           width="60%"
           marginX="auto"
           borderRadius={borderRadius}>
-          <Button
-            borderRadius={borderRadius}
-            width="50%"
+          <LoginButton
+            label="SIGN IN"
             bg={isSignup ? "primary.300" : "secondary.400"}
-            _text={{
-              fontSize: hp(2.5),
-              color: "primary.100",
-            }}
+            width="50%"
+            isSignup={isSignup}
             onPress={() => {
+              setEmail("");
+              setPassword("");
+              setPasswordCheck("");
               setIsSignup(false);
               authContext.clearError();
             }}
-            _pressed={{ bg: isSignup ? "primary.300" : "secondary.400" }}>
-            SIGN IN
-          </Button>
-          <Button
-            borderRadius={borderRadius}
-            bg={isSignup ? "secondary.400" : "primary.300"}
+            additionalProps=""
+          />
+          <LoginButton
+            label="SIGN UP"
             width="50%"
-            _text={{
-              fontSize: hp(2.5),
-              color: "primary.100",
-            }}
+            bg={isSignup ? "secondary.400" : "primary.300"}
+            isSignup={isSignup}
             onPress={() => {
+              setEmail("");
+              setPassword("");
               setIsSignup(true);
               authContext.clearError();
             }}
-            _pressed={{ bg: !isSignup ? "primary.300" : "secondary.400" }}>
-            SIGN UP
-          </Button>
+            additionalProps=""
+          />
         </HStack>
         {isSignup ? (
-          <Signup />
+          <VStack
+            backgroundColor="primary.100"
+            flex={1}
+            marginTop="8"
+            maxHeight={authContext.errorMsg ? hp(53) : hp(44)}>
+            <VStack>
+              <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
+                Email
+              </Text>
+              <Input
+                {...inputStyle}
+                placeholder="enter email here..."
+                variant="input"
+                autoCompleteType="email"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                value={email}
+                onChangeText={text => setEmail(text)}
+              />
+            </VStack>
+            <VStack marginTop="4">
+              <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
+                Password
+              </Text>
+
+              <Input
+                {...inputStyle}
+                placeholder="enter password here..."
+                variant="input"
+                secureTextEntry={true}
+                // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
+                ref={ref =>
+                  ref && ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
+                }
+                marginBottom={hp(1)}
+                value={password}
+                onChangeText={text => setPassword(text)}
+              />
+              <Input
+                {...inputStyle}
+                placeholder="re-enter password here..."
+                variant="input"
+                secureTextEntry={true}
+                // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
+                ref={ref =>
+                  ref && ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
+                }
+                value={passwordCheck}
+                onChangeText={text => setPasswordCheck(text)}
+              />
+            </VStack>
+            {authContext.errorMsg ? (
+              <Text
+                width="85%"
+                marginLeft={wp(7)}
+                marginBottom={hp(1)}
+                color="secondary.300"
+                fontWeight={600}
+                fontSize={hp(2)}>
+                {authContext.errorMsg}
+              </Text>
+            ) : null}
+            <LoginButton
+              label={
+                authContext.loading ? (
+                  <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
+                ) : (
+                  "SIGNUP"
+                )
+              }
+              bg="secondary.400"
+              width="30%"
+              isSignup={isSignup}
+              onPress={() => authContext.signup(email, password)}
+              additionalProps={{ marginTop: hp(2), marginX: "auto" }}
+            />
+          </VStack>
         ) : (
           <View>
             <VStack marginTop={8}>
@@ -121,7 +196,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                   width="75%"
                   placeholder="enter password here..."
                   variant="input"
-                  secureTextEntry={true}
+                  secureTextEntry={hidePass ? true : false}
                   // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
                   ref={ref =>
                     ref &&
@@ -166,26 +241,23 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 Forgot password?
               </Text>
             </Pressable>
-            <Button
-              marginTop={hp(5)}
-              marginX="auto"
-              borderRadius={borderRadius}
-              backgroundColor="secondary.400"
+            <LoginButton
+              label={
+                authContext.loading ? (
+                  <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
+                ) : (
+                  "LOGIN"
+                )
+              }
+              isSignup={isSignup}
               width="30%"
-              _text={{
-                fontSize: hp(2.5),
-              }}
+              bg="secondary.400"
               onPress={() => {
                 authContext.login(email, password);
                 setPassword("");
               }}
-              _pressed={{ bg: "secondary.600" }}>
-              {authContext.loading ? (
-                <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
-              ) : (
-                "LOGIN"
-              )}
-            </Button>
+              additionalProps={{ marginTop: hp(5), marginX: "auto" }}
+            />
           </View>
         )}
         <Text marginX="auto" marginTop={hp(1)}>
