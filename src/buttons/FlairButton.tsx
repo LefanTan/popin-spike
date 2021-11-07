@@ -24,8 +24,7 @@ export const FlairButton: React.FC<FlairButtonProps> = props => {
       _pressed={{
         bg: "primary.300",
       }}
-      onPress={() => props.onClick(props.name)}
-    >
+      onPress={() => props.onClick(props.name)}>
       <Flair
         textColor={props.isSelected ? "white" : "secondary.400"}
         style={{ backgroundColor: "transparent" }}

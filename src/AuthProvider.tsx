@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { useEffect } from "react";
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
+import Config from "react-native-config";
 
 interface AuthProviderProps {}
 
@@ -11,7 +12,7 @@ type User = null | {
 };
 
 GoogleSignin.configure({
-  webClientId: "218703914734-qq2j5f8b0obg54lmv1vgr9mlan8vr6m0.apps.googleusercontent.com",
+  webClientId: Config.GOOGLE_WEB_CLIENT_ID,
 });
 
 export const AuthContext = React.createContext<{
