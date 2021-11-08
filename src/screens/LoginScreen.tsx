@@ -25,6 +25,7 @@ import {
 import { AuthContext } from "../AuthProvider";
 import { Signup } from "./Signup";
 import { LoginButton } from "../buttons/LoginButton";
+import { LoginInput } from "../components/LoginInput";
 
 interface LoginScreenProps {}
 
@@ -72,6 +73,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               setEmail("");
               setPassword("");
               setPasswordCheck("");
+              setHidePass(true);
               setIsSignup(false);
               authContext.clearError();
             }}
@@ -85,6 +87,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             onPress={() => {
               setEmail("");
               setPassword("");
+              setHidePass(true);
               setIsSignup(true);
               authContext.clearError();
             }}
@@ -101,46 +104,34 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
                 Email
               </Text>
-              <Input
-                {...inputStyle}
+              <LoginInput
+                addtionalProps=""
+                isPassword={false}
                 placeholder="enter email here..."
-                variant="input"
-                autoCompleteType="email"
-                autoCapitalize="none"
-                keyboardType="email-address"
                 value={email}
                 onChangeText={text => setEmail(text)}
+                hidePass={hidePass}
               />
             </VStack>
             <VStack marginTop="4">
               <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
                 Password
               </Text>
-
-              <Input
-                {...inputStyle}
+              <LoginInput
+                addtionalProps={{ marginBottom: hp(1) }}
+                isPassword={true}
                 placeholder="enter password here..."
-                variant="input"
-                secureTextEntry={true}
-                // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
-                ref={ref =>
-                  ref && ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
-                }
-                marginBottom={hp(1)}
                 value={password}
                 onChangeText={text => setPassword(text)}
+                hidePass={hidePass}
               />
-              <Input
-                {...inputStyle}
+              <LoginInput
+                addtionalProps=""
+                isPassword={true}
                 placeholder="re-enter password here..."
-                variant="input"
-                secureTextEntry={true}
-                // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
-                ref={ref =>
-                  ref && ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
-                }
                 value={passwordCheck}
                 onChangeText={text => setPasswordCheck(text)}
+                hidePass={hidePass}
               />
             </VStack>
             {authContext.errorMsg ? (
@@ -175,15 +166,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
                 Email
               </Text>
-              <Input
-                {...inputStyle}
+              <LoginInput
+                addtionalProps=""
+                isPassword={false}
                 placeholder="enter email here..."
-                variant="input"
-                autoCompleteType="email"
-                autoCapitalize="none"
-                keyboardType="email-address"
                 value={email}
                 onChangeText={text => setEmail(text)}
+                hidePass={hidePass}
               />
             </VStack>
             <VStack marginTop={4}>
@@ -191,20 +180,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 Password
               </Text>
               <HStack>
-                <Input
-                  {...inputStyle}
-                  width="75%"
+                <LoginInput
+                  addtionalProps={{ width: "75%" }}
+                  isPassword={true}
                   placeholder="enter password here..."
-                  variant="input"
-                  secureTextEntry={hidePass ? true : false}
-                  // Fixes a bug caused by secureTextEntry that causes it to change fontFamily.
-                  ref={ref =>
-                    ref &&
-                    ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
-                  }
-                  marginBottom={hp(1)}
                   value={password}
                   onChangeText={text => setPassword(text)}
+                  hidePass={hidePass}
                 />
                 <Pressable
                   height={hp(6)}
