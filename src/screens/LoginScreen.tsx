@@ -26,21 +26,10 @@ import { AuthContext } from "../AuthProvider";
 import { LoginButton } from "../buttons/LoginButton";
 import { LoginInput } from "../components/LoginInput";
 
-interface LoginScreenProps {}
-
-const inputStyle = {
-  width: "85%",
-  height: hp(6),
-  fontSize: hp(2.5),
-  marginBottom: hp(3),
-  marginLeft: hp(3),
-};
-
 const borderRadius = 20;
 
-export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+export const LoginScreen: React.FC = ({ navigation }) => {
   const authContext = useContext(AuthContext);
-  const { colors, fontConfig } = useTheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,9 +38,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [isSignup, setIsSignup] = useState(false);
 
   return (
-    <VStack flex={1} px={12} py={10} bg="primary.100">
+    <VStack flex={1} alignItems="center" justifyContent="center" px={12} py={10} bg="primary.100">
       <Heading variant="title" fontWeight={300} fontSize={hp(7)} textAlign="center">
-        {isSignup ? "Sign in here!" : "Sign up here!"}
+        Hello there!
       </Heading>
       <HStack
         marginTop={10}
@@ -63,7 +52,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         <LoginButton
           label="Sign in"
           bg={isSignup ? "primary.300" : "secondary.400"}
-          width="50%"
+          additionalProps={{ width: "50%" }}
           isSignup={isSignup}
           onPress={() => {
             setEmail("");
@@ -76,7 +65,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         />
         <LoginButton
           label="Sign up"
-          width="50%"
+          additionalProps={{ width: "50%" }}
           bg={isSignup ? "secondary.400" : "primary.300"}
           isSignup={isSignup}
           onPress={() => {
@@ -89,11 +78,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         />
       </HStack>
       {isSignup ? (
-        <VStack backgroundColor="primary.100" flex={1} marginTop={12}>
-          <VStack px={3}>
-            <Text fontSize={hp(2.5)} fontFamily="heading" fontWeight={500}>
+        <VStack width="100%" mt={12}>
+          <VStack>
+            <Heading fontSize={hp(2.5)} fontWeight={500} mb={2}>
               Email
-            </Text>
+            </Heading>
             <LoginInput
               isPassword={false}
               placeholder="enter email here..."
@@ -102,14 +91,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               hidePass={hidePass}
             />
           </VStack>
-          <VStack mt={5} px={3}>
-            <Text fontSize={hp(2.5)} fontFamily="heading" fontWeight={500}>
+          <VStack mt={5}>
+            <Heading fontSize={hp(2.5)} fontWeight={500} mb={2}>
               Password
-            </Text>
+            </Heading>
             <LoginInput
-              addtionalProps={{ marginBottom: hp(2) }}
               isPassword={true}
               placeholder="enter password here..."
+              addtionalProps={{ marginBottom: 5 }}
               value={password}
               onChangeText={text => setPassword(text)}
               hidePass={hidePass}
@@ -121,41 +110,31 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               onChangeText={text => setPasswordCheck(text)}
               hidePass={hidePass}
             />
-          </VStack>
-          {authContext.errorMsg ? (
-            <Text
-              width="85%"
-              marginLeft={wp(7)}
-              marginBottom={hp(1)}
-              color="secondary.300"
-              fontWeight={600}
-              fontSize={hp(2)}>
+            <Text mt={4} color="primary.600" fontWeight={600} fontSize={hp(1.75)}>
               {authContext.errorMsg}
             </Text>
-          ) : null}
+          </VStack>
           <LoginButton
             label={
               authContext.loading ? (
                 <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
               ) : (
-                "SIGNUP"
+                "SIGN UP"
               )
             }
             bg="secondary.400"
-            width="30%"
             isSignup={isSignup}
             onPress={() => authContext.signup(email, password)}
-            additionalProps={{ marginTop: hp(2), marginHorizontal: "auto" }}
+            additionalProps={{ marginTop: 20, alignSelf: "center" }}
           />
         </VStack>
       ) : (
         <View>
-          <VStack marginTop={8}>
-            <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
+          <VStack mt={12}>
+            <Heading fontSize={hp(2.5)} fontWeight={500} mb={2}>
               Email
-            </Text>
+            </Heading>
             <LoginInput
-              addtionalProps=""
               isPassword={false}
               placeholder="enter email here..."
               value={email}
@@ -163,13 +142,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               hidePass={hidePass}
             />
           </VStack>
-          <VStack marginTop={4}>
-            <Text fontSize={hp(3)} fontFamily="heading" fontWeight={500} marginLeft={hp(3)}>
+          <VStack mt={5}>
+            <Heading fontSize={hp(2.5)} fontWeight={500} mb={2}>
               Password
-            </Text>
+            </Heading>
             <HStack>
               <LoginInput
-                addtionalProps={{ width: "75%" }}
                 isPassword={true}
                 placeholder="enter password here..."
                 value={password}
@@ -177,12 +155,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 hidePass={hidePass}
               />
               <Pressable
-                height={hp(6)}
-                width="10%"
-                borderBottomWidth={0.2}
-                borderBottomColor="secondary.400"
+                position="absolute"
                 onPress={() => setHidePass(!hidePass)}
                 display="flex"
+                right={0}
                 justifyContent="center">
                 {({ isPressed }) => (
                   <Icon
@@ -196,21 +172,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               </Pressable>
             </HStack>
           </VStack>
-          {authContext.errorMsg ? (
-            <Text
-              marginTop={3}
-              marginLeft={wp(7)}
-              color="secondary.300"
-              fontWeight={600}
-              fontSize={hp(2)}>
-              {authContext.errorMsg}
-            </Text>
-          ) : null}
-          <Pressable marginTop={hp(1)} width="85%" marginLeft={hp(3)}>
-            <Text fontSize={hp(2.4)} color="secondary.400" marginLeft="auto" underline={true}>
+          <Pressable marginTop={hp(1)} marginLeft="auto" onPress={() => null}>
+            <Text fontSize={hp(2)} color="secondary.400">
               Forgot password?
             </Text>
           </Pressable>
+          <Text mt={4} color="primary.600" fontWeight={600} fontSize={hp(1.75)}>
+            {authContext.errorMsg}
+          </Text>
           <LoginButton
             label={
               authContext.loading ? (
@@ -220,13 +189,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               )
             }
             isSignup={isSignup}
-            width="30%"
             bg="secondary.400"
             onPress={() => {
               authContext.login(email, password);
               setPassword("");
             }}
-            additionalProps={{ marginTop: hp(5), marginHorizontal: "auto" }}
+            additionalProps={{ marginTop: 15, alignSelf: "center" }}
           />
         </View>
       )}
@@ -235,10 +203,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       </Text>
       <Button
         marginTop={hp(1.5)}
-        marginX="auto"
+        px={2}
         borderRadius={borderRadius}
         backgroundColor="primary.200"
-        width="70%"
         _text={{
           fontSize: hp(2.5),
           color: "primary.800",

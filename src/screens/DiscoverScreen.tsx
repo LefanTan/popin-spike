@@ -101,6 +101,7 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
                   fontSize={hp(2)}
                   bg="primary.200"
                   placeholder="Search event name..."
+                  pl={3}
                   borderWidth={0}
                 />
                 <Pressable
