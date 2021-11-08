@@ -76,26 +76,14 @@ export const NBComponents = {
     },
   },
   Input: {
-    baseStyle: {
-      paddingTop: 0,
-      paddingBottom: 0,
-      paddingLeft: 3,
+    defaultProps: {
+      padding: 0,
       borderRadius: 10,
       placeholderTextColor: "secondary.500",
       color: "primary.700",
       fontWeight: 500,
     },
     variants: {
-      input: {
-        bg: "transparent",
-        border: "transparent",
-        color: "secondary.200",
-        placeholderTextColor: "secondary.300",
-        borderBottomColor: "secondary.200",
-        borderBottomWidth: 0.75,
-        paddingLeft: 0,
-        borderRadius: 0,
-      },
       titleInput: {
         variant: "unstyled",
         border: "transparent",
@@ -125,12 +113,8 @@ export const NBComponents = {
     },
   },
   Button: {
-    defaultProps: {},
-    baseStyle: {
-      // For some reason these doesn't work?
-      // color: 'secondary.400',
-      // backgroundColor: 'secondary.200'
-      padding: 1
+    defaultProps: {
+      padding: 0
     },
     variants: {
       default: {

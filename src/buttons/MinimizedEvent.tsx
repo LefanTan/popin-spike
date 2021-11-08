@@ -39,8 +39,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
       <HStack height="100%" width="100%" bg={"primary.200"} borderRadius={15}>
         <Ripple
           onPress={props.onEventClick}
-          style={ctw.style(`flex-row items-center justify-start p-1`, { width: "85%" })}
-        >
+          style={ctw.style(`flex-row items-center justify-start p-1`, { width: "85%" })}>
           {/* TODO: Update this to use main photo url */}
           <Image
             alt="pp"
@@ -56,10 +55,9 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
               fontFamily="heading"
               color="primary.700"
               numberOfLines={2}
-              fontSize={hp(3)}
-              style={{ lineHeight: hp(3) }}
-              marginTop={1.5}
-            >
+              fontSize={hp(2.5)}
+              style={{ lineHeight: hp(2.5) }}
+              marginTop={1.5}>
               {props.event.eventName}
             </Heading>
             <Text color="secondary.400" fontSize={hp(2)} numberOfLines={1} marginTop={-1}>
@@ -96,8 +94,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
         <Ripple
           style={ctw`items-center justify-center z-20 flex-1`}
           rippleSize={100}
-          onPress={props.onMapPinClick}
-        >
+          onPress={props.onMapPinClick}>
           <Ionicon
             name="location-sharp"
             size={hp(5)}

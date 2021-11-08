@@ -15,11 +15,17 @@ interface LoginInputProps {
  * A clickable flair button component
  */
 export const LoginInput: React.FC<LoginInputProps> = props => {
-  const { fontConfig } = useTheme();
+  const { fontConfig, colors } = useTheme();
 
   return (
     <Input
-      variant={"input" as any}
+      variant="unstyled"
+      fontSize={15}
+      color="secondary.400"
+      borderBottomColor={`${colors["secondary"]["400"]}20`}
+      borderBottomWidth={1}
+      borderRadius={0}
+      style={[props.addtionalProps, { width: "100%" }]}
       autoCompleteType={props.isPassword ? "password" : "email"}
       autoCapitalize="none"
       keyboardType={props.isPassword ? "default" : "email-address"}
