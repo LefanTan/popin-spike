@@ -1,27 +1,15 @@
 import { Input, useTheme } from "native-base";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import React from "react";
+import { StyleProp, ViewStyle } from "react-native";
 
 interface LoginInputProps {
-  addtionalProps: any;
+  addtionalProps?: StyleProp<ViewStyle>;
   isPassword: boolean;
   placeholder: string;
   value: string;
   onChangeText: (text: string) => void;
   hidePass: boolean;
 }
-
-const inputStyle = {
-  variant: "input",
-  width: "85%",
-  height: hp(6),
-  fontSize: hp(2.5),
-  marginBottom: hp(3),
-  marginLeft: hp(3),
-};
 
 /**
  * A clickable flair button component
@@ -31,8 +19,7 @@ export const LoginInput: React.FC<LoginInputProps> = props => {
 
   return (
     <Input
-      {...inputStyle}
-      {...props.addtionalProps}
+      variant={"input" as any}
       autoCompleteType={props.isPassword ? "password" : "email"}
       autoCapitalize="none"
       keyboardType={props.isPassword ? "default" : "email-address"}
@@ -40,7 +27,8 @@ export const LoginInput: React.FC<LoginInputProps> = props => {
       placeholder={props.placeholder}
       secureTextEntry={props.hidePass}
       onChangeText={text => props.onChangeText(text)}
-      ref={ref =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ref={(ref: any) =>
         ref && ref.setNativeProps({ style: { fontFamily: fontConfig["primary"]["400"] } })
       }
     />
