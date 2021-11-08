@@ -1,9 +1,10 @@
-import { Button } from "native-base";
+import { Button, Text } from "native-base";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import React from "react";
+import { StyleProp, ViewStyle } from "react-native";
 
 interface LoginButtonProps {
   label: React.ReactNode;
@@ -11,7 +12,7 @@ interface LoginButtonProps {
   bg: string;
   isSignup: boolean;
   onPress: () => void;
-  additionalProps: React.ReactNode;
+  additionalProps?: StyleProp<ViewStyle>;
 }
 
 /**
@@ -20,17 +21,15 @@ interface LoginButtonProps {
 export const LoginButton: React.FC<LoginButtonProps> = props => {
   return (
     <Button
-      {...props.additionalProps}
+      style={props.additionalProps}
       borderRadius={23}
       width={props.width}
       bg={props.bg}
-      _text={{
-        fontSize: hp(2.5),
-        color: "primary.100",
-      }}
       onPress={() => props.onPress()}
       _pressed={{ bg: props.bg }}>
-      {props.label}
+      <Text fontSize={hp(2.5)} mb={1} color="primary.100">
+        {props.label}
+      </Text>
     </Button>
   );
 };

@@ -92,7 +92,7 @@ export const NBComponents = {
         color: "secondary.200",
         placeholderTextColor: "secondary.300",
         borderBottomColor: "secondary.200",
-        borderBottomWidth: 0.2,
+        borderBottomWidth: 0.75,
         paddingLeft: 0,
         borderRadius: 0,
       },
@@ -130,6 +130,7 @@ export const NBComponents = {
       // For some reason these doesn't work?
       // color: 'secondary.400',
       // backgroundColor: 'secondary.200'
+      padding: 1
     },
     variants: {
       default: {
