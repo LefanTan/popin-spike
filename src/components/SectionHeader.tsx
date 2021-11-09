@@ -36,7 +36,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = props => {
     <Pressable
       onPressIn={() => (scaleVal.value = withSpring(0.85))}
       onPressOut={() => (scaleVal.value = withSpring(1))}
-      onPress={() => props.onClick(props.name)}>
+      onPress={() => props.onClick(props.name)}
+    >
       <Animated.View style={[ctw`flex items-center mr-3`, scaleStyle]}>
         <Heading fontWeight={600} marginBottom={2} fontSize={hp(3)}>
           {props.name}

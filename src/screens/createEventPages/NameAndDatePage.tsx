@@ -76,7 +76,7 @@ export const NameAndDatePage: React.FC = () => {
       <VStack paddingY={3} paddingX={4}>
         <Input
           variant="titleInput"
-          placeholder="enter event name here..."
+          placeholder="enter event name..."
           fontSize={hp(4.5)}
           maxLength={maxTitleLength}
           value={eventName?.[0]}

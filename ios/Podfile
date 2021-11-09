@@ -25,6 +25,7 @@ target 'reactnative_spike' do
   pod 'Permission-Siri', :path => "#{permissions_path}/Siri"
   pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition"
   pod 'Permission-StoreKit', :path => "#{permissions_path}/StoreKit"
+  pod 'GoogleSignIn'
   
   # React Native Maps dependencies
   rn_maps_path = '../node_modules/react-native-maps'

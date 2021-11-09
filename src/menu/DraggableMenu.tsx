@@ -101,7 +101,8 @@ export const DraggableMenu: React.FC<DraggableMenuProps> = memo(props => {
           shadowOpacity: 1,
           elevation: 10,
         },
-      ]}>
+      ]}
+    >
       <PanGestureHandler onGestureEvent={menuGestureHandler}>
         <Animated.View style={ctw`flex items-center justify-center bg-transparent p-0 h-9`}>
           <Box height={1} width={20} rounded={20} bg="secondary.400" />

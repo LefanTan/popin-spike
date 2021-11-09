@@ -1,6 +1,6 @@
 /**
  * Themes related objects to be used in extending NativeBase's default theme
- */
+*/
 
 export const NBColor = {
   // 400 is the standard shade
@@ -77,37 +77,21 @@ export const NBComponents = {
   },
   Input: {
     defaultProps: {
-      bg: "primary.200",
-      variant: "filled",
-    },
-    baseStyle: {
-      paddingTop: 0,
-      paddingBottom: 0,
-      paddingLeft: 3,
+      padding: 0,
       borderRadius: 10,
       placeholderTextColor: "secondary.500",
-      color: "primary.400",
+      color: "primary.700",
       fontWeight: 500,
     },
     variants: {
-      input: {
-        bg: "transparent",
-        border: "transparent",
-        color: "secondary.200",
-        placeholderTextColor: "secondary.300",
-        borderBottomColor: "secondary.200",
-        borderBottomWidth: 0.2,
-        paddingLeft: 0,
-        borderRadius: 0,
-      },
       titleInput: {
         variant: "unstyled",
-        bg: "transparent",
         border: "transparent",
         color: "primary.700",
         fontFamily: "Urbanist-SemiBold",
         placeholderTextColor: "primary.400",
         padding: 0,
+        paddingLeft: 0,
         paddingBottom: 15,
         borderRadius: 0,
       },
@@ -129,11 +113,8 @@ export const NBComponents = {
     },
   },
   Button: {
-    defaultProps: {},
-    baseStyle: {
-      // For some reason these doesn't work?
-      // color: 'secondary.400',
-      // backgroundColor: 'secondary.200'
+    defaultProps: {
+      padding: 0
     },
     variants: {
       default: {

@@ -89,7 +89,8 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
               );
             }
             prevScrolled = event.nativeEvent.contentOffset.y;
-          }}>
+          }}
+        >
           <VStack>
             <Center borderRadius={15} width="100%">
               <Carousel
@@ -116,7 +117,8 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 fontFamily="heading"
                 fontWeight={600}
                 numberOfLines={4}
-                color="primary.700">
+                color="primary.700"
+              >
                 {/* Maximum 70 characters */}
                 {route.params.event.eventName}
               </Heading>
@@ -127,7 +129,8 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 paddingY={1}
                 marginBottom={2}
                 numberOfLines={2}
-                color="primary.700">
+                color="primary.700"
+              >
                 {route.params.event.hostName}
               </Heading>
               <HStack>
@@ -152,7 +155,8 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 })}
               </HStack>
               <Ripple
-                style={ctw`rounded-xl mt-2 py-1 flex justify-center items-center bg-secondary-400`}>
+                style={ctw`rounded-xl mt-2 py-1 flex justify-center items-center bg-secondary-400`}
+              >
                 <Text fontWeight={600} fontSize={25} marginBottom={1} color="primary.100">
                   Pop In here!
                 </Text>
@@ -221,7 +225,8 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
           photos={mockPhotos}
         />
         <Animated.View
-          style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}>
+          style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}
+        >
           <Pressable
             style={[
               ctw.style(`ml-2 mt-2 flex justify-center items-center`, {
@@ -233,7 +238,8 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
             ]}
             bg="primary.200"
             onPress={() => navigation.goBack()}
-            _pressed={{ bg: colors["primary"]["300"] }}>
+            _pressed={{ bg: colors["primary"]["300"] }}
+          >
             {({ isPressed }) => (
               <AntDesign
                 name="arrowleft"
