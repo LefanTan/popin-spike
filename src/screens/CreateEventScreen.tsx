@@ -168,7 +168,8 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         photos: photos,
         website: website,
         price: price,
-      }}>
+      }}
+    >
       <SafeAreaView edges={["top"]} style={ctw`flex-1 bg-primary-100`}>
         {/* Header */}
         {page < maxPage && (
@@ -182,7 +183,8 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
                 }),
               ]}
               _pressed={{ bg: colors["primary"]["300"] }}
-              onPress={() => navigateToPage(page - 1)}>
+              onPress={() => navigateToPage(page - 1)}
+            >
               {({ isPressed }) => (
                 <AntIcons
                   name="arrowleft"
@@ -221,11 +223,13 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
                     : colors["primary"]["200"],
                 })}
                 onPress={() => navigateToPage(page + 1)}
-                disabled={!pageReady[0]}>
+                disabled={!pageReady[0]}
+              >
                 <Heading
                   fontWeight={500}
                   fontSize={hp(3.5)}
-                  color={pageReady[0] ? colors["primary"]["100"] : colors["secondary"]["200"]}>
+                  color={pageReady[0] ? colors["primary"]["100"] : colors["secondary"]["200"]}
+                >
                   {page + 1 === maxPage ? "Done" : "Next"}
                 </Heading>
               </Ripple>

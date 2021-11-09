@@ -27,7 +27,8 @@ export const ConfirmCancelAlert: React.FC<AlertProps> = props => {
             color: colors["primary"]["700"],
             fontWeight: 500,
             fontSize: hp(4),
-          }}>
+          }}
+        >
           {props.header}
         </AlertDialog.Header>
         <Text color="primary.700" fontSize={hp(2.25)} paddingLeft={3}>
@@ -49,7 +50,8 @@ export const ConfirmCancelAlert: React.FC<AlertProps> = props => {
             onPress={() => {
               props.onClose();
               props.onConfirm();
-            }}>
+            }}
+          >
             {({ isPressed }) => (
               <Icon
                 as={MaterialCommunityIcons}

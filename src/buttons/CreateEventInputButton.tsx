@@ -23,7 +23,8 @@ export const CreateEventInputButton: React.FC<CreateEventInputButtonProps> = pro
       width="100%"
       _pressed={{ bg: colors["primary"]["300"] }}
       onPress={props.onClick}
-      style={props.viewStyle}>
+      style={props.viewStyle}
+    >
       <HStack alignItems="center">
         <VStack marginRight="auto">
           <Heading fontSize={hp(2)} color="primary.500" fontWeight={600}>

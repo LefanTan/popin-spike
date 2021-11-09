@@ -55,8 +55,8 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
               fontFamily="heading"
               color="primary.700"
               numberOfLines={2}
-              fontSize={hp(3)}
-              style={{ lineHeight: hp(3) }}
+              fontSize={hp(2.5)}
+              style={{ lineHeight: hp(2.5) }}
               marginTop={1.5}>
               {props.event.eventName}
             </Heading>

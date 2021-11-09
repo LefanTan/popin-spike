@@ -23,7 +23,8 @@ export const HomeTab: React.FC = () => {
           fontFamily: fontConfig["primary"]["600"]["normal"],
         },
         tabBarStyle: ctw`pb-2 h-14`,
-      }}>
+      }}
+    >
       <Tab.Screen
         name="DiscoverStack"
         component={DiscoverStack}

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { useEffect } from "react";
+import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
+import Config from "react-native-config";
 
 interface AuthProviderProps {}
 
@@ -9,18 +11,28 @@ type User = null | {
   userName: string;
 };
 
+GoogleSignin.configure({
+  webClientId: Config.GOOGLE_WEB_CLIENT_ID,
+});
+
 export const AuthContext = React.createContext<{
   user: User;
   loading: boolean;
   errorMsg: string;
+  signup: (email: string, password: string) => void;
+  googleLogin: () => void;
   login: (email: string, password: string) => void;
   logout: () => void;
+  clearError: () => void;
 }>({
   user: null,
   loading: true,
   errorMsg: "",
-  login: () => {},
-  logout: () => {},
+  signup: () => null,
+  googleLogin: () => null,
+  login: () => null,
+  logout: () => null,
+  clearError: () => null,
 });
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -55,6 +67,64 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         user,
         loading: loading,
         errorMsg: errorMsg,
+        signup: (email, password) => {
+          setLoading(true);
+
+          if (email === "" || password === "") {
+            setError("Email or password can't be empty");
+            setLoading(false);
+            return;
+          }
+
+          auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+              console.log("User account created & signed in!");
+            })
+            .catch(error => {
+              setLoading(false);
+              if (error.code === "auth/email-already-in-use") {
+                setError("Email adress already in use!");
+              }
+
+              if (error.code === "auth/invalid-email") {
+                setError("That email address is invalid!");
+              }
+              if (error.code === "auth/weak-password") {
+                setError("Password should be at least 6 characters!");
+              }
+
+              console.error(error);
+            });
+        },
+
+        //Google Login here
+        googleLogin: async () => {
+          try {
+            // Get the users ID token
+            const { idToken } = await GoogleSignin.signIn();
+            // Create a Google credential with the token
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+            // Sign-in the user with the credential
+            auth().signInWithCredential(googleCredential);
+          } catch (error) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+              // user cancelled the login flow
+              console.log("user cancelled the login flow");
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+              // operation (e.g. sign in) is in progress already
+              console.log("operation (e.g. sign in) is in progress already");
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+              // play services not available or outdated
+              console.log("play services not available or outdated");
+              // some other error happened
+            } else {
+              console.log(error.code);
+            }
+          }
+        },
+
         // Login API called here
         login: async (email, password) => {
           setLoading(true);
@@ -84,6 +154,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
         // Logout API called here
         logout: () => {
+          setLoading(false);
           auth()
             .signOut()
             .then(
@@ -95,6 +166,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 console.error(error);
               }
             );
+        },
+        //Clear error message
+        clearError: () => {
+          setError("");
         },
       }}>
       {children}

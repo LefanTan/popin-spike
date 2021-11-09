@@ -179,7 +179,8 @@ export const LocationPage: React.FC = () => {
           key: Config.PLACES_API_KEY,
           language: "en",
           components: "country:ca",
-        }}>
+        }}
+      >
         {Platform.OS === "android" && (
           <Pressable
             style={[
@@ -188,7 +189,8 @@ export const LocationPage: React.FC = () => {
             ]}
             bg="primary.300"
             _pressed={{ bg: colors["primary"]["400"] }}
-            onPress={() => updateAddressText("")}>
+            onPress={() => updateAddressText("")}
+          >
             <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
           </Pressable>
         )}
@@ -200,7 +202,8 @@ export const LocationPage: React.FC = () => {
         marginBottom={3}
         borderRadius={15}
         overflow="hidden"
-        bg="secondary.200">
+        bg="secondary.200"
+      >
         <MapView
           ref={(node: MapView) => (map = node)}
           provider={PROVIDER_GOOGLE}
@@ -208,7 +211,8 @@ export const LocationPage: React.FC = () => {
           onRegionChangeComplete={setPinMapRegion}
           showsMyLocationButton={true}
           showsUserLocation={true}
-          style={{ width: "100%", height: "100%" }}>
+          style={{ width: "100%", height: "100%" }}
+        >
           {/* <Marker
             coordinate={{latitude: pinMapRegion.latitude, longitude: pinMapRegion.longitude}}
           /> */}
@@ -224,7 +228,8 @@ export const LocationPage: React.FC = () => {
       <AlertDialog
         isOpen={locationPermissionAlert}
         leastDestructiveRef={locationAlertRef}
-        onClose={() => setLocationPermissionAlert(false)}>
+        onClose={() => setLocationPermissionAlert(false)}
+      >
         <AlertDialog.Content width={wp(85)} padding={3}>
           <AlertDialog.Header
             paddingLeft={3}
@@ -232,7 +237,8 @@ export const LocationPage: React.FC = () => {
               color: colors["primary"]["700"],
               fontWeight: 500,
               fontSize: hp(3.5),
-            }}>
+            }}
+          >
             Location Permission
           </AlertDialog.Header>
           <Text fontSize={hp(2.25)} paddingLeft={3}>
@@ -250,7 +256,8 @@ export const LocationPage: React.FC = () => {
               onPress={() => {
                 setLocationPermissionAlert(false);
                 Linking.openSettings();
-              }}>
+              }}
+            >
               <Text color="secondary.400" fontWeight={500} fontSize={hp(2.5)}>
                 Go to settings
               </Text>

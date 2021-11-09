@@ -57,7 +57,7 @@ export const CreateEventInput: React.FC<CreateEventInputProps> = props => {
               width="100%"
               variant="unstyled"
               padding={0}
-              marginTop={0}
+              paddingLeft={0}
               textAlignVertical="top"
               multiline={props.multiline}
               numberOfLines={props.numberOfLines}

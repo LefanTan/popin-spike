@@ -14,6 +14,9 @@ Currently using Typescript for the project.
      3. run `cd ios && pod install --repo-update`
 4. Create a copy of .env.example and name it .env
    - Get the API key from Popin's Cloud Console
+   - GOOGLE_WEB_CLIENT_ID is only for android builds, to setup for ios do as follows:
+     - open `GoogleService-Info.plist`, copy the contents of `REVERSED_CLIENT_ID`
+     - in Xcode, open the project, go `Info`->`Target`->`URL Types` and click +, paste the content into `URL schemes`
 5. After finishing, run `npm start`
 6. On another terminal, run `npm run android` or `npm run ios`
 

@@ -31,7 +31,8 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo(props =>
       visible={props.showGallery}
       transparent={true}
       onRequestClose={() => props.onCancel()}
-      animationType="fade">
+      animationType="fade"
+    >
       <VStack flex={1} bg="primary.200" safeAreaTop>
         <HStack
           width="100%"
@@ -45,7 +46,8 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo(props =>
             {
               elevation: 4,
             },
-          ]}>
+          ]}
+        >
           <Pressable onPress={props.onCancel}>
             {({ isPressed }) => (
               <Ionicons
