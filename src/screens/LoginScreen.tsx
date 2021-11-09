@@ -42,17 +42,11 @@ export const LoginScreen: React.FC = ({ navigation }) => {
       <Heading variant="title" fontWeight={300} fontSize={hp(7)} textAlign="center">
         Hello there!
       </Heading>
-      <HStack
-        marginTop={10}
-        justifyContent="center"
-        bg="primary.300"
-        width="60%"
-        mx="auto"
-        borderRadius={borderRadius}>
+      <HStack marginTop={10} justifyContent="center" bg="primary.300" borderRadius={borderRadius}>
         <LoginButton
           label="Sign in"
           bg={isSignup ? "primary.300" : "secondary.400"}
-          additionalProps={{ width: "50%" }}
+          additionalProps={{ width: 100 }}
           isSignup={isSignup}
           onPress={() => {
             setEmail("");
@@ -65,7 +59,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
         />
         <LoginButton
           label="Sign up"
-          additionalProps={{ width: "50%" }}
+          additionalProps={{ width: 100 }}
           bg={isSignup ? "secondary.400" : "primary.300"}
           isSignup={isSignup}
           onPress={() => {
@@ -98,7 +92,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
             <LoginInput
               isPassword={true}
               placeholder="enter password here..."
-              addtionalProps={{ marginBottom: 5 }}
+              addtionalProps={{ marginBottom: 10 }}
               value={password}
               onChangeText={text => setPassword(text)}
               hidePass={hidePass}
@@ -114,19 +108,6 @@ export const LoginScreen: React.FC = ({ navigation }) => {
               {authContext.errorMsg}
             </Text>
           </VStack>
-          <LoginButton
-            label={
-              authContext.loading ? (
-                <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
-              ) : (
-                "SIGN UP"
-              )
-            }
-            bg="secondary.400"
-            isSignup={isSignup}
-            onPress={() => authContext.signup(email, password)}
-            additionalProps={{ marginTop: 20, alignSelf: "center" }}
-          />
         </VStack>
       ) : (
         <View>
@@ -180,30 +161,31 @@ export const LoginScreen: React.FC = ({ navigation }) => {
           <Text mt={4} color="primary.600" fontWeight={600} fontSize={hp(1.75)}>
             {authContext.errorMsg}
           </Text>
-          <LoginButton
-            label={
-              authContext.loading ? (
-                <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
-              ) : (
-                "LOGIN"
-              )
-            }
-            isSignup={isSignup}
-            bg="secondary.400"
-            onPress={() => {
-              authContext.login(email, password);
-              setPassword("");
-            }}
-            additionalProps={{ marginTop: 15, alignSelf: "center" }}
-          />
         </View>
       )}
+      <LoginButton
+        label={
+          authContext.loading ? (
+            <ActivityIndicator style={ctw`ml-auto mt-2`} size="small" color="white" />
+          ) : (
+            "Submit"
+          )
+        }
+        bg="secondary.400"
+        isSignup={isSignup}
+        onPress={() => {
+          isSignup ? authContext.signup(email, password) : authContext.login(email, password);
+          setPassword("");
+        }}
+        additionalProps={{ marginTop: 20, alignSelf: "center" }}
+      />
       <Text marginX="auto" marginTop={hp(1)}>
         or
       </Text>
       <Button
         marginTop={hp(1.5)}
         px={2}
+        py={1}
         borderRadius={borderRadius}
         backgroundColor="primary.200"
         _text={{
@@ -215,7 +197,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
         }}
         _pressed={{ bg: "primary.300" }}
         startIcon={
-          <Icon marginTop={hp(0.5)}>
+          <Icon>
             <Image
               source={require("../../assets/imgs/google-logo.png")}
               alt="Google logo"

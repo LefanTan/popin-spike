@@ -25,13 +25,14 @@ export const LoginInput: React.FC<LoginInputProps> = props => {
       borderBottomColor={`${colors["secondary"]["400"]}20`}
       borderBottomWidth={1}
       borderRadius={0}
+      paddingBottom={1}
       style={[props.addtionalProps, { width: "100%" }]}
       autoCompleteType={props.isPassword ? "password" : "email"}
       autoCapitalize="none"
       keyboardType={props.isPassword ? "default" : "email-address"}
       value={props.value}
       placeholder={props.placeholder}
-      secureTextEntry={props.hidePass}
+      secureTextEntry={props.isPassword && props.hidePass}
       onChangeText={text => props.onChangeText(text)}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={(ref: any) =>
