@@ -6,11 +6,7 @@ import Config from "react-native-config";
 
 interface AuthProviderProps {}
 
-type User = null | {
-  firebaseAuthData: FirebaseAuthTypes.User;
-  userName: string;
-};
-
+type User = null | { userData: FirebaseAuthTypes.User };
 GoogleSignin.configure({
   webClientId: Config.GOOGLE_WEB_CLIENT_ID,
 });
@@ -31,7 +27,7 @@ export const AuthContext = React.createContext<{
   signup: () => null,
   googleLogin: () => null,
   login: () => null,
-  logout: () => null,
+  logout: async () => null,
   clearError: () => null,
 });
 
@@ -41,7 +37,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [errorMsg, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onAuthStateChangeHandler = (userData: FirebaseAuthTypes.User | null) => {
+  const onAuthStateChangeHandler = (user: FirebaseAuthTypes.User | null) => {
     if (init) setInit(false);
 
     // Already initialized
@@ -49,10 +45,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
     }
 
-    if (userData) {
+    if (user) {
       // React Native Firebase automatically persist user login state
-      const displayName = userData.displayName ?? "";
-      setUser({ userName: displayName, firebaseAuthData: userData });
+      setUser({ userData: user });
     } else setUser(null);
   };
 
@@ -108,7 +103,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
             // Sign-in the user with the credential
             auth().signInWithCredential(googleCredential);
-          } catch (error) {
+          } catch (error: any) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
               // user cancelled the login flow
               console.log("user cancelled the login flow");
@@ -153,8 +148,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             .then(() => setLoading(false));
         },
         // Logout API called here
-        logout: () => {
+        logout: async () => {
           setLoading(false);
+          const isGoogleSignedIn = await GoogleSignin.isSignedIn();
+          if (isGoogleSignedIn) GoogleSignin.signOut();
           auth()
             .signOut()
             .then(

@@ -174,7 +174,12 @@ export const LoginScreen: React.FC = ({ navigation }) => {
         bg="secondary.400"
         isSignup={isSignup}
         onPress={() => {
-          isSignup ? authContext.signup(email, password) : authContext.login(email, password);
+          if (isSignup) {
+            authContext.signup(email, password);
+            navigation.navigate("NameAndPhoto");
+          } else {
+            authContext.login(email, password);
+          }
           setPassword("");
         }}
         additionalProps={{ marginTop: 20, alignSelf: "center" }}
