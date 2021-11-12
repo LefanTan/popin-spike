@@ -3,16 +3,20 @@ import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { useEffect } from "react";
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
 import Config from "react-native-config";
+import { FirestoreUser } from "./types/FirestoreClasses";
+import { getUserDocumentSnapshot, setNewUser } from "./helpers/FirestoreApiHelpers";
+import { Asset } from "react-native-image-picker";
 
 interface AuthProviderProps {}
 
-type User = null | { userData: FirebaseAuthTypes.User };
+type User = null | FirestoreUser;
 GoogleSignin.configure({
   webClientId: Config.GOOGLE_WEB_CLIENT_ID,
 });
 
 export const AuthContext = React.createContext<{
   user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
   loading: boolean;
   errorMsg: string;
   signup: (email: string, password: string) => void;
@@ -22,6 +26,7 @@ export const AuthContext = React.createContext<{
   clearError: () => void;
 }>({
   user: null,
+  setUser: () => null,
   loading: true,
   errorMsg: "",
   signup: () => null,
@@ -37,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [errorMsg, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onAuthStateChangeHandler = (user: FirebaseAuthTypes.User | null) => {
+  const onAuthStateChangeHandler = (tempUser: FirebaseAuthTypes.User | null) => {
     if (init) setInit(false);
 
     // Already initialized
@@ -45,9 +50,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
     }
 
-    if (user) {
+    if (tempUser) {
       // React Native Firebase automatically persist user login state
-      setUser({ userData: user });
+      const userDocumentSnapshot = getUserDocumentSnapshot(tempUser.uid);
+
+      userDocumentSnapshot.then(documentSnapshot => {
+        if (documentSnapshot.exists) {
+          const documentData = documentSnapshot.data();
+          const obj: any = {}; //Temp object for user
+          //Loops through the data from firestore and append them to obj
+          for (const property in documentData) {
+            obj[property] = documentData[property];
+          }
+
+          setUser(obj);
+        } else {
+          //Set username as UID, email or display name depending on which is available
+          let name: string = tempUser.uid;
+          if (tempUser.email) name = tempUser.email?.split("@")[0];
+          if (tempUser.displayName) name = tempUser.displayName;
+
+          //Create doc in firestore
+          setNewUser({
+            id: tempUser.uid,
+            userName: name,
+            isSetup: false,
+          });
+          //Set user state
+          setUser({
+            id: tempUser.uid,
+            userName: name,
+            isSetup: false,
+          });
+        }
+      });
     } else setUser(null);
   };
 
@@ -60,6 +96,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        setUser: setUser,
         loading: loading,
         errorMsg: errorMsg,
         signup: (email, password) => {

@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { LoginScreen } from "../screens/LoginScreen";
-import { NameAndPhotoPage } from "../screens/userCreationPages/NameAndPhotoPage";
+import { NameAndPhotoPage } from "../screens/userSetupPages/NameAndPhotoPage";
 
 interface LoginStackProps {}
 

@@ -1,7 +1,8 @@
 import storage, { FirebaseStorageTypes } from "@react-native-firebase/storage";
 import { Asset } from "react-native-image-picker";
-import firestore from "@react-native-firebase/firestore";
-import { FirestoreEvent } from "../types/FirestoreClasses";
+import firestore, { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+import { FirestoreEvent, FirestoreUser } from "../types/FirestoreClasses";
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 export const EVENTS_PHOTOS_PATH = "/events";
 export const USER_PHOTO_PATH = "/users";
@@ -42,4 +43,27 @@ export async function GetEventsListAsync(): Promise<FirestoreEvent[]> {
 
 export async function SetEventAsync(event: FirestoreEvent): Promise<void> {
   await firestore().collection("events").doc(event.id).set(event);
+}
+
+export async function getUserDocumentSnapshot(
+  UID: string
+): Promise<FirebaseFirestoreTypes.DocumentSnapshot> {
+  let userDocumentSnapshot: any = "";
+  await firestore()
+    .collection("users")
+    .doc(UID)
+    .get()
+    .then(documentSnapshot => {
+      userDocumentSnapshot = documentSnapshot;
+    });
+
+  return userDocumentSnapshot;
+}
+
+export async function setNewUser(user: FirestoreUser): Promise<void> {
+  try {
+    await firestore().collection("users").doc(user.id).set(user);
+  } catch (error) {
+    console.log(error);
+  }
 }

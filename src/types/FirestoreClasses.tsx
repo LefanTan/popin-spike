@@ -1,4 +1,6 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { Asset } from "react-native-image-picker";
 
 /**
  * Map to the Event document on firestore
@@ -22,8 +24,11 @@ export type FirestoreEvent = {
 };
 
 export type FirestoreUser = {
+  id: string;
   userName: string;
-  description: string;
-  profilePicUrl: string;
+  description?: string;
+  profilePic?: Asset;
   website?: string;
+  contact?: { email: string; phoneNumber: string };
+  isSetup: boolean;
 };

@@ -9,7 +9,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { ConfirmCancelAlert } from "../components/ConfirmCancelAlert";
-import ctw from "../../custom-tailwind";
 import Animated, { useAnimatedStyle, withSpring } from "react-native-reanimated";
 import { useSharedValue } from "react-native-reanimated";
 import { generalStyles } from "../GeneralStyles";
@@ -17,7 +16,7 @@ import { SectionHeader } from "../components/SectionHeader";
 import { ProfileStackNavProps } from "../types/ParamList";
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView } from "react-native";
 import { useRef } from "react";
-import { LoginStack } from "../navigations/LoginStack";
+import { UserSetupScreen } from "./UserSetupScreen";
 
 const pages = ["About", "My Events"];
 
@@ -56,9 +55,9 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({ navig
 
   // User not signed in
   if (!authContext.user) {
-    //TODO: navigate to Login Stack
-    // return <LoginStack />;
-    return <LoginStack />;
+    return <LoginScreen />;
+  } else if (!authContext.user.isSetup) {
+    return <UserSetupScreen />;
   }
 
   return (
