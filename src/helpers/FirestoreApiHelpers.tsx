@@ -67,3 +67,20 @@ export async function setNewUser(user: FirestoreUser): Promise<void> {
     console.log(error);
   }
 }
+
+export async function checkIfUsernameExist(username: string): Promise<boolean> {
+  let isExist: boolean = false;
+  await firestore()
+    .collection("users")
+    // Filter results
+    .where("userName", "==", username)
+    .get()
+    .then(querySnapshot => {
+      if (querySnapshot.empty) {
+        isExist = false;
+      } else {
+        isExist = true;
+      }
+    });
+  return isExist;
+}

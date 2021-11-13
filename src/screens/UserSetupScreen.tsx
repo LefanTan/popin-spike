@@ -102,7 +102,9 @@ export const UserSetupScreen: React.FC<null> = () => {
         padding={3}
         marginTop="auto"
         justifyContent={page == 1 ? "space-between" : "flex-end"}
-        flexDirection="row">
+        flexDirection="row"
+        height="10%"
+        bg="primary.100">
         {page == 1 && (
           <Ripple
             style={{
