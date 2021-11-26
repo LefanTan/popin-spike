@@ -2,11 +2,7 @@ import { HStack, Image, Text, VStack, Heading, useTheme } from "native-base";
 import React, { useState, useCallback } from "react";
 import { FirestoreEvent } from "../types/FirestoreClasses";
 import Ionicon from "react-native-vector-icons/Ionicons";
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
-import { flairsList } from "../data/flairsList";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Ripple from "react-native-material-ripple";
 import ctw from "../../custom-tailwind";
 import moment from "moment";
@@ -43,7 +39,7 @@ export const MinimizedEvent: React.FC<MinimizedEventProps> = props => {
           {/* TODO: Update this to use main photo url */}
           <Image
             alt="pp"
-            source={require("../../assets/imgs/testeventpic.jpeg")}
+            source={require("../../assets/imgs/logo.png")}
             resizeMode="cover"
             height={elementHeight - 7.5}
             width={elementHeight}
