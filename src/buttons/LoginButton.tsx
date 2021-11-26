@@ -23,7 +23,7 @@ export const LoginButton: React.FC<LoginButtonProps> = props => {
       bg={props.bg}
       onPress={() => props.onPress()}
       _pressed={{ bg: props.bg }}>
-      <Text fontSize={hp(2.5)} mx={3} numberOfLines={1} color="primary.100">
+      <Text fontSize={hp(2.5)} mx={3} mb={1} numberOfLines={1} color="primary.100">
         {props.label}
       </Text>
     </Button>
