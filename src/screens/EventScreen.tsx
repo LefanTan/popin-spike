@@ -10,7 +10,6 @@ import {
   VStack,
 } from "native-base";
 import React, { useRef } from "react";
-import { mockPhotos } from "../data/mockPhotos";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -94,12 +93,16 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
             const yOffset = event.nativeEvent.contentOffset.y;
             const diff = yOffset - prevScrolled;
 
+            // 20 is the minimum offset required for animation to happen
             if (yOffset > 20) {
               headerOpacityValue.value = withTiming(
                 interpolate(diff, [0, 1], [1, 0], Extrapolate.CLAMP),
                 { duration: 150 }
               );
+            } else {
+              headerOpacityValue.value = withTiming(1, { duration: 150 });
             }
+
             prevScrolled = event.nativeEvent.contentOffset.y;
           }}>
           <VStack>
@@ -200,9 +203,16 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 <HStack marginTop={1} alignItems="center">
                   <Ionicon name="calendar" size={hp(3)} style={styles.detailIconStyle} />
                   <Text flex={2} numberOfLines={2} style={styles.detailTextStyle}>
-                    {`${startDate.format("dddd MMM DD : h:MMa")} - ${
+                    {/* {`${startDate.format("dddd MMM DD : h:MMa")} - ${
                       sameDay ? "" : endDate.format(`dddd MMM DD :`)
-                    } ${endDate.format(`h:MMa`)}`}
+                    } ${endDate.format(`h:MMa`)}`} */}
+                    {`${startDate.format("dddd MMM DD")}`}
+                    {"\n"}
+                    {`${startDate.format("h:MMa")} ${
+                      endDate.format("h:MMa") != startDate.format("h:MMa")
+                        ? `- ${endDate.format("h:MMa")}`
+                        : ""
+                    }`}
                   </Text>
                 </HStack>
                 {route.params.event.price && (
