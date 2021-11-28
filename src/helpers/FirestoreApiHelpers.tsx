@@ -1,7 +1,8 @@
-import storage, { FirebaseStorageTypes } from "@react-native-firebase/storage";
+import storage from "@react-native-firebase/storage";
 import { Asset } from "react-native-image-picker";
 import firestore from "@react-native-firebase/firestore";
 import { FirestoreEvent } from "../types/FirestoreClasses";
+import { PromiseTask, Task } from "react-native";
 
 export const EVENTS_PHOTOS_PATH = "/events";
 export const USER_PHOTO_PATH = "/users";
@@ -12,16 +13,33 @@ export const USER_PHOTO_PATH = "/users";
  * @param storagePath Path in cloud storage to store the files
  * @returns
  */
-export function UploadPhotos(
-  photoAssets: Asset[],
-  storagePath: string
-): Promise<FirebaseStorageTypes.TaskSnapshot[]> {
+export async function UploadPhotos(photoAssets: Asset[], storagePath: string): Promise<string[]> {
   const folderRef = storage().ref(storagePath);
+  const tasks: Promise<void>[] = [];
+  const downloadUrls: string[] = [];
 
-  const tasks: FirebaseStorageTypes.Task[] = [];
-  photoAssets.forEach(photo => tasks.push(folderRef.child(photo.fileName!).putFile(photo.uri!)));
+  photoAssets.forEach(photo => {
+    tasks.push(
+      folderRef
+        .child(photo.fileName!)
+        .putFile(photo.uri!)
+        .then(
+          () => {
+            return folderRef
+              .child(photo.fileName!)
+              .getDownloadURL()
+              .then(url => {
+                downloadUrls.push(url);
+              });
+          },
+          err => console.warn(err.message)
+        )
+    );
+  });
 
-  return Promise.all(tasks);
+  await Promise.all(tasks);
+  // return the download urls
+  return downloadUrls;
 }
 
 export async function GetEventsListAsync(): Promise<FirestoreEvent[]> {
@@ -40,6 +58,6 @@ export async function GetEventsListAsync(): Promise<FirestoreEvent[]> {
   return eventsList;
 }
 
-export async function SetEventAsync(event: FirestoreEvent): Promise<void> {
+export async function CreateEventAsync(event: FirestoreEvent): Promise<void> {
   await firestore().collection("events").doc(event.id).set(event);
 }
