@@ -4,7 +4,6 @@ import { Modal } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
 import { IImageInfo } from "react-native-image-zoom-viewer/built/image-viewer.type";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ctw from "../../custom-tailwind";
 import { generalStyles } from "../GeneralStyles";
@@ -31,8 +30,7 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo(props =>
       visible={props.showGallery}
       transparent={true}
       onRequestClose={() => props.onCancel()}
-      animationType="fade"
-    >
+      animationType="fade">
       <VStack flex={1} bg="primary.200" safeAreaTop>
         <HStack
           width="100%"
@@ -46,8 +44,7 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo(props =>
             {
               elevation: 4,
             },
-          ]}
-        >
+          ]}>
           <Pressable onPress={props.onCancel}>
             {({ isPressed }) => (
               <Ionicons
@@ -71,9 +68,8 @@ export const ImageGalleryModal: React.FC<ImageGalleryModalProps> = memo(props =>
             enableSwipeDown
             useNativeDriver
             onCancel={props.onCancel}
-            renderIndicator={() => null}
             index={props.index}
-            onChange={index => setImageIndex(index)}
+            onChange={index => index && setImageIndex(index)}
           />
         </Center>
       </VStack>
