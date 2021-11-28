@@ -21,7 +21,7 @@ import { FirestoreEvent } from "../types/FirestoreClasses";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { EVENTS_PHOTOS_PATH, SetEventAsync, UploadPhotos } from "../helpers/FirestoreApiHelpers";
+import { EVENTS_PHOTOS_PATH, CreateEventAsync, UploadPhotos } from "../helpers/FirestoreApiHelpers";
 import { UploadingPage } from "./createEventPages/UploadingPage";
 import { BackHandler } from "react-native";
 
@@ -98,14 +98,19 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
     // Add them if they're not undefined or empty
     if (price[0]) eventForm.price = price[0];
     if (website[0]) eventForm.website = website[0];
-    if (photos[0].length > 0)
-      eventForm.mainPhotoUrl = `${EVENTS_PHOTOS_PATH}/${eventForm.id}/${photos[0][0].fileName}`;
 
+    // Start loading animation
     setIsUploading(true);
 
-    photos.length > 0 && (await UploadPhotos(photos[0], EVENTS_PHOTOS_PATH + "/" + eventForm.id));
-    await SetEventAsync(eventForm);
+    // Use first photo as main photo (FOR NOW)
+    if (photos[0].length > 0) {
+      eventForm.photoUrls = await UploadPhotos(photos[0], EVENTS_PHOTOS_PATH + "/" + eventForm.id);
+      eventForm.mainPhotoUrl = eventForm.photoUrls[0];
+    }
 
+    await CreateEventAsync(eventForm);
+
+    // End loading animation
     setIsUploading(false);
     return;
   };
@@ -168,8 +173,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
         photos: photos,
         website: website,
         price: price,
-      }}
-    >
+      }}>
       <SafeAreaView edges={["top"]} style={ctw`flex-1 bg-primary-100`}>
         {/* Header */}
         {page < maxPage && (
@@ -183,8 +187,7 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
                 }),
               ]}
               _pressed={{ bg: colors["primary"]["300"] }}
-              onPress={() => navigateToPage(page - 1)}
-            >
+              onPress={() => navigateToPage(page - 1)}>
               {({ isPressed }) => (
                 <AntIcons
                   name="arrowleft"
@@ -223,13 +226,11 @@ export const CreateEventScreen: React.FC<ProfileStackNavProps<"CreateEvent">> = 
                     : colors["primary"]["200"],
                 })}
                 onPress={() => navigateToPage(page + 1)}
-                disabled={!pageReady[0]}
-              >
+                disabled={!pageReady[0]}>
                 <Heading
                   fontWeight={500}
                   fontSize={hp(3.5)}
-                  color={pageReady[0] ? colors["primary"]["100"] : colors["secondary"]["200"]}
-                >
+                  color={pageReady[0] ? colors["primary"]["100"] : colors["secondary"]["200"]}>
                   {page + 1 === maxPage ? "Done" : "Next"}
                 </Heading>
               </Ripple>
