@@ -81,7 +81,7 @@ project.ext.react = [
     // NOTE: Enable this during release
     enableHermes: true,  // clean and rebuild if changing
     // For first build, enable this
-    //bundleInDebug: true
+    bundleInDebug: true
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
