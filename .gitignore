@@ -33,6 +33,7 @@ google-services.json
 .gradle
 local.properties
 *.iml
+*.hprof
 
 # node.js
 #
