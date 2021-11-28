@@ -39,6 +39,7 @@ import { ImageGalleryModal } from "../components/ImageGalleryModal";
 import { generalStyles } from "../GeneralStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
+import openMap from "react-native-open-maps";
 
 const DEFAULT_PHOTO = [{ url: "", props: { source: require("../../assets/imgs/logo.png") } }];
 
@@ -175,7 +176,12 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 </Heading>
                 <HStack marginTop={3} alignItems="center">
                   <Ionicon name="location-sharp" size={hp(4)} style={styles.detailIconStyle} />
-                  <Text underline width="95%" numberOfLines={2} style={styles.detailTextStyle}>
+                  <Text
+                    underline
+                    width="95%"
+                    numberOfLines={2}
+                    style={styles.detailTextStyle}
+                    onPress={() => openMap({ query: route.params.event.address })}>
                     {route.params.event.address}
                   </Text>
                 </HStack>

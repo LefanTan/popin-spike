@@ -94,6 +94,8 @@ sudo chown -R [username] /Users/[username]/popin-spike
 
 19. [React Native Config](https://github.com/luggit/react-native-config) : Allow access to .env variables
 
+20. [React Native Open Maps](https://github.com/brh55/react-native-open-maps): Open native maps for different platform.
+
 ### Useful Snippets
 
 ```
