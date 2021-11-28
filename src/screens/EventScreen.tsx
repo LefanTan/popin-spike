@@ -76,6 +76,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
   const eventHasPhoto =
     typeof route.params.event.photoUrls !== "undefined" && route.params.event.photoUrls.length > 0;
 
+  // downloadUrls for photos formatted for use
   const eventPhotos = route.params.event.photoUrls?.map(photoUrl => ({
     url: photoUrl,
     props: { source: {} },
