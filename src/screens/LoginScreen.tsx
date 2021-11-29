@@ -37,6 +37,15 @@ export const LoginScreen: React.FC = () => {
   const [hidePass, setHidePass] = useState(true);
   const [isSignup, setIsSignup] = useState(false);
 
+  const signUpHandler = () => {
+    if (isSignup) {
+      if (passwordCheck !== password) authContext.setErrorMessage("Password doesn't match!");
+      else authContext.signup(email, password);
+    } else authContext.login(email, password);
+
+    setPassword("");
+  };
+
   return (
     <VStack flex={1} alignItems="center" justifyContent="center" px={12} py={10} bg="primary.100">
       <Heading variant="title" fontWeight={300} fontSize={hp(7)} textAlign="center">
@@ -173,14 +182,7 @@ export const LoginScreen: React.FC = () => {
         }
         bg="secondary.400"
         isSignup={isSignup}
-        onPress={() => {
-          if (isSignup) {
-            authContext.signup(email, password);
-          } else {
-            authContext.login(email, password);
-          }
-          setPassword("");
-        }}
+        onPress={signUpHandler}
         additionalProps={{ marginTop: 20, alignSelf: "center" }}
       />
       <Text marginX="auto" marginTop={hp(1)}>

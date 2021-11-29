@@ -10,7 +10,6 @@ import {
   VStack,
 } from "native-base";
 import React, { useRef } from "react";
-import { mockPhotos } from "../data/mockPhotos";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -39,6 +38,9 @@ import { ImageGalleryModal } from "../components/ImageGalleryModal";
 import { generalStyles } from "../GeneralStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
+import openMap from "react-native-open-maps";
+
+const DEFAULT_PHOTO = [{ url: "", props: { source: require("../../assets/imgs/logo.png") } }];
 
 /**
  * EventScreen for viewing a full list of detail for an event
@@ -71,6 +73,15 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
     detailTextStyle: ctw.style("text-primary-700 ml-5 w-10/12"),
   });
 
+  const eventHasPhoto =
+    typeof route.params.event.photoUrls !== "undefined" && route.params.event.photoUrls.length > 0;
+
+  // downloadUrls for photos formatted for use
+  const eventPhotos = route.params.event.photoUrls?.map(photoUrl => ({
+    url: photoUrl,
+    props: { source: {} },
+  }));
+
   return (
     <SafeAreaView edges={["top"]}>
       <Flex height="100%" position="relative">
@@ -82,20 +93,23 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
             const yOffset = event.nativeEvent.contentOffset.y;
             const diff = yOffset - prevScrolled;
 
+            // 20 is the minimum offset required for animation to happen
             if (yOffset > 20) {
               headerOpacityValue.value = withTiming(
                 interpolate(diff, [0, 1], [1, 0], Extrapolate.CLAMP),
                 { duration: 150 }
               );
+            } else {
+              headerOpacityValue.value = withTiming(1, { duration: 150 });
             }
+
             prevScrolled = event.nativeEvent.contentOffset.y;
-          }}
-        >
+          }}>
           <VStack>
             <Center borderRadius={15} width="100%">
               <Carousel
                 ref={carouselRef}
-                data={mockPhotos}
+                data={eventPhotos ?? DEFAULT_PHOTO}
                 inactiveSlideOpacity={1}
                 inactiveSlideScale={1}
                 vertical={false}
@@ -103,7 +117,8 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                   <ImageButton
                     onClick={() => setShowGallery(true)}
                     style={{ width: wp(100), height: hp(35) }}
-                    imgSource={item.props.source}
+                    imgSource={item.url ? { uri: item.url } : item.props.source}
+                    disabled={!eventHasPhoto}
                   />
                 )}
                 sliderWidth={wp(100)}
@@ -117,8 +132,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 fontFamily="heading"
                 fontWeight={600}
                 numberOfLines={4}
-                color="primary.700"
-              >
+                color="primary.700">
                 {/* Maximum 70 characters */}
                 {route.params.event.eventName}
               </Heading>
@@ -129,8 +143,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 paddingY={1}
                 marginBottom={2}
                 numberOfLines={2}
-                color="primary.700"
-              >
+                color="primary.700">
                 {route.params.event.hostName}
               </Heading>
               <HStack>
@@ -155,8 +168,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 })}
               </HStack>
               <Ripple
-                style={ctw`rounded-xl mt-2 py-1 flex justify-center items-center bg-secondary-400`}
-              >
+                style={ctw`rounded-xl mt-2 py-1 flex justify-center items-center bg-secondary-400`}>
                 <Text fontWeight={600} fontSize={25} marginBottom={1} color="primary.100">
                   Pop In here!
                 </Text>
@@ -167,7 +179,12 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 </Heading>
                 <HStack marginTop={3} alignItems="center">
                   <Ionicon name="location-sharp" size={hp(4)} style={styles.detailIconStyle} />
-                  <Text underline width="95%" numberOfLines={2} style={styles.detailTextStyle}>
+                  <Text
+                    underline
+                    width="95%"
+                    numberOfLines={2}
+                    style={styles.detailTextStyle}
+                    onPress={() => openMap({ query: route.params.event.address })}>
                     {route.params.event.address}
                   </Text>
                 </HStack>
@@ -186,9 +203,16 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
                 <HStack marginTop={1} alignItems="center">
                   <Ionicon name="calendar" size={hp(3)} style={styles.detailIconStyle} />
                   <Text flex={2} numberOfLines={2} style={styles.detailTextStyle}>
-                    {`${startDate.format("dddd MMM DD : h:MMa")} - ${
+                    {/* {`${startDate.format("dddd MMM DD : h:MMa")} - ${
                       sameDay ? "" : endDate.format(`dddd MMM DD :`)
-                    } ${endDate.format(`h:MMa`)}`}
+                    } ${endDate.format(`h:MMa`)}`} */}
+                    {`${startDate.format("dddd MMM DD")}`}
+                    {"\n"}
+                    {`${startDate.format("h:MMa")} ${
+                      endDate.format("h:MMa") != startDate.format("h:MMa")
+                        ? `- ${endDate.format("h:MMa")}`
+                        : ""
+                    }`}
                   </Text>
                 </HStack>
                 {route.params.event.price && (
@@ -222,11 +246,10 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
           index={imageIndex}
           showGallery={showImageGallery}
           onCancel={() => setShowGallery(false)}
-          photos={mockPhotos}
+          photos={eventPhotos ?? DEFAULT_PHOTO}
         />
         <Animated.View
-          style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}
-        >
+          style={[headerStyle, ctw`bg-transparent flex flex-row items-center absolute w-full`]}>
           <Pressable
             style={[
               ctw.style(`ml-2 mt-2 flex justify-center items-center`, {
@@ -238,8 +261,7 @@ export const EventScreen: React.FC<DiscoverStackNavProps<"Event">> = ({ navigati
             ]}
             bg="primary.200"
             onPress={() => navigation.goBack()}
-            _pressed={{ bg: colors["primary"]["300"] }}
-          >
+            _pressed={{ bg: colors["primary"]["300"] }}>
             {({ isPressed }) => (
               <AntDesign
                 name="arrowleft"

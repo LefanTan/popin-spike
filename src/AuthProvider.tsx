@@ -14,7 +14,7 @@ GoogleSignin.configure({
   webClientId: Config.GOOGLE_WEB_CLIENT_ID,
 });
 
-export const AuthContext = React.createContext<{
+type AuthData = {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
   loading: boolean;
@@ -23,18 +23,11 @@ export const AuthContext = React.createContext<{
   googleLogin: () => void;
   login: (email: string, password: string) => void;
   logout: () => void;
+  setErrorMessage: (msg: string) => void;
   clearError: () => void;
-}>({
-  user: null,
-  setUser: () => null,
-  loading: true,
-  errorMsg: "",
-  signup: () => null,
-  googleLogin: () => null,
-  login: () => null,
-  logout: async () => null,
-  clearError: () => null,
-});
+};
+
+export const AuthContext = React.createContext<AuthData>({} as AuthData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>(null);
@@ -201,6 +194,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 console.error(error);
               }
             );
+        },
+        // Set error message
+        setErrorMessage: errorMsg => {
+          setError(errorMsg);
         },
         //Clear error message
         clearError: () => {

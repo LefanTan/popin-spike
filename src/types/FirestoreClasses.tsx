@@ -19,6 +19,7 @@ export type FirestoreEvent = {
 
   poppedInAmount?: number;
   mainPhotoUrl?: string;
+  photoUrls?: string[];
   price?: number;
   website?: string;
 };
