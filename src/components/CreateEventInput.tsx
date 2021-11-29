@@ -13,6 +13,7 @@ interface CreateEventInputProps {
 
   viewStyle?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<ViewStyle>;
+  inputRightELement?: JSX.Element;
 
   /* TextInput props */
   numberOfLines?: number;
@@ -23,7 +24,7 @@ interface CreateEventInputProps {
   keyboardType?: KeyboardTypeOptions;
 }
 
-export const CreateEventInput: React.FC<CreateEventInputProps> = props => {
+export const GreyBgInput: React.FC<CreateEventInputProps> = props => {
   return (
     <View width="100%" style={props.viewStyle}>
       <HStack bg="primary.200" borderRadius={10} paddingY={2} paddingX={3} alignItems="center">
@@ -67,6 +68,7 @@ export const CreateEventInput: React.FC<CreateEventInputProps> = props => {
               blurOnSubmit={true}
               value={props.content}
               onChangeText={props.onChangeText}
+              InputRightElement={props.inputRightELement}
             />
           </HStack>
         </VStack>

@@ -28,7 +28,7 @@ import { LoginInput } from "../components/LoginInput";
 
 const borderRadius = 20;
 
-export const LoginScreen: React.FC = ({ navigation }) => {
+export const LoginScreen: React.FC = () => {
   const authContext = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
@@ -176,7 +176,6 @@ export const LoginScreen: React.FC = ({ navigation }) => {
         onPress={() => {
           if (isSignup) {
             authContext.signup(email, password);
-            navigation.navigate("NameAndPhoto");
           } else {
             authContext.login(email, password);
           }

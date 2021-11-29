@@ -55,6 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const userDocumentSnapshot = getUserDocumentSnapshot(tempUser.uid);
 
       userDocumentSnapshot.then(documentSnapshot => {
+        //Check if user exists in firestore
         if (documentSnapshot.exists) {
           const documentData = documentSnapshot.data();
           const obj: any = {}; //Temp object for user
