@@ -1,4 +1,15 @@
-import { Center, Text, View, Input, Image, Flex, Heading, Pressable, Icon } from "native-base";
+import {
+  Center,
+  Text,
+  View,
+  Input,
+  Image,
+  Flex,
+  Heading,
+  Pressable,
+  Icon,
+  useTheme,
+} from "native-base";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -9,13 +20,14 @@ import { UserSetupContext } from "../UserSetupScreen";
 import { checkIfUsernameExist } from "../../helpers/FirestoreApiHelpers";
 import { GreyBgInput } from "../../components/CreateEventInput";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import DEFAULT_ICON from "../../../assets/imgs/logo.png";
 
 interface NameAndPhotoPageProps {}
 
 export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
   const { username, setUsername, profilePhoto, setProfilePhoto } = useContext(UserSetupContext);
   const [isAvailable, setIsAvailable] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const { colors } = useTheme();
 
   const onAddPhotoClicked = () => {
     const option: ImageLibraryOptions = {
@@ -53,21 +65,53 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
           color="secondary.400">
           Set Up...
         </Heading>
+        {/* <Image
+          source={{ uri: profilePhoto.uri }}
+          borderWidth={4}
+          borderColor="primary.200"
+          alt="profile-pic"
+          height={200}
+          width={200}
+          borderRadius={100}
+        /> */}
         {profilePhoto.uri ? (
           <Image
-            source={{
-              uri: profilePhoto.uri,
-            }}
+            source={
+              typeof profilePhoto.uri === null
+                ? DEFAULT_ICON
+                : {
+                    uri: profilePhoto.uri,
+                  }
+            }
             alt="profile-pic"
-            height={150}
-            width={150}
+            height={180}
+            width={180}
             borderRadius={100}
           />
         ) : (
-          <View bg="black" height={100} width={100} borderRadius={100}></View>
+          <View
+            height={180}
+            width={180}
+            borderRadius={100}
+            borderColor="secondary.400"
+            borderWidth={3}>
+            <Image
+              source={DEFAULT_ICON}
+              alt="profile-pic"
+              height={180}
+              width={180}
+              borderRadius={100}
+            />
+          </View>
         )}
         <Pressable onPress={onAddPhotoClicked}>
-          <Text marginTop={hp(1)}>Add photo</Text>
+          {({ isPressed }) => (
+            <Text
+              marginTop={hp(1)}
+              color={isPressed ? colors["secondary"]["400"] : colors["primary"]["800"]}>
+              Add photo
+            </Text>
+          )}
         </Pressable>
         {/* <Text textAlign="left" width="60%" color="primary.800" fontWeight={500} marginTop={hp(3)}>
           Username

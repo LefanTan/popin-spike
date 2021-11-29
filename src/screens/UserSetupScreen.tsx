@@ -124,7 +124,7 @@ export const UserSetupScreen: React.FC<null> = () => {
 
         <Ripple
           style={{
-            backgroundColor: colors["secondary"]["400"],
+            backgroundColor: username ? colors["secondary"]["400"] : colors["primary"]["200"],
             paddingVertical: hp(1),
             paddingHorizontal: wp(4.5),
             borderRadius: 5,
@@ -134,7 +134,10 @@ export const UserSetupScreen: React.FC<null> = () => {
             if (page == 0) setPage(page + 1);
             if (page == 1) submit();
           }}>
-          <Heading fontWeight={400} fontSize={hp(3)} color="primary.100">
+          <Heading
+            fontWeight={400}
+            fontSize={hp(3)}
+            color={username ? "primary.100" : "secondary.300"}>
             {page == 1 ? "Done" : "Next"}
           </Heading>
         </Ripple>
