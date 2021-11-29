@@ -68,8 +68,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
   return (
     <ScrollView
       contentContainerStyle={{ paddingBottom: 15, paddingHorizontal: 20 }}
-      bounces={false}
-    >
+      bounces={false}>
       <Heading fontSize={hp(4.5)} fontWeight={600}>
         Details
       </Heading>
@@ -98,8 +97,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
             justifyContent="center"
             alignItems="center"
             onPress={onAddPhotoClicked}
-            _pressed={{ bg: "primary.300" }}
-          >
+            _pressed={{ bg: "primary.300" }}>
             <AntIcons name="plus" size={hp(7)} color={colors["primary"]["500"]} />
           </Pressable>
         )}
@@ -119,8 +117,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
                 `absolute top-2 right-2 bg-primary-100 p-1 flex items-center justify-center`,
                 { borderRadius: 50 }
               )}
-              onPress={() => removePhoto(photo.fileName)}
-            >
+              onPress={() => removePhoto(photo.fileName)}>
               <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
             </Pressable>
           </Box>
@@ -136,7 +133,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
         multiline
       />
       <Text color="secondary.400" fontSize={hp(2)} fontWeight={500} width="100%" textAlign="right">
-        characters left: {maxDiscLength - description.length}
+        characters left: {maxDiscLength - description[0].length}
       </Text>
       <CreateEventInput
         title="Price"
