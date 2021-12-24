@@ -42,15 +42,19 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
   };
 
   useEffect(() => {
+    let isCanceled = false;
     const delay = setTimeout(() => {
-      if (username != "") {
+      if (username != "" && !isCanceled) {
         checkIfUsernameExist(username).then(res => {
           setIsAvailable(!res);
         });
       }
     }, 1000);
 
-    return () => clearTimeout(delay);
+    return () => {
+      isCanceled = true;
+      clearTimeout(delay);
+    };
   }, [username]);
 
   return (
@@ -93,7 +97,7 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
             height={180}
             width={180}
             borderRadius={100}
-            borderColor="secondary.400"
+            borderColor="primary.200"
             borderWidth={3}>
             <Image
               source={DEFAULT_ICON}
@@ -140,6 +144,7 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
         /> */}
         <GreyBgInput
           content={username}
+          required
           title="Username"
           onChangeText={text => setUsername(text)}
           viewStyle={{ paddingHorizontal: wp(5), marginTop: hp(3) }}

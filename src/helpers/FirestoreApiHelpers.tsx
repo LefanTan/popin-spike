@@ -2,8 +2,6 @@ import storage from "@react-native-firebase/storage";
 import { Asset } from "react-native-image-picker";
 import firestore, { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import { FirestoreEvent, FirestoreUser } from "../types/FirestoreClasses";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import { PromiseTask, Task } from "react-native";
 
 export const EVENTS_PHOTOS_PATH = "/events";
 export const USER_PHOTO_PATH = "/users";
@@ -78,6 +76,14 @@ export async function getUserDocumentSnapshot(
   return userDocumentSnapshot;
 }
 
+export async function getPictureUrl(UID: string): Promise<string> {
+  return (
+    await storage()
+      .ref("users/" + UID)
+      .list()
+  ).items[0].getDownloadURL();
+}
+
 export async function setNewUser(user: FirestoreUser): Promise<void> {
   try {
     await firestore().collection("users").doc(user.id).set(user);
@@ -87,7 +93,7 @@ export async function setNewUser(user: FirestoreUser): Promise<void> {
 }
 
 export async function checkIfUsernameExist(username: string): Promise<boolean> {
-  let isExist: boolean = false;
+  let isExist = false;
   await firestore()
     .collection("users")
     // Filter results

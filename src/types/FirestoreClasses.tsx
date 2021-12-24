@@ -1,5 +1,4 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { Asset } from "react-native-image-picker";
 
 /**
@@ -29,6 +28,7 @@ export type FirestoreUser = {
   userName: string;
   description?: string;
   profilePic?: Asset;
+  profilePicUrl?: string;
   website?: string;
   contact?: { email: string; phoneNumber: string };
   isSetup: boolean;

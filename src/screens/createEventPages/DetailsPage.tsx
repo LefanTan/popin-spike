@@ -13,7 +13,7 @@ import {
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
 import React, { useContext, useEffect } from "react";
-import { CreateEventInput } from "../../components/CreateEventInput";
+import { GreyBgInput } from "../../components/CreateEventInput";
 import { launchImageLibrary, ImageLibraryOptions, Asset } from "react-native-image-picker";
 import ctw from "../../../custom-tailwind";
 import { CreateEventContext } from "../CreateEventScreen";
@@ -123,7 +123,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
           </Box>
         ))}
       </ScrollView>
-      <CreateEventInput
+      <GreyBgInput
         title="Event Description"
         onChangeText={description[1]}
         content={description[0]}
@@ -135,7 +135,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
       <Text color="secondary.400" fontSize={hp(2)} fontWeight={500} width="100%" textAlign="right">
         characters left: {maxDiscLength - description[0].length}
       </Text>
-      <CreateEventInput
+      <GreyBgInput
         title="Price"
         onChangeText={text => price[1](text === "" ? undefined : parseInt(text, 10))}
         content={price[0] !== undefined ? price[0]?.toString() : ""}
@@ -144,7 +144,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
         viewStyle={{ marginTop: 10 }}
         optional
       />
-      <CreateEventInput
+      <GreyBgInput
         title="Website"
         onChangeText={website[1]}
         content={website[0] !== undefined ? website[0] : ""}

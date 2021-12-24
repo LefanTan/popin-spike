@@ -1,4 +1,15 @@
-import { Heading, HStack, Text, useTheme, Pressable, VStack, Center, Box, Flex } from "native-base";
+import {
+  Heading,
+  HStack,
+  Text,
+  useTheme,
+  Pressable,
+  VStack,
+  Center,
+  Box,
+  Flex,
+  Image,
+} from "native-base";
 import React, { useEffect, useState } from "react";
 import AntIcons from "react-native-vector-icons/AntDesign";
 import { useContext } from "react";
@@ -17,6 +28,7 @@ import { ProfileStackNavProps } from "../types/ParamList";
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView } from "react-native";
 import { useRef } from "react";
 import { UserSetupScreen } from "./UserSetupScreen";
+import { getPicture } from "../helpers/FirestoreApiHelpers";
 
 const pages = ["About", "My Events"];
 
@@ -97,18 +109,30 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({ navig
             borderRadius={100}
             borderWidth={10}
             borderColor="primary.100"
-            padding={5}
+            padding={authContext.user.profilePic ? 0 : 5}
             position="absolute"
             bottom={-hp(8)}
             zIndex={10}
             bg="primary.200"
             _pressed={{ bg: colors["primary"]["400"] }}
             style={{ elevation: 11, shadowOpacity: 0, shadowColor: "white" }}>
-            <AntIcons name="camera" size={hp(10)} color={colors["secondary"]["400"]} />
+            {authContext.user.profilePic ? (
+              <Image
+                source={{
+                  uri: authContext.user.profilePicUrl,
+                }}
+                alt="profile-pic"
+                height={hp(16)}
+                width={hp(16)}
+                borderRadius={100}
+              />
+            ) : (
+              <AntIcons name="camera" size={hp(10)} color={colors["secondary"]["400"]} />
+            )}
           </Pressable>
         </Center>
         <Heading paddingX={2} marginTop={60} fontWeight={500} fontSize={hp(3.5)} textAlign="center">
-          University of Alberta's Malaysian Students' Association
+          {authContext.user.userName}
         </Heading>
         <Center>
           <HStack width="95%" marginTop={10} paddingX={2}>
@@ -132,13 +156,7 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({ navig
             <Center width={wp(100)} marginTop={7}>
               <Center width="95%" bg="secondary.400" borderRadius={25} paddingX={4} paddingY={3}>
                 <Text color="primary.200" fontSize={hp(2)} fontWeight={500}>
-                  The Aboriginal Student Council (ASC) is a student group on campus that unites its
-                  members for fun, friendship and learning. The Aboriginal Student Council (ASC)
-                  represents and advocates for self-identified Indigenous students; the goal is to
-                  improve the lives and studies of Indigenous students on campus. The Aboriginal
-                  Student Council seeks to create a safe and welcoming space to re-affirm and foster
-                  balance in spiritual, mental, physical, and emotional health through promoting
-                  cultural, political, academic, athletic, and interpersonal interests.
+                  {authContext.user.description ? authContext.user.description : "No description"}
                 </Text>
               </Center>
             </Center>

@@ -6,9 +6,15 @@ import {
 import React, { useState, useEffect, useContext } from "react";
 import Ripple from "react-native-material-ripple";
 import { NameAndPhotoPage } from "./userSetupPages/NameAndPhotoPage";
+import { ActivityIndicator } from "react-native";
 import { DetailsPage } from "./userSetupPages/DetailsPage";
 import { Asset } from "react-native-image-picker";
-import { setNewUser, UploadPhotos, USER_PHOTO_PATH } from "../helpers/FirestoreApiHelpers";
+import {
+  getPictureUrl,
+  setNewUser,
+  UploadPhotos,
+  USER_PHOTO_PATH,
+} from "../helpers/FirestoreApiHelpers";
 import { AuthContext } from "../AuthProvider";
 import { FirestoreUser } from "../types/FirestoreClasses";
 
@@ -55,8 +61,10 @@ export const UserSetupScreen: React.FC<null> = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [website, setWebsite] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const submit = async () => {
+    setLoading(true);
     const userForm: FirestoreUser = {
       id: authContext.user?.id || "",
       userName: username,
@@ -72,10 +80,12 @@ export const UserSetupScreen: React.FC<null> = () => {
     if (website) userForm.website = website;
     if (email || phoneNumber) userForm.contact = { email: email, phoneNumber: phoneNumber };
 
-    if (profilePhoto.uri)
+    if (profilePhoto.uri) {
       await UploadPhotos([profilePhoto], USER_PHOTO_PATH + "/" + authContext.user?.id);
-    await setNewUser(userForm);
+      userForm.profilePicUrl = await getPictureUrl(userForm.id);
+    }
 
+    await setNewUser(userForm);
     //Update user state in AuthContext
     authContext.setUser(userForm);
   };
@@ -124,7 +134,8 @@ export const UserSetupScreen: React.FC<null> = () => {
 
         <Ripple
           style={{
-            backgroundColor: username ? colors["secondary"]["400"] : colors["primary"]["200"],
+            backgroundColor:
+              username || page == 1 ? colors["secondary"]["400"] : colors["primary"]["200"],
             paddingVertical: hp(1),
             paddingHorizontal: wp(4.5),
             borderRadius: 5,
@@ -133,12 +144,21 @@ export const UserSetupScreen: React.FC<null> = () => {
           onPress={() => {
             if (page == 0) setPage(page + 1);
             if (page == 1) submit();
-          }}>
+          }}
+          disabled={username ? false : true}>
           <Heading
             fontWeight={400}
             fontSize={hp(3)}
             color={username ? "primary.100" : "secondary.300"}>
-            {page == 1 ? "Done" : "Next"}
+            {loading && (
+              <ActivityIndicator
+                size="small"
+                style={{ paddingHorizontal: wp(3.2) }}
+                color="white"
+              />
+            )}
+            {page == 0 && !loading && "Next"}
+            {page == 1 && !loading && "Done"}
           </Heading>
         </Ripple>
       </Flex>

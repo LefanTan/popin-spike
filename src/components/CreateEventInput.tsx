@@ -21,6 +21,7 @@ interface CreateEventInputProps {
   prefix?: string;
   maxLength?: number;
   optional?: boolean;
+  required?: boolean;
   keyboardType?: KeyboardTypeOptions;
 }
 
@@ -41,6 +42,16 @@ export const GreyBgInput: React.FC<CreateEventInputProps> = props => {
                 marginBottom={0.5}
                 fontSize={hp(1.75)}>
                 Optional
+              </Text>
+            )}
+            {props.required && (
+              <Text
+                fontWeight={400}
+                color="secondary.400"
+                marginLeft={2}
+                marginBottom={0.5}
+                fontSize={hp(1.75)}>
+                Required
               </Text>
             )}
           </HStack>
