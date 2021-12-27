@@ -139,6 +139,7 @@ export const UserSetupScreen: React.FC<null> = () => {
             paddingVertical: hp(1),
             paddingHorizontal: wp(4.5),
             borderRadius: 5,
+            maxHeight: hp(6),
           }}
           rippleColor="white"
           onPress={() => {
@@ -149,7 +150,8 @@ export const UserSetupScreen: React.FC<null> = () => {
           <Heading
             fontWeight={400}
             fontSize={hp(3)}
-            color={username ? "primary.100" : "secondary.300"}>
+            color={username ? "primary.100" : "secondary.300"}
+            maxHeight={hp(5)}>
             {loading && (
               <ActivityIndicator
                 size="small"

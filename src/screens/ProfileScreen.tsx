@@ -28,7 +28,6 @@ import { ProfileStackNavProps } from "../types/ParamList";
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView } from "react-native";
 import { useRef } from "react";
 import { UserSetupScreen } from "./UserSetupScreen";
-import { getPicture } from "../helpers/FirestoreApiHelpers";
 
 const pages = ["About", "My Events"];
 
@@ -131,7 +130,12 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({ navig
             )}
           </Pressable>
         </Center>
-        <Heading paddingX={2} marginTop={60} fontWeight={500} fontSize={hp(3.5)} textAlign="center">
+        <Heading
+          paddingX={2}
+          marginTop={hp(8)}
+          fontWeight={500}
+          fontSize={hp(3.5)}
+          textAlign="center">
           {authContext.user.userName}
         </Heading>
         <Center>

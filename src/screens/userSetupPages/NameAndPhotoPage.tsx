@@ -58,7 +58,7 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
   }, [username]);
 
   return (
-    <View bg="primary.100" height="90%" py={5} px={5}>
+    <View bg="primary.100" height="90%" py={5} px={hp(4)}>
       <Center marginY="auto">
         <Heading
           fontWeight={500}
@@ -88,9 +88,9 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
                   }
             }
             alt="profile-pic"
-            height={180}
-            width={180}
-            borderRadius={100}
+            height={hp(25)}
+            width={hp(25)}
+            borderRadius={hp(25)}
           />
         ) : (
           <View
@@ -111,7 +111,8 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
         <Pressable onPress={onAddPhotoClicked}>
           {({ isPressed }) => (
             <Text
-              marginTop={hp(1)}
+              marginTop={hp(0.5)}
+              fontSize={hp(2.5)}
               color={isPressed ? colors["secondary"]["400"] : colors["primary"]["800"]}>
               Add photo
             </Text>
