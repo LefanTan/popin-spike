@@ -39,19 +39,6 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
         Just a bit more...
       </Heading>
       <Center marginBottom="auto" paddingX={wp(1)}>
-        {/* <Text textAlign="left" width="75%" color="primary.800" fontWeight={500} marginTop={hp(3)}>
-          Email*
-        </Text>
-        <Input
-          placeholder="enter ur email..."
-          variant="underlined"
-          borderRadius={5}
-          value={email}
-          onChangeText={text => setEmail(text)}
-          width="75%"
-          fontSize={hp(2)}
-          marginX={wp(20)}
-        /> */}
         <GreyBgInput
           content={email}
           title="Email"
@@ -59,19 +46,6 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
           viewStyle={{ paddingHorizontal: wp(3) }}
           optional
         />
-        {/* <Text textAlign="left" width="75%" color="primary.800" fontWeight={500} marginTop={hp(3)}>
-          Phone number*
-        </Text> */}
-        {/* <Input
-          placeholder="enter ur number..."
-          variant="underlined"
-          borderRadius={5}
-          value={phoneNumber}
-          onChangeText={text => setPhoneNumber(text)}
-          width="75%"
-          fontSize={hp(2)}
-          marginX={wp(20)}
-        /> */}
         <GreyBgInput
           content={phoneNumber}
           title="Phone number"
@@ -79,19 +53,6 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
           viewStyle={{ marginTop: hp(1.5), paddingHorizontal: wp(3) }}
           optional
         />
-        {/* <Text textAlign="left" width="75%" color="primary.800" fontWeight={500} marginTop={hp(3)}>
-          Website*
-        </Text>
-        <Input
-          placeholder="enter ur website..."
-          variant="underlined"
-          borderRadius={5}
-          value={website}
-          onChangeText={text => setWebsite(text)}
-          width="75%"
-          fontSize={hp(2)}
-          marginX={wp(20text
-        /> */}
         <GreyBgInput
           content={website}
           title="Website"
@@ -99,19 +60,6 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
           viewStyle={{ marginTop: hp(1.5), paddingHorizontal: wp(3) }}
           optional
         />
-        {/* <Text textAlign="left" width="75%" color="primary.800" fontWeight={500} marginTop={hp(3)}>
-          Description*
-        </Text>
-        <TextArea
-          placeholder="About me..."
-          variant="outline"
-          borderRadius={5}
-          value={description}
-          onChangeText={text => setDescription(text)}
-          width="75%"
-          textAlign="left"
-          textAlignVertical="top"
-        /> */}
         <GreyBgInput
           content={description}
           title="Description"

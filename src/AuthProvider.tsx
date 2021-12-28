@@ -50,14 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       userDocumentSnapshot.then(documentSnapshot => {
         //Check if user exists in firestore
         if (documentSnapshot.exists) {
-          const documentData = documentSnapshot.data();
-          const obj: any = {}; //Temp object for user
-          //Loops through the data from firestore and append them to obj
-          for (const property in documentData) {
-            obj[property] = documentData[property];
-          }
-
-          setUser(obj);
+          setUser(documentSnapshot.data() as User);
         } else {
           //Set username as UID, email or display name depending on which is available
           let name: string = tempUser.uid;
@@ -69,12 +62,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             id: tempUser.uid,
             userName: name,
             isSetup: false,
+            contact: { email: tempUser.email || "", phoneNumber: "" },
           });
           //Set user state
           setUser({
             id: tempUser.uid,
             userName: name,
             isSetup: false,
+            contact: { email: tempUser.email || "", phoneNumber: "" },
           });
         }
       });

@@ -160,7 +160,7 @@ export const ProfileScreen: React.FC<ProfileStackNavProps<"Profile">> = ({ navig
             <Center width={wp(100)} marginTop={7}>
               <Center width="95%" bg="secondary.400" borderRadius={25} paddingX={4} paddingY={3}>
                 <Text color="primary.200" fontSize={hp(2)} fontWeight={500}>
-                  {authContext.user.description ? authContext.user.description : "No description"}
+                  {authContext.user.description || "No Description"}
                 </Text>
               </Center>
             </Center>

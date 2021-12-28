@@ -58,7 +58,7 @@ export const UserSetupScreen: React.FC<null> = () => {
   const [username, setUsername] = useState("");
   const [profilePhoto, setProfilePhoto] = useState<Asset>(authContext.user?.profilePic || {});
   const [description, setDescription] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(authContext.user?.contact?.email || "");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [website, setWebsite] = useState("");
   const [loading, setLoading] = useState(false);

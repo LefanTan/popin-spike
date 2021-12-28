@@ -69,15 +69,6 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
           color="secondary.400">
           Set Up...
         </Heading>
-        {/* <Image
-          source={{ uri: profilePhoto.uri }}
-          borderWidth={4}
-          borderColor="primary.200"
-          alt="profile-pic"
-          height={200}
-          width={200}
-          borderRadius={100}
-        /> */}
         {profilePhoto.uri ? (
           <Image
             source={
@@ -118,34 +109,8 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
             </Text>
           )}
         </Pressable>
-        {/* <Text textAlign="left" width="60%" color="primary.800" fontWeight={500} marginTop={hp(3)}>
-          Username
-        </Text> */}
-        {/* <Input
-          maxLength={30}
-          placeholder="enter your username..."
-          variant="underlined"
-          borderRadius={0}
-          value={username}
-          onChangeText={text => setUsername(text)}
-          width="60%"
-          fontSize={hp(2)}
-          marginX={wp(20)}
-          InputRightElement={
-            isAvailable && username ? (
-              <Icon
-                as={Ionicons}
-                textAlign="center"
-                size={5}
-                name="checkmark-outline"
-                color="green.600"
-              />
-            ) : undefined
-          }
-        /> */}
         <GreyBgInput
           content={username}
-          required
           title="Username"
           onChangeText={text => setUsername(text)}
           viewStyle={{ paddingHorizontal: wp(5), marginTop: hp(3) }}
@@ -161,7 +126,14 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
             ) : undefined
           }
         />
-        <Text textAlign="left" width="60%" color="secondary.400" fontSize={hp(2)} marginTop={hp(1)}>
+        <Text
+          textAlign="left"
+          width="60%"
+          color="secondary.400"
+          fontSize={hp(2)}
+          marginTop={hp(1)}
+          minWidth="100%"
+          paddingX={wp(5.5)}>
           {isAvailable ? "" : "Username is taken"}
         </Text>
       </Center>

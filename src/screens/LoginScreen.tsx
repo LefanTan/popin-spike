@@ -44,6 +44,7 @@ export const LoginScreen: React.FC = () => {
     } else authContext.login(email, password);
 
     setPassword("");
+    setPasswordCheck("");
   };
 
   return (

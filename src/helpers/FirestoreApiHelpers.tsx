@@ -61,19 +61,17 @@ export async function CreateEventAsync(event: FirestoreEvent): Promise<void> {
   await firestore().collection("events").doc(event.id).set(event);
 }
 
-export async function getUserDocumentSnapshot(
+export function getUserDocumentSnapshot(
   UID: string
 ): Promise<FirebaseFirestoreTypes.DocumentSnapshot> {
-  let userDocumentSnapshot: any = "";
-  await firestore()
+  return firestore()
     .collection("users")
     .doc(UID)
     .get()
-    .then(documentSnapshot => {
-      userDocumentSnapshot = documentSnapshot;
+    .then(documentSnapshot => documentSnapshot)
+    .catch(error => {
+      throw error;
     });
-
-  return userDocumentSnapshot;
 }
 
 export async function getPictureUrl(UID: string): Promise<string> {
@@ -92,19 +90,16 @@ export async function setNewUser(user: FirestoreUser): Promise<void> {
   }
 }
 
-export async function checkIfUsernameExist(username: string): Promise<boolean> {
-  let isExist = false;
-  await firestore()
-    .collection("users")
-    // Filter results
-    .where("userName", "==", username)
-    .get()
-    .then(querySnapshot => {
-      if (querySnapshot.empty) {
-        isExist = false;
-      } else {
-        isExist = true;
-      }
-    });
-  return isExist;
+export function checkIfUsernameExist(username: string): Promise<boolean> {
+  return (
+    firestore()
+      .collection("users")
+      // Filter results
+      .where("userName", "==", username)
+      .get()
+      .then(querySnapshot => !querySnapshot.empty)
+      .catch(error => {
+        throw error;
+      })
+  );
 }
