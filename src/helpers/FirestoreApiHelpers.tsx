@@ -1,8 +1,7 @@
 import storage from "@react-native-firebase/storage";
 import { Asset } from "react-native-image-picker";
-import firestore from "@react-native-firebase/firestore";
-import { FirestoreEvent } from "../types/FirestoreClasses";
-import { PromiseTask, Task } from "react-native";
+import firestore, { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+import { FirestoreEvent, FirestoreUser } from "../types/FirestoreClasses";
 
 export const EVENTS_PHOTOS_PATH = "/events";
 export const USER_PHOTO_PATH = "/users";
@@ -60,4 +59,47 @@ export async function GetEventsListAsync(): Promise<FirestoreEvent[]> {
 
 export async function CreateEventAsync(event: FirestoreEvent): Promise<void> {
   await firestore().collection("events").doc(event.id).set(event);
+}
+
+export function getUserDocumentSnapshot(
+  UID: string
+): Promise<FirebaseFirestoreTypes.DocumentSnapshot> {
+  return firestore()
+    .collection("users")
+    .doc(UID)
+    .get()
+    .then(documentSnapshot => documentSnapshot)
+    .catch(error => {
+      throw error;
+    });
+}
+
+export async function getPictureUrl(UID: string): Promise<string> {
+  return (
+    await storage()
+      .ref("users/" + UID)
+      .list()
+  ).items[0].getDownloadURL();
+}
+
+export async function setNewUser(user: FirestoreUser): Promise<void> {
+  try {
+    await firestore().collection("users").doc(user.id).set(user);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function checkIfUsernameExist(username: string): Promise<boolean> {
+  return (
+    firestore()
+      .collection("users")
+      // Filter results
+      .where("userName", "==", username)
+      .get()
+      .then(querySnapshot => !querySnapshot.empty)
+      .catch(error => {
+        throw error;
+      })
+  );
 }

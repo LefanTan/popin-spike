@@ -3,20 +3,20 @@ import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { useEffect } from "react";
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
 import Config from "react-native-config";
+import { FirestoreUser } from "./types/FirestoreClasses";
+import { getUserDocumentSnapshot, setNewUser } from "./helpers/FirestoreApiHelpers";
+import { Asset } from "react-native-image-picker";
 
 interface AuthProviderProps {}
 
-type User = null | {
-  firebaseAuthData: FirebaseAuthTypes.User;
-  userName: string;
-};
-
+type User = null | FirestoreUser;
 GoogleSignin.configure({
   webClientId: Config.GOOGLE_WEB_CLIENT_ID,
 });
 
 type AuthData = {
   user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
   loading: boolean;
   errorMsg: string;
   signup: (email: string, password: string) => void;
@@ -35,7 +35,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [errorMsg, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onAuthStateChangeHandler = (userData: FirebaseAuthTypes.User | null) => {
+  const onAuthStateChangeHandler = (tempUser: FirebaseAuthTypes.User | null) => {
     if (init) setInit(false);
 
     // Already initialized
@@ -43,10 +43,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
     }
 
-    if (userData) {
+    if (tempUser) {
       // React Native Firebase automatically persist user login state
-      const displayName = userData.displayName ?? "";
-      setUser({ userName: displayName, firebaseAuthData: userData });
+      const userDocumentSnapshot = getUserDocumentSnapshot(tempUser.uid);
+
+      userDocumentSnapshot.then(documentSnapshot => {
+        //Check if user exists in firestore
+        if (documentSnapshot.exists) {
+          setUser(documentSnapshot.data() as User);
+        } else {
+          //Set username as UID, email or display name depending on which is available
+          let name: string = tempUser.uid;
+          if (tempUser.email) name = tempUser.email?.split("@")[0];
+          if (tempUser.displayName) name = tempUser.displayName;
+
+          //Create doc in firestore
+          setNewUser({
+            id: tempUser.uid,
+            userName: name,
+            isSetup: false,
+            contact: { email: tempUser.email || "", phoneNumber: "" },
+          });
+          //Set user state
+          setUser({
+            id: tempUser.uid,
+            userName: name,
+            isSetup: false,
+            contact: { email: tempUser.email || "", phoneNumber: "" },
+          });
+        }
+      });
     } else setUser(null);
   };
 
@@ -59,6 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        setUser: setUser,
         loading: loading,
         errorMsg: errorMsg,
         signup: (email, password) => {
@@ -102,7 +129,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
             // Sign-in the user with the credential
             auth().signInWithCredential(googleCredential);
-          } catch (error) {
+          } catch (error: any) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
               // user cancelled the login flow
               console.log("user cancelled the login flow");
@@ -147,8 +174,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             .then(() => setLoading(false));
         },
         // Logout API called here
-        logout: () => {
+        logout: async () => {
           setLoading(false);
+          const isGoogleSignedIn = await GoogleSignin.isSignedIn();
+          if (isGoogleSignedIn) GoogleSignin.signOut();
           auth()
             .signOut()
             .then(

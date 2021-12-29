@@ -13,7 +13,7 @@ import {
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import AntIcons from "react-native-vector-icons/AntDesign";
 import React, { useContext, useEffect } from "react";
-import { CreateEventInput } from "../../components/CreateEventInput";
+import { GreyBgInput } from "../../components/CreateEventInput";
 import { launchImageLibrary, ImageLibraryOptions, Asset } from "react-native-image-picker";
 import ctw from "../../../custom-tailwind";
 import { CreateEventContext } from "../CreateEventScreen";
@@ -68,8 +68,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
   return (
     <ScrollView
       contentContainerStyle={{ paddingBottom: 15, paddingHorizontal: 20 }}
-      bounces={false}
-    >
+      bounces={false}>
       <Heading fontSize={hp(4.5)} fontWeight={600}>
         Details
       </Heading>
@@ -98,8 +97,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
             justifyContent="center"
             alignItems="center"
             onPress={onAddPhotoClicked}
-            _pressed={{ bg: "primary.300" }}
-          >
+            _pressed={{ bg: "primary.300" }}>
             <AntIcons name="plus" size={hp(7)} color={colors["primary"]["500"]} />
           </Pressable>
         )}
@@ -119,14 +117,13 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
                 `absolute top-2 right-2 bg-primary-100 p-1 flex items-center justify-center`,
                 { borderRadius: 50 }
               )}
-              onPress={() => removePhoto(photo.fileName)}
-            >
+              onPress={() => removePhoto(photo.fileName)}>
               <AntIcons name="close" color={colors["primary"]["700"]} size={hp(2)} />
             </Pressable>
           </Box>
         ))}
       </ScrollView>
-      <CreateEventInput
+      <GreyBgInput
         title="Event Description"
         onChangeText={description[1]}
         content={description[0]}
@@ -136,9 +133,9 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
         multiline
       />
       <Text color="secondary.400" fontSize={hp(2)} fontWeight={500} width="100%" textAlign="right">
-        characters left: {maxDiscLength - description.length}
+        characters left: {maxDiscLength - description[0].length}
       </Text>
-      <CreateEventInput
+      <GreyBgInput
         title="Price"
         onChangeText={text => price[1](text === "" ? undefined : parseInt(text, 10))}
         content={price[0] !== undefined ? price[0]?.toString() : ""}
@@ -147,7 +144,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = () => {
         viewStyle={{ marginTop: 10 }}
         optional
       />
-      <CreateEventInput
+      <GreyBgInput
         title="Website"
         onChangeText={website[1]}
         content={website[0] !== undefined ? website[0] : ""}

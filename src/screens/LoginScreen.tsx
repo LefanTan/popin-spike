@@ -28,7 +28,7 @@ import { LoginInput } from "../components/LoginInput";
 
 const borderRadius = 20;
 
-export const LoginScreen: React.FC = ({ navigation }) => {
+export const LoginScreen: React.FC = () => {
   const authContext = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
@@ -44,10 +44,17 @@ export const LoginScreen: React.FC = ({ navigation }) => {
     } else authContext.login(email, password);
 
     setPassword("");
+    setPasswordCheck("");
   };
 
   return (
-    <VStack flex={1} alignItems="center" justifyContent="center" px={12} py={10} bg="primary.100">
+    <VStack
+      flex={1}
+      alignItems="center"
+      justifyContent="center"
+      px={wp(16)}
+      py={hp(10)}
+      bg="primary.100">
       <Heading variant="title" fontWeight={300} fontSize={hp(7)} textAlign="center">
         Hello there!
       </Heading>
@@ -55,7 +62,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
         <LoginButton
           label="Sign in"
           bg={isSignup ? "primary.300" : "secondary.400"}
-          additionalProps={{ width: 100 }}
+          additionalProps={{ width: hp(12) }}
           isSignup={isSignup}
           onPress={() => {
             setEmail("");
@@ -68,7 +75,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
         />
         <LoginButton
           label="Sign up"
-          additionalProps={{ width: 100 }}
+          additionalProps={{ width: hp(12) }}
           bg={isSignup ? "secondary.400" : "primary.300"}
           isSignup={isSignup}
           onPress={() => {
@@ -83,7 +90,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
       {isSignup ? (
         <VStack width="100%" mt={12}>
           <VStack>
-            <Heading fontSize={hp(2.5)} fontWeight={500} mb={2}>
+            <Heading fontSize={hp(3)} fontWeight={500} mb={2}>
               Email
             </Heading>
             <LoginInput
@@ -95,7 +102,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
             />
           </VStack>
           <VStack mt={5}>
-            <Heading fontSize={hp(2.5)} fontWeight={500} mb={2}>
+            <Heading fontSize={hp(3)} fontWeight={500} mb={2}>
               Password
             </Heading>
             <LoginInput
@@ -121,7 +128,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
       ) : (
         <View>
           <VStack mt={12}>
-            <Heading fontSize={hp(2.5)} fontWeight={500} mb={2}>
+            <Heading fontSize={hp(3)} fontWeight={500} mb={2}>
               Email
             </Heading>
             <LoginInput
@@ -133,7 +140,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
             />
           </VStack>
           <VStack mt={5}>
-            <Heading fontSize={hp(2.5)} fontWeight={500} mb={2}>
+            <Heading fontSize={hp(3)} fontWeight={500} mb={2}>
               Password
             </Heading>
             <HStack>
@@ -154,7 +161,7 @@ export const LoginScreen: React.FC = ({ navigation }) => {
                   <Icon
                     as={Ionicons}
                     textAlign="center"
-                    size={5}
+                    size={wp(3.5)}
                     name={hidePass ? "eye-off" : "eye"}
                     color={isPressed ? "secondary.500" : "secondary.400"}
                   />
@@ -185,12 +192,12 @@ export const LoginScreen: React.FC = ({ navigation }) => {
         onPress={signUpHandler}
         additionalProps={{ marginTop: 20, alignSelf: "center" }}
       />
-      <Text marginX="auto" marginTop={hp(1)}>
+      <Text marginX="auto" marginTop={hp(1.5)}>
         or
       </Text>
       <Button
         marginTop={hp(1.5)}
-        px={2}
+        px={wp(1)}
         py={1}
         borderRadius={borderRadius}
         backgroundColor="primary.200"
@@ -203,11 +210,11 @@ export const LoginScreen: React.FC = ({ navigation }) => {
         }}
         _pressed={{ bg: "primary.300" }}
         startIcon={
-          <Icon>
+          <Icon marginRight={wp(0.5)}>
             <Image
               source={require("../../assets/imgs/google-logo.png")}
               alt="Google logo"
-              size={hp(4)}
+              size={33}
             />
           </Icon>
         }>

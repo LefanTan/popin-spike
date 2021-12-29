@@ -1,6 +1,10 @@
 import { Input, useTheme } from "native-base";
 import React from "react";
 import { StyleProp, ViewStyle } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 interface LoginInputProps {
   addtionalProps?: StyleProp<ViewStyle>;
@@ -20,7 +24,7 @@ export const LoginInput: React.FC<LoginInputProps> = props => {
   return (
     <Input
       variant="unstyled"
-      fontSize={15}
+      fontSize={hp(2)}
       color="secondary.400"
       borderBottomColor={`${colors["secondary"]["400"]}20`}
       borderBottomWidth={1}

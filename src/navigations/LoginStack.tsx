@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { LoginScreen } from "../screens/LoginScreen";
+import { NameAndPhotoPage } from "../screens/userSetupPages/NameAndPhotoPage";
 
 interface LoginStackProps {}
 
@@ -17,6 +18,7 @@ export const LoginStack: React.FC<LoginStackProps> = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="NameAndPhoto" component={NameAndPhotoPage} />
     </Stack.Navigator>
   );
 };
