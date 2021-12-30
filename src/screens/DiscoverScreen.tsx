@@ -1,9 +1,9 @@
-import MapView, { PROVIDER_GOOGLE, Region } from "react-native-maps";
-import React, { useState } from "react";
+import MapView, { PROVIDER_GOOGLE, Region, Marker, LatLng } from "react-native-maps";
+import React, { useState, useRef } from "react";
 import ctw from "../../custom-tailwind";
 import { Center, HStack, Input, VStack, Pressable, FlatList, useTheme, Box } from "native-base";
 import { DraggableMenu } from "../menu/DraggableMenu";
-import Animated, { withTiming } from "react-native-reanimated";
+import Animated, { event, withTiming } from "react-native-reanimated";
 import { useAnimatedStyle } from "react-native-reanimated";
 import { useSharedValue } from "react-native-reanimated";
 import FoundationIcon from "react-native-vector-icons/Foundation";
@@ -16,6 +16,7 @@ import { DiscoverStackNavProps } from "../types/ParamList";
 import { flairsList } from "../data/flairsList";
 import { GetEventsListAsync } from "../helpers/FirestoreApiHelpers";
 import { useWindowDimensions } from "react-native";
+import { convertRemToAbsolute } from "native-base/lib/typescript/theme/tools";
 
 export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ navigation }) => {
   const { colors } = useTheme();
@@ -24,8 +25,22 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
   const [region, setRegion] = useState<Region>({
     latitude: 53.540936,
     longitude: -113.499203,
-    latitudeDelta: 0.0922,
+    latitudeDelta: 0.008,
     longitudeDelta: 0.0521,
+  });
+
+  const mapRef = useRef<MapView>(null);
+
+  //Boundary of MapView
+  const [boundary, setBoundary] = useState<{ northEast: LatLng; southWest: LatLng }>({
+    northEast: {
+      latitude: 0,
+      longitude: 0,
+    },
+    southWest: {
+      latitude: 0,
+      longitude: 0,
+    },
   });
 
   const [menuOpened, setMenuOpened] = useState(false);
@@ -44,27 +59,46 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
     };
   });
 
-  // When menu open, load data
+  // Load data on initial render
   useEffect(() => {
     async function getEvents() {
-      if (menuOpened && events.length === 0) {
+      if (events.length === 0) {
         const eventsList: FirestoreEvent[] = await GetEventsListAsync();
         setEventsList(eventsList);
       }
     }
     getEvents();
-  }, [menuOpened, events]);
+    mapRef.current?.getMapBoundaries().then(val => setBoundary(val));
+  }, []);
+
+  //Set boundary
+  useEffect(() => {
+    mapRef.current?.getMapBoundaries().then(val => setBoundary(val));
+  }, [region]);
 
   return (
     <Center bg="primary.300" flex={1} safeAreaTop>
-      {/* <MapView
+      <MapView
+        ref={mapRef}
         provider={PROVIDER_GOOGLE}
         style={ctw`w-full h-full`}
-        onRegionChangeComplete={setRegion}
-        showsUserLocation={true}
-        followsUserLocation
-        initialRegion={region}
-      /> */}
+        onRegionChangeComplete={region => {
+          setRegion(region);
+        }}
+        initialRegion={region}>
+        {events.length > 0 &&
+          events.map(event => {
+            return (
+              <Marker
+                key={event.id}
+                coordinate={{
+                  latitude: event.latlong.latitude,
+                  longitude: event.latlong.longitude,
+                }}
+              />
+            );
+          })}
+      </MapView>
 
       {/* dragMenuPercentage will reach 1 when the menu is dragged halfway up */}
       {/* Min Height From Top is how far you can drag up and vice versa */}

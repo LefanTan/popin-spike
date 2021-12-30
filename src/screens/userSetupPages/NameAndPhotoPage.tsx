@@ -123,7 +123,15 @@ export const NameAndPhotoPage: React.FC<NameAndPhotoPageProps> = () => {
                 name="checkmark-outline"
                 color="green.600"
               />
-            ) : undefined
+            ) : (
+              <Icon
+                as={Ionicons}
+                textAlign="center"
+                size={5}
+                name="alert-circle-outline"
+                color="red.300"
+              />
+            )
           }
         />
         <Text
