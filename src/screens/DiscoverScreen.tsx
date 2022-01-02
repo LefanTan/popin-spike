@@ -1,7 +1,21 @@
-import MapView, { PROVIDER_GOOGLE, Region, Marker, LatLng } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Region, Marker, LatLng, Callout } from "react-native-maps";
 import React, { useState, useRef } from "react";
 import ctw from "../../custom-tailwind";
-import { Center, HStack, Input, VStack, Pressable, FlatList, useTheme, Box } from "native-base";
+import {
+  Center,
+  HStack,
+  Input,
+  VStack,
+  Pressable,
+  FlatList,
+  useTheme,
+  Box,
+  Icon,
+  Image,
+  Text,
+  View,
+  TextArea,
+} from "native-base";
 import { DraggableMenu } from "../menu/DraggableMenu";
 import Animated, { event, withTiming } from "react-native-reanimated";
 import { useAnimatedStyle } from "react-native-reanimated";
@@ -9,14 +23,16 @@ import { useSharedValue } from "react-native-reanimated";
 import FoundationIcon from "react-native-vector-icons/Foundation";
 import { FlairButton } from "../buttons/FlairButton";
 import { useEffect } from "react";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { FirestoreEvent } from "../types/FirestoreClasses";
 import { MinimizedEvent } from "../buttons/MinimizedEvent";
 import { DiscoverStackNavProps } from "../types/ParamList";
 import { flairsList } from "../data/flairsList";
 import { GetEventsListAsync } from "../helpers/FirestoreApiHelpers";
-import { useWindowDimensions } from "react-native";
-import { convertRemToAbsolute } from "native-base/lib/typescript/theme/tools";
+import { ImageSourcePropType, useWindowDimensions } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ navigation }) => {
   const { colors } = useTheme();
@@ -71,10 +87,32 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
     mapRef.current?.getMapBoundaries().then(val => setBoundary(val));
   }, []);
 
+  // Load data on initial render
+  useEffect(() => {
+    async function getEvents() {
+      if (events.length === 0) {
+        const eventsList: FirestoreEvent[] = await GetEventsListAsync();
+        setEventsList(eventsList);
+      }
+    }
+    getEvents();
+  }, [events]);
+
   //Set boundary
   useEffect(() => {
     mapRef.current?.getMapBoundaries().then(val => setBoundary(val));
   }, [region]);
+
+  function isOutOfBounds(coordinates: LatLng): boolean {
+    if (
+      coordinates.latitude >= boundary.northEast.latitude + 0.1 ||
+      coordinates.latitude <= boundary.southWest.latitude - 0.1 ||
+      coordinates.longitude >= boundary.northEast.longitude + 0.1 ||
+      coordinates.longitude <= boundary.southWest.longitude - 0.1
+    )
+      return true;
+    else return false;
+  }
 
   return (
     <Center bg="primary.300" flex={1} safeAreaTop>
@@ -88,15 +126,56 @@ export const DiscoverScreen: React.FC<DiscoverStackNavProps<"Discover">> = ({ na
         initialRegion={region}>
         {events.length > 0 &&
           events.map(event => {
-            return (
-              <Marker
-                key={event.id}
-                coordinate={{
-                  latitude: event.latlong.latitude,
-                  longitude: event.latlong.longitude,
-                }}
-              />
-            );
+            if (isOutOfBounds(event.latlong)) return null;
+            else {
+              let image: ImageSourcePropType;
+              switch (event.flairs[0]) {
+                case "students":
+                  image = require("../../assets/imgs/students.png");
+                  break;
+                case "music":
+                  image = require("../../assets/imgs/music.png");
+                  break;
+                case "meetups":
+                  image = require("../../assets/imgs/meetups.png");
+                  break;
+                case "outdoor":
+                  image = require("../../assets/imgs/outdoor.png");
+                  break;
+                case "party":
+                  image = require("../../assets/imgs/party.png");
+                  break;
+                case "gaming":
+                  image = require("../../assets/imgs/gaming.png");
+                  break;
+                default:
+                  image = require("../../assets/imgs/logo.png");
+                  break;
+              }
+
+              return (
+                <Marker
+                  pinColor={colors["secondary"][400]}
+                  key={event.id}
+                  coordinate={{
+                    latitude: event.latlong.latitude,
+                    longitude: event.latlong.longitude,
+                  }}
+                  tracksViewChanges={false}>
+                  <Image source={image} alt="ass" size={hp(5)} />
+                  <Callout
+                    onPress={() => {
+                      navigation.navigate("Event", {
+                        event: event,
+                      });
+                    }}>
+                    <View height={hp(5)} alignSelf="center" paddingX={wp(1)}>
+                      <Text width="100%">{event.eventName}</Text>
+                    </View>
+                  </Callout>
+                </Marker>
+              );
+            }
           })}
       </MapView>
 
